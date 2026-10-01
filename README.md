@@ -2,7 +2,7 @@
 
 Juego de estrategia narrativa histórica para navegador centrado en la Segunda Guerra Mundial desde puestos de mando del Heer.
 
-## Estado actual · 0.4.0
+## Estado actual · 0.6.0
 
 El proyecto ya contiene dos campañas jugables de forma independiente:
 
@@ -46,6 +46,14 @@ Primer mando de campaña:
 **XIX. Armeekorps (mot.) · 4. Armee · Heeresgruppe Nord**
 
 Incluye 3. Panzer-Division, 2. Infanterie-Division (mot.) y 20. Infanterie-Division (mot.), con decisiones sobre ritmo de marcha, combustible, munición, cohesión, reconocimiento y comunicaciones.
+
+## Enciclopedia de campaña
+
+La interfaz incluye una **enciclopedia histórica progresiva**. Sus fichas no se entregan como un wiki completo desde el inicio: se desbloquean cuando el jugador encuentra realmente una persona, arma, organización, documento, lugar o acontecimiento durante la campaña.
+
+El sistema guarda los descubrimientos entre campañas, muestra registros todavía clasificados sin revelar su contenido y combina fichas curadas con entradas automáticas procedentes del archivo de armamento y de los órdenes de batalla históricos.
+
+Las entradas técnicas deben indicar variante y cronología cuando las especificaciones cambian a lo largo de la guerra.
 
 ## Narrativa persistente
 
