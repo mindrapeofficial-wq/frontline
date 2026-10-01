@@ -865,6 +865,18 @@ Formato de escenas en `data.js` (desde 0.4):
 - `hidden` del capítulo: verdad del escenario sorteada al empezar cada partida;
 - `failures` del capítulo: condiciones que terminan la jornada antes de tiempo;
 - `evaluation` del capítulo: criterios puntuados, veredictos y comparación histórica.
+- `skipIf` de escena: si se cumple al llegar, la escena se salta y se sigue su `next` (p. ej. Chojnice ya tomada en un turno);
+- condición `unit`: posición de una división en su eje (`{unit:{"2mot":{gte:35}}}`).
+
+Mapa y turnos (desde 0.5, `chapter.map`):
+
+- croquis esquemático en SVG, no a escala; no presentarlo como cartografía exacta;
+- `units` y `routes`: cada división avanza por su eje en unidades de avance; la 3. Panzer-Division usa `progress` (el Brda está en 70);
+- `enemies`: fuerzas polacas ocultas en el eje (`route`, `u`) o fuera de él (`placeBy`); bloquean el avance hasta ser despejadas (`clearedBy`, `onClear`) o rodeadas (`bypassBy`); `scripted` bloquea y deja la resolución a una escena;
+- entre dos partes con 45 min o más de diferencia hay un turno: el jugador da a cada división AVANZAR, ATACAR, RECONOCER, MANTENER o REABASTECER;
+- una orden puede no llegar y una división puede no informar (comunicaciones y posición del puesto de mando); el mapa muestra la última posición comunicada;
+- los contactos se detectan según el reconocimiento: confirmados o estimados, y pueden estar mal identificados;
+- `turnsFrom`: no hay turnos antes de la hora del ataque.
 
 Principios técnicos:
 

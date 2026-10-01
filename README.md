@@ -2,6 +2,16 @@
 
 Juego de estrategia narrativa histórica para navegador, centrado en la guerra terrestre de la Segunda Guerra Mundial desde puestos de mando del Heer.
 
+## Versión 0.5.0
+
+Mapa operacional con turnos sobre la jornada del 1 de septiembre:
+
+- croquis del Corredor Polaco con las tres divisiones del cuerpo, el Brda, los bosques de Tuchola y los contactos conocidos;
+- entre parte y parte das una orden a cada división: avanzar, atacar, reconocer, mantener o reabastecer;
+- las órdenes pueden no llegar y las divisiones pueden no informar: el mapa muestra lo que tu Estado Mayor sabe, no la verdad;
+- fuerzas polacas ocultas que bloquean los ejes, emboscan a columnas ciegas y solo se descubren con reconocimiento;
+- las escenas narrativas reaccionan al mapa (si tomas Chojnice en un turno, el parte de Chojnice ya no llega).
+
 ## Versión 0.4.0
 
 El 1 de septiembre de 1939 es ahora una jornada jugable con consecuencias reales:

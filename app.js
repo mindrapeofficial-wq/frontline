@@ -10,7 +10,7 @@ let state=null;
 
 function clamp(v,min=0,max=100){return Math.max(min,Math.min(max,Math.round(Number(v)||0)));}
 function normalizeUser(v){return String(v||"").trim().toLowerCase().replace(/[^a-z0-9._-]/g,"");}
-function stateKey(user){return "frontline_campaign_v04_"+normalizeUser(user);}
+function stateKey(user){return "frontline_campaign_v05_"+normalizeUser(user);}
 
 async function hashPassword(value){
   if(!(window.crypto&&crypto.subtle))throw new Error("crypto-unavailable");
@@ -31,7 +31,7 @@ function freshState(){return E.newRun(CHAPTER);}
 function loadGame(user){
   try{
     const saved=JSON.parse(localStorage.getItem(stateKey(user)));
-    if(saved&&saved.version===4&&CHAPTER.scenes[saved.sceneId])return saved;
+    if(saved&&saved.version===5&&CHAPTER.scenes[saved.sceneId])return saved;
   }catch{}
   return freshState();
 }
@@ -170,13 +170,20 @@ function renderFormations(){
       '<strong>'+f.name+'</strong>'+
       '<span>'+f.role+'</span>'+
       '<small>'+f.commander+'</small>'+
-      '<small>'+f.position+'</small>'+
+      '<small>'+formationPosition(f)+'</small>'+
       '<div class="formation-bars">'+
         '<div><small>PREPARACIÓN '+clamp(f.readiness)+'%</small><div class="mini-bar"><i style="width:'+clamp(f.readiness)+'%"></i></div></div>'+
         '<div><small>SUMINISTRO '+clamp(f.supply)+'%</small><div class="mini-bar"><i style="width:'+clamp(f.supply)+'%"></i></div></div>'+
       '</div>'+
     '</article>'
   ).join("");
+}
+// Con mapa, la posición es la última comunicada; la situación de la escena se añade como nota.
+function formationPosition(f){
+  const u=state.units&&state.units[f.id];
+  if(!u||!CHAPTER.map)return f.position;
+  const place=E.placeName(CHAPTER.map.routes[f.id],u.known.pos);
+  return "Posición: "+place+(state.clock-u.known.clock>=30?" (parte de las "+E.formatTime(u.known.clock)+")":"");
 }
 function renderStaff(){
   $("#staff-list").innerHTML=CHAPTER.staff.map(s=>{
@@ -190,7 +197,7 @@ function renderIntel(){
   const level=E.reliabilityLabel(v);
   $("#intel-reliability").textContent=v+"% · "+level;
   const scene=CHAPTER.scenes[state.sceneId];
-  const txt=state.stage==="dossier"?"La información disponible antes del cruce de frontera es incompleta y pierde valor rápidamente con el movimiento.":E.texts(scene&&scene.intel,state).join(" ");
+  const txt=state.stage==="orders"||state.stage==="turnReport"?"Los contactos del mapa son lo que tu Estado Mayor cree saber. Los estimados pueden estar mal identificados y los antiguos pueden haberse movido.":state.stage==="dossier"?"La información disponible antes del cruce de frontera es incompleta y pierde valor rápidamente con el movimiento.":E.texts(scene&&scene.intel,state).join(" ");
   $("#intel-text").textContent=txt+" Fiabilidad de los informes ahora: "+level.toLowerCase()+".";
   $$(".confidence-scale span").forEach(s=>s.classList.toggle("active",s.dataset.level===level));
 }
@@ -213,16 +220,119 @@ function renderChapters(){
 }
 
 function renderStage(){
-  const dossier=$("#dossier-panel"),situation=$("#situation-panel");
-  if(state.stage==="dossier"){
-    dossier.classList.remove("hidden");
-    situation.classList.add("hidden");
+  const stage=state.stage;
+  $("#dossier-panel").classList.toggle("hidden",stage!=="dossier");
+  $("#map-panel").classList.toggle("hidden",stage==="dossier");
+  $("#situation-panel").classList.toggle("hidden",stage!=="scene");
+  $("#orders-panel").classList.toggle("hidden",stage!=="orders"&&stage!=="turnReport");
+  if(stage==="dossier"){
     $("#dossier-text").innerHTML=CHAPTER.dossier.map(p=>"<p>"+p+"</p>").join("");
     return;
   }
-  dossier.classList.add("hidden");
-  situation.classList.remove("hidden");
-  renderScene();
+  renderMap();
+  if(stage==="scene")renderScene();
+  else renderOrders();
+}
+
+/* ---------- Mapa operacional ---------- */
+
+const SVG_NS="http://www.w3.org/2000/svg";
+function esc(v){return String(v).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function renderMap(){
+  const map=CHAPTER.map;
+  const parts=[];
+  parts.push('<rect class="m-bg" x="0" y="0" width="'+map.width+'" height="'+map.height+'"/>');
+  for(const f of map.forests)parts.push('<rect class="m-forest" x="'+f.x+'" y="'+f.y+'" width="'+f.w+'" height="'+f.h+'" rx="40"/><text class="m-forest-label" x="'+(f.x+f.w/2)+'" y="'+(f.y+f.h-12)+'" text-anchor="middle">'+esc(f.label)+'</text>');
+  parts.push('<path class="m-border" d="'+map.border+'"/><text class="m-border-label" x="158" y="545">FRONTERA DE 1939</text>');
+  for(const r of map.rivers)parts.push('<path class="m-river" d="'+r.d+'"/><text class="m-river-label" x="'+r.lx+'" y="'+r.ly+'">'+esc(r.name)+'</text>');
+  for(const def of map.units){
+    const pts=map.routes[def.id].points.map(p=>p.x+","+p.y).join(" ");
+    parts.push('<polyline class="m-axis" points="'+pts+'"/>');
+  }
+  for(const p of map.places)parts.push('<rect class="m-place" x="'+(p.x-3)+'" y="'+(p.y-3)+'" width="6" height="6"/><text class="m-place-label" x="'+(p.x+8)+'" y="'+(p.y+17)+'">'+esc(p.name)+'</text>');
+  const goal=E.mapPoint(map.routes["3pz"],70);
+  parts.push('<g class="m-goal"><circle cx="'+goal.x+'" cy="'+goal.y+'" r="15"/><text x="'+goal.x+'" y="'+(goal.y+32)+'" text-anchor="middle">OBJETIVO</text></g>');
+
+  for(const def of map.enemies){
+    const c=state.contacts[def.id];
+    if(!c||E.enemyCleared(def,state))continue;
+    const p=E.enemyPoint(CHAPTER,def,state);
+    if(!p)continue;
+    const age=state.clock-c.clock;
+    const cls=c.level==="confirmed"?"m-enemy confirmed":"m-enemy estimated";
+    const label=(c.level==="confirmed"?c.label:"¿"+c.label+"?")+(age>=60?" · hace "+E.formatDuration(age):"");
+    parts.push('<g class="'+cls+'"><path d="M'+p.x+' '+(p.y-12)+' L'+(p.x+12)+' '+p.y+' L'+p.x+' '+(p.y+12)+' L'+(p.x-12)+' '+p.y+' Z"/>'+
+      '<text x="'+p.x+'" y="'+(p.y-18)+'" text-anchor="middle">'+esc(label)+'</text></g>');
+  }
+
+  for(const def of map.units){
+    const u=state.units[def.id];
+    const known=u.known||{pos:0,clock:state.clock};
+    const p=E.mapPoint(map.routes[def.id],known.pos);
+    const stale=state.clock-known.clock>=30;
+    const armor=def.id==="3pz";
+    const order=E.ORDERS[u.order]?E.ORDERS[u.order].label:"";
+    parts.push('<g class="m-unit'+(stale?" stale":"")+'" transform="translate('+p.x+' '+p.y+')">'+
+      '<rect x="-22" y="-14" width="44" height="28"/>'+
+      (armor?'<rect class="m-sym" x="-14" y="-7" width="28" height="14" rx="7"/>':'<path class="m-sym" d="M-22 -14 L22 14 M22 -14 L-22 14"/>')+
+      '<text class="m-unit-name" x="0" y="30" text-anchor="middle">'+esc(def.short)+'</text>'+
+      '<text class="m-unit-order" x="0" y="43" text-anchor="middle">'+esc(order)+(stale?" · parte "+E.formatTime(known.clock):"")+'</text>'+
+    '</g>');
+  }
+  $("#map-host").innerHTML='<svg viewBox="0 0 '+map.width+' '+map.height+'" role="img" aria-label="Croquis operacional del Corredor Polaco con las divisiones del cuerpo y los contactos conocidos">'+parts.join("")+'</svg>';
+  $("#map-clock").textContent=E.formatDate(state.clock)+" · "+E.formatTime(state.clock);
+}
+
+/* ---------- Órdenes por turno ---------- */
+
+function renderOrders(){
+  const map=CHAPTER.map,report=state.stage==="turnReport";
+  const next=CHAPTER.scenes[state.pendingScene];
+  $("#orders-duration").textContent=E.formatDuration(state.turnMinutes||0);
+  $("#orders-title").textContent=report?"Partes del periodo":"Órdenes para el periodo";
+  $("#orders-intro").textContent=report?
+    "Esto es lo que tu Estado Mayor sabe al final del periodo. Algunas divisiones pueden no haber informado.":
+    "Hasta el siguiente parte"+(next&&next.at!=null?" (≈ "+E.formatTime(next.at)+")":"")+" tus divisiones ejecutarán estas órdenes. Una orden puede no llegar si las comunicaciones fallan.";
+  $("#orders-list").classList.toggle("hidden",report);
+  $("#execute-turn").classList.toggle("hidden",report);
+  const host=$("#turn-report");
+  host.classList.toggle("hidden",!report);
+  if(report){
+    const r=state.turnReport;
+    host.innerHTML=r.lines.map(l=>'<p class="tr-line '+l.type+'">'+l.text+'</p>').join("")+
+      (r.effects?'<span class="effects">'+r.effects+'</span>':"")+
+      '<button id="turn-continue" class="continue-button">RECIBIR EL SIGUIENTE PARTE</button>';
+    return;
+  }
+  state.draftOrders=state.draftOrders||{};
+  $("#orders-list").innerHTML=map.units.map(def=>{
+    const u=state.units[def.id];
+    const chosen=state.draftOrders[def.id]||u.order;
+    const pos=E.unitPos(state,def.id);
+    const ahead=map.enemies.filter(e=>e.route===def.id&&!E.enemyCleared(e,state)&&e.u>pos&&state.contacts[e.id]).sort((a,b)=>a.u-b.u)[0];
+    const c=ahead&&state.contacts[ahead.id];
+    const aheadText=c?(c.level==="confirmed"?"Por delante: "+c.label+" (confirmado).":"Por delante: ¿"+c.label+"? (sin confirmar)."):"Sin contactos conocidos por delante.";
+    const f=state.formations.find(x=>x.id===def.id);
+    return '<article class="order-card">'+
+      '<div class="order-head"><strong>'+f.name+'</strong><small>'+E.placeName(map.routes[def.id],u.known.pos)+(state.clock-u.known.clock>=30?" · último parte "+E.formatTime(u.known.clock):"")+' · preparación '+f.readiness+'%</small><small class="order-ahead">'+aheadText+'</small></div>'+
+      '<div class="order-options" role="radiogroup" aria-label="Orden para '+esc(f.name)+'">'+Object.entries(E.ORDERS).map(([id,o])=>
+        '<button class="order-option'+(id===chosen?" selected":"")+'" data-unit="'+def.id+'" data-order="'+id+'" role="radio" aria-checked="'+(id===chosen)+'" title="'+esc(o.desc)+'">'+o.label+'</button>'
+      ).join("")+'</div>'+
+      '<p class="order-desc">'+E.ORDERS[chosen].desc+'</p>'+
+    '</article>';
+  }).join("");
+}
+function executeTurn(){
+  const orders={};
+  for(const def of CHAPTER.map.units)orders[def.id]=(state.draftOrders&&state.draftOrders[def.id])||state.units[def.id].order;
+  state.draftOrders=null;
+  E.runTurn(CHAPTER,state,orders);
+  renderGame();
+}
+function continueTurn(){
+  E.advance(CHAPTER,state);
+  renderGame();
+  window.scrollTo({top:0,behavior:"smooth"});
 }
 
 function renderScene(){
@@ -305,6 +415,12 @@ $("#situation-panel").addEventListener("click",e=>{
   if(choice&&!choice.disabled){chooseOrder(choice.dataset.choice);return}
   if(e.target.closest("#continue-button")){continueScene();return}
   if(e.target.closest("#restart-button"))restartChapter();
+});
+$("#orders-panel").addEventListener("click",e=>{
+  const opt=e.target.closest("[data-order]");
+  if(opt){state.draftOrders=state.draftOrders||{};state.draftOrders[opt.dataset.unit]=opt.dataset.order;renderOrders();saveGame();return}
+  if(e.target.closest("#execute-turn")){executeTurn();return}
+  if(e.target.closest("#turn-continue"))continueTurn();
 });
 $("#sources-button").addEventListener("click",()=>$("#sources-dialog").showModal());
 $("#close-sources").addEventListener("click",()=>$("#sources-dialog").close());

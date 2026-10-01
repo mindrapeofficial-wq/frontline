@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#0c0b08">
   <title>FRONTLINE 1944 · Campaña histórica</title>
   <meta name="description" content="Estrategia narrativa histórica de la Segunda Guerra Mundial desde la perspectiva de un general del Heer.">
-  <link rel="stylesheet" href="styles.css?v=0.4.0">
+  <link rel="stylesheet" href="styles.css?v=0.5.0">
   <link id="game-favicon" rel="icon" href="">
 </head>
 <body>
@@ -119,6 +119,27 @@
           </div>
         </section>
 
+        <section id="map-panel" class="panel map-panel hidden">
+          <div class="panel-title"><span>CROQUIS OPERACIONAL · ESQUEMÁTICO, NO A ESCALA</span><b id="map-clock">—</b></div>
+          <div id="map-host" class="map-host"></div>
+          <div class="map-legend">
+            <span><i class="lg own"></i>División propia (última posición comunicada)</span>
+            <span><i class="lg confirmed"></i>Contacto confirmado</span>
+            <span><i class="lg estimated"></i>Contacto estimado</span>
+          </div>
+        </section>
+
+        <section id="orders-panel" class="panel orders-panel hidden">
+          <div class="situation-head">
+            <div><span class="eyebrow">BEFEHLSAUSGABE</span><h2 id="orders-title">Órdenes para el periodo</h2></div>
+            <div class="dispatch-meta"><span>HASTA EL SIGUIENTE PARTE</span><strong id="orders-duration">—</strong></div>
+          </div>
+          <p id="orders-intro" class="orders-intro"></p>
+          <div id="orders-list" class="orders-list"></div>
+          <div id="turn-report" class="turn-report hidden"></div>
+          <div class="orders-actions"><button id="execute-turn" class="primary">EMITIR ÓRDENES</button></div>
+        </section>
+
         <section id="situation-panel" class="panel situation-panel hidden">
           <div class="situation-head">
             <div><span class="eyebrow">SITUATIONSMELDUNG</span><h2 id="scene-title">La orden entra en vigor</h2></div>
@@ -187,9 +208,9 @@
     <div id="chapters-list" class="chapters-list"></div>
   </dialog>
 
-  <script src="logo.js?v=0.4.0"></script>
-  <script src="data.js?v=0.4.0"></script>
-  <script src="engine.js?v=0.4.0"></script>
-  <script src="app.js?v=0.4.0"></script>
+  <script src="logo.js?v=0.5.0"></script>
+  <script src="data.js?v=0.5.0"></script>
+  <script src="engine.js?v=0.5.0"></script>
+  <script src="app.js?v=0.5.0"></script>
 </body>
 </html>

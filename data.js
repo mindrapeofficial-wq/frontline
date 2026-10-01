@@ -1,5 +1,5 @@
 const FRONTLINE_DATA = {
-  build: "0.4.0",
+  build: "0.5.0",
 
   assets: {
     heroPhoto: "https://upload.wikimedia.org/wikipedia/commons/d/df/Bundesarchiv_Bild_101I-012-0035-11A%2C_Polen%2C_Panzer_I_und_Infanterie.jpg",
@@ -73,36 +73,75 @@ const FRONTLINE_DATA = {
       ]}
     ],
 
+    // Croquis operacional esquemático (no a escala). Posiciones relativas, no cartografía exacta.
+    map:{
+      width:1000,height:560,
+      turnsFrom:285,
+      units:[
+        {id:"3pz",short:"3. Pz.Div.",symbol:"3 Pz",fuelRate:1.8,speed:1},
+        {id:"2mot",short:"2. ID (mot.)",symbol:"2 mot",fuelRate:.8,speed:1},
+        {id:"20mot",short:"20. ID (mot.)",symbol:"20 mot",fuelRate:.8,speed:1}
+      ],
+      routes:{
+        "3pz":{points:[{u:0,x:90,y:430,label:"la frontera"},{u:22,x:230,y:440,label:"Sępólno (Zempelburg)"},{u:45,x:360,y:420,label:"los caminos hacia el Brda"},{u:70,x:500,y:400,label:"el Brda"},{u:85,x:600,y:410,label:"la orilla este del Brda"},{u:130,x:900,y:380,label:"el camino al Vístula"}]},
+        "2mot":{points:[{u:0,x:90,y:290,label:"la frontera"},{u:15,x:210,y:285,label:"el borde del bosque"},{u:32,x:330,y:280,label:"los bosques de Tuchola"},{u:50,x:470,y:270,label:"el Brda (norte)"},{u:65,x:600,y:250,label:"Tuchola"}],forest:[[12,50]]},
+        "20mot":{points:[{u:0,x:90,y:150,label:"la frontera"},{u:20,x:240,y:140,label:"Chojnice (Konitz)"},{u:35,x:360,y:110,label:"el sector de Krojanty"},{u:55,x:465,y:130,label:"el Brda (norte)"}]}
+      },
+      places:[
+        {x:240,y:140,name:"Chojnice"},{x:385,y:92,name:"Krojanty"},{x:230,y:440,name:"Sępólno"},
+        {x:600,y:250,name:"Tuchola"},{x:910,y:362,name:"Świecie"}
+      ],
+      forests:[{x:200,y:200,w:290,h:150,label:"Bosques de Tuchola"}],
+      rivers:[
+        {name:"Brda",d:"M470 20 C 478 120 455 220 480 300 S 515 470 530 560",lx:490,ly:200},
+        {name:"Vístula",d:"M930 20 C 915 160 940 300 925 420 S 940 520 935 560",lx:945,ly:120}
+      ],
+      border:"M150 20 L 150 560",
+      enemies:[
+        {id:"cover3",name:"Destacamento de cobertura polaco",area:"el eje de la 3. Pz.Div.",route:"3pz",u:34,strength:1,misreport:"posible posición anticarro",clearText:"despeja el destacamento de cobertura y reanuda la marcha."},
+        {id:"chojnice",name:"Defensa de Chojnice",area:"Chojnice",route:"20mot",u:20,strengthBy:{hidden:"chojnice",map:{fuerte:3,debil:1}},clearedBy:["chojnice_taken"],bypassBy:["chojnice_contained"],onClear:["chojnice_taken"],misreport:"guarnición de fuerza desconocida",clearText:"toma Chojnice. La carretera queda libre."},
+        {id:"forest",name:"Grupo polaco en los bosques",area:"los bosques de Tuchola",route:"2mot",u:28,strength:2,clearedBy:["forest_cleared"],onClear:["forest_cleared"],misreport:"movimientos en el bosque",clearText:"limpia el sector forestal y abre los caminos."},
+        {id:"tuchola",name:"Posiciones ante Tuchola",area:"Tuchola",route:"2mot",u:58,strength:2,misreport:"posiciones defensivas",clearText:"rompe las posiciones ante Tuchola."},
+        {id:"brda",name:"Defensa del Brda",area:"el Brda",route:"3pz",u:71,scripted:true,clearedBy:["bridgehead","bridgehead_small","bridgehead_costly"],misreport:"posiciones en la orilla este",reachText:"alcanza el Brda. El cruce del río exige una decisión de mando."},
+        {id:"cavalry",name:"Brigada de Caballería Pomorska",area:"el flanco norte",placeBy:{hidden:"cavalry",map:{flanco:{x:400,y:70},lejos:{x:560,y:50}}},detectRange:190,misreport:"jinetes en número desconocido"}
+      ]
+    },
+
     // Si el cuerpo se desarticula o se queda seco, la jornada termina antes de tiempo.
     failures:[
-      {if:{res:{cohesion:{lt:40}}},to:"collapse"},
-      {if:{res:{fuel:{lt:20}}},to:"stalled"}
+      {if:{res:{cohesion:{lt:35}}},to:"collapse"},
+      {if:{res:{fuel:{lt:15}}},to:"stalled"}
     ],
 
     evaluation:{
       criteria:[
         {label:"Objetivo: río Brda",max:40,levels:[
           {if:{flag:"bridgehead"},points:40,text:"Cabeza de puente al otro lado del Brda."},
-          {if:{any:[{flag:"bridgehead_small"},{flag:"bridgehead_costly"}]},points:34,text:"Una cabeza de puente precaria al otro lado del río."},
-          {if:{progress:{gte:70}},points:28,text:"La vanguardia alcanza el Brda."},
-          {if:{progress:{gte:50}},points:16,text:"La vanguardia queda a distancia del río."},
+          {if:{any:[{flag:"bridgehead_small"},{flag:"bridgehead_costly"}]},points:35,text:"Una cabeza de puente precaria al otro lado del río."},
+          {if:{progress:{gte:70}},points:30,text:"La vanguardia alcanza el Brda."},
+          {if:{progress:{gte:50}},points:15,text:"La vanguardia queda a distancia del río."},
           {points:5,text:"El avance se queda corto."}
         ]},
-        {label:"Conservación de fuerzas",max:25,levels:[
-          {if:{losses:{men:{lt:250}}},points:25,text:"Pérdidas ligeras."},
-          {if:{losses:{men:{lt:550}}},points:16,text:"Pérdidas moderadas."},
-          {if:{losses:{men:{lt:900}}},points:8,text:"Pérdidas serias."},
+        {label:"Conservación de fuerzas",max:15,levels:[
+          {if:{losses:{men:{lt:400}}},points:15,text:"Pérdidas ligeras."},
+          {if:{losses:{men:{lt:800}}},points:10,text:"Pérdidas moderadas."},
+          {if:{losses:{men:{lt:1250}}},points:5,text:"Pérdidas serias."},
           {points:0,text:"Pérdidas graves para un solo día."}
         ]},
-        {label:"Cohesión del cuerpo",max:15,levels:[
-          {if:{res:{cohesion:{gte:75}}},points:15,text:"Las divisiones siguen coordinadas."},
-          {if:{res:{cohesion:{gte:55}}},points:9,text:"Cohesión aceptable, con fricción."},
-          {points:3,text:"El cuerpo llega desordenado."}
+        {label:"Cohesión del cuerpo",max:10,levels:[
+          {if:{res:{cohesion:{gte:75}}},points:10,text:"Las divisiones siguen coordinadas."},
+          {if:{res:{cohesion:{gte:55}}},points:6,text:"Cohesión aceptable, con fricción."},
+          {points:2,text:"El cuerpo llega desordenado."}
         ]},
         {label:"Logística para el día 2",max:10,levels:[
-          {if:{all:[{res:{fuel:{gte:55}}},{res:{ammunition:{gte:55}}}]},points:10,text:"Combustible y munición para continuar."},
-          {if:{all:[{res:{fuel:{gte:35}}},{res:{ammunition:{gte:35}}}]},points:6,text:"Suficiente para una mañana de operaciones."},
+          {if:{all:[{res:{fuel:{gte:50}}},{res:{ammunition:{gte:50}}}]},points:10,text:"Combustible y munición para continuar."},
+          {if:{all:[{res:{fuel:{gte:30}}},{res:{ammunition:{gte:30}}}]},points:6,text:"Suficiente para una mañana de operaciones."},
           {points:1,text:"El día 2 empieza esperando a los convoyes."}
+        ]},
+        {label:"Divisiones de infantería motorizada",max:15,levels:[
+          {if:{all:[{unit:{"2mot":{gte:35}}},{unit:{"20mot":{gte:25}}}]},points:15,text:"La 2. y la 20. ID (mot.) acompañan el avance."},
+          {if:{any:[{unit:{"2mot":{gte:35}}},{unit:{"20mot":{gte:25}}}]},points:7,text:"Una de las divisiones motorizadas se ha quedado atrás."},
+          {points:0,text:"La infantería motorizada se ha quedado muy atrás."}
         ]},
         {label:"Flanco septentrional",max:10,levels:[
           {if:{noFlag:"rear_panic"},points:10,text:"El flanco aguantó sin pánico."},
@@ -185,12 +224,14 @@ const FRONTLINE_DATA = {
       urgency:"SITUATIONSMELDUNG",
       from:"20. Infanterie-Division (mot.)",
       title:"Konitz no cae",
+      skipIf:{flag:"chojnice_taken"},
+      next:"tuchola",
       classification:"HECHO HISTÓRICO + INFORME INCIERTO",
       body:[
         "La 20. Infanterie-Division (mot.) informa de que la resistencia polaca en Chojnice (Konitz) detiene su avance. La carretera que atraviesa la ciudad es necesaria para el flujo del cuerpo hacia el este.",
         {if:{any:[{all:[{hidden:{chojnice:"fuerte"}},{accurate:"chojnice"}]},{all:[{hidden:{chojnice:"debil"}},{inaccurate:"chojnice"}]}]},text:"<b>Valoración del Ic:</b> Weber estima posiciones preparadas y fuego bien organizado. No es una retaguardia: tomar la ciudad de frente costará tiempo y hombres."},
         {if:{any:[{all:[{hidden:{chojnice:"debil"}},{accurate:"chojnice"}]},{all:[{hidden:{chojnice:"fuerte"}},{inaccurate:"chojnice"}]}]},text:"<b>Valoración del Ic:</b> Weber estima que es una cortina de retaguardia. Con presión decidida, los defensores deberían replegarse."},
-        "Tu reconocimiento determina cuánto puedes fiarte de esa valoración. Mira el panel de inteligencia antes de decidir."
+        "Tu reconocimiento determina cuánto puedes fiarte de esa valoración. Mira el mapa y el panel de inteligencia antes de decidir."
       ],
       historical:[
         "Chojnice (Konitz) fue escenario de combates el 1 de septiembre de 1939, en el inicio de la ofensiva alemana contra el Corredor Polaco.",
@@ -220,12 +261,13 @@ const FRONTLINE_DATA = {
       from:"2. Infanterie-Division (mot.)",
       title:"Los bosques de Tuchola",
       classification:"HECHO HISTÓRICO + DECISIÓN DEL JUGADOR",
+      skipIf:{flag:"forest_cleared"},
+      next:[{if:{res:{fuel:{lt:66}}},to:"fuel"},{to:"cavalry"}],
       onEnter:[
-        {effects:{progress:12,res:{fuel:-8,fatigue:+5}}},
         {if:{flag:"hq_forward"},effects:{res:{communications:-4,cohesion:-3}}}
       ],
       body:[
-        "Mientras decidías, la vanguardia ha seguido rodando. Ahora la 2. Infanterie-Division (mot.) entra en la masa forestal de Tuchola: caminos estrechos, visibilidad de pocos metros y unidades polacas que aparecen y desaparecen entre los árboles.",
+        "La 2. Infanterie-Division (mot.) entra en la masa forestal de Tuchola: caminos estrechos, visibilidad de pocos metros y unidades polacas que aparecen y desaparecen entre los árboles.",
         {if:{flag:"hq_forward"},text:"Desde la vanguardia oyes poco de la 2. ID (mot.). Sus partes te llegan tarde y por radio, sin el detalle que te daría estar allí."},
         {if:{flag:"flank_exposed"},text:"Con Chojnice sin resolver, el tráfico del cuerpo se concentra en menos caminos. Un atasco dentro del bosque sería difícil de deshacer."},
         "Una división motorizada es rápida en carretera y vulnerable en el bosque. La pregunta es cuánto riesgo aceptas para no quedarte atrás."
@@ -277,9 +319,6 @@ const FRONTLINE_DATA = {
       from:"Ic · XIX. Armeekorps",
       title:"Caballería en el flanco",
       classification:"INFORME INCIERTO + DECISIÓN DEL JUGADOR",
-      onEnter:[
-        {if:{res:{fuel:{gte:30}}},effects:{progress:10,res:{fuel:-7,fatigue:+4}}}
-      ],
       body:[
         "Llegan varios partes de la 20. ID (mot.) y de patrullas de reconocimiento: caballería polaca en el sector septentrional, cerca del flanco del cuerpo.",
         {if:{any:[{all:[{hidden:{cavalry:"flanco"}},{accurate:"cavalry"}]},{all:[{hidden:{cavalry:"lejos"}},{inaccurate:"cavalry"}]}]},text:"<b>Valoración del Ic:</b> Weber cree que son elementos de la Brigada de Caballería Pomorska maniobrando para golpear la infantería alemana en marcha."},
