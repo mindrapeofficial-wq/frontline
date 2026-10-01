@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#0c0b08">
   <title>FRONTLINE 1944 · Campaña histórica</title>
   <meta name="description" content="Estrategia narrativa histórica de la Segunda Guerra Mundial desde la perspectiva de un general del Heer.">
-  <link rel="stylesheet" href="styles.css?v=0.6.1">
+  <link rel="stylesheet" href="styles.css?v=0.7.0">
   <link id="game-favicon" rel="icon" href="">
 </head>
 <body>
@@ -79,12 +79,6 @@
           <div class="command-seal"><span>CADENA DE MANDO</span><strong>OKH</strong><small>HEER · 1938</small></div>
         </section>
 
-        <section class="panel objective-panel">
-          <div class="panel-title"><span>OBJETIVO DEL DÍA</span><b id="objective-state">EN CURSO</b></div>
-          <p id="objective-text" class="objective-text"></p>
-          <div class="objective-track" aria-hidden="true"><span>FRONTERA</span><div class="objective-bar"><i id="objective-fill"></i></div><span>BRDA</span></div>
-          <div class="objective-meta"><div><small>AVANCE ESTIMADO</small><strong id="objective-progress">0%</strong></div><div><small>BAJAS ESTIMADAS</small><strong id="losses-men">0</strong></div><div><small>VEHÍCULOS PERDIDOS</small><strong id="losses-vehicles">0</strong></div></div>
-        </section>
 
         <section class="panel">
           <div class="panel-title"><span>SITUACIÓN OPERACIONAL</span><b>INDICADORES</b></div>
@@ -118,29 +112,11 @@
             <h2>Un ejército en transformación</h2>
             <div id="dossier-text"></div>
             <button id="start-chapter" class="primary">ABRIR PRIMER PARTE DE SITUACIÓN</button>
+            <p id="skip-to-war" class="skip-to-war hidden">¿Prefieres empezar con la guerra? <button class="ghost" data-next-chapter="ch1">IR A 1939 · FALL WEISS</button></p>
           </div>
         </section>
 
-        <section id="map-panel" class="panel map-panel hidden">
-          <div class="panel-title"><span>CROQUIS OPERACIONAL · ESQUEMÁTICO, NO A ESCALA</span><b id="map-clock">—</b></div>
-          <div id="map-host" class="map-host"></div>
-          <div class="map-legend">
-            <span><i class="lg own"></i>División propia (última posición comunicada)</span>
-            <span><i class="lg confirmed"></i>Contacto confirmado</span>
-            <span><i class="lg estimated"></i>Contacto estimado</span>
-          </div>
-        </section>
 
-        <section id="orders-panel" class="panel orders-panel hidden">
-          <div class="situation-head">
-            <div><span class="eyebrow">BEFEHLSAUSGABE</span><h2 id="orders-title">Órdenes para el periodo</h2></div>
-            <div class="dispatch-meta"><span>HASTA EL SIGUIENTE PARTE</span><strong id="orders-duration">—</strong></div>
-          </div>
-          <p id="orders-intro" class="orders-intro"></p>
-          <div id="orders-list" class="orders-list"></div>
-          <div id="turn-report" class="turn-report hidden"></div>
-          <div class="orders-actions"><button id="execute-turn" class="primary">EMITIR ÓRDENES</button></div>
-        </section>
 
         <section id="situation-panel" class="panel situation-panel hidden">
           <div class="situation-head">
@@ -157,7 +133,6 @@
 
           <div id="choices" class="choices"></div>
           <div id="decision-result" class="decision-result hidden"></div>
-          <div id="evaluation" class="evaluation hidden"></div>
         </section>
 
         <section class="panel archive-visuals">
@@ -179,7 +154,7 @@
         <section class="panel intel-panel">
           <div class="panel-title"><span>IMAGEN DE INTELIGENCIA</span><b id="intel-reliability">49%</b></div>
           <p id="intel-text">La información disponible antes del cruce de frontera es incompleta y pierde valor rápidamente con el movimiento.</p>
-          <div class="confidence-scale"><span data-level="RUMOR">RUMOR</span><span data-level="PROBABLE">PROBABLE</span><span data-level="CONFIRMADO">CONFIRMADO</span></div>
+          <div class="confidence-scale"><span>RUMOR</span><span>PROBABLE</span><span>CONFIRMADO</span></div>
         </section>
 
         <section class="panel doctrine-panel">
@@ -188,7 +163,62 @@
         </section>
       </aside>
     </section>
+
+    <section id="command-shell" class="command-shell hidden" aria-label="Puesto de mando">
+      <div class="cmd-timebar">
+        <div class="cmd-clock"><span id="cmd-date">1 SEP 1939</span><strong id="cmd-time">04:30</strong><small id="cmd-phase"></small></div>
+        <div class="cmd-speeds" role="group" aria-label="Velocidad del tiempo">
+          <button data-speed="0" title="Pausa (barra espaciadora)">❚❚ PAUSA</button>
+          <button data-speed="1" title="1 minuto de juego por segundo">×1</button>
+          <button data-speed="5" title="5 minutos de juego por segundo">×5</button>
+          <button data-speed="15" title="15 minutos de juego por segundo">×15</button>
+          <button data-speed="60" title="1 hora de juego por segundo">×60</button>
+        </div>
+        <div id="cmd-pause-reason" class="cmd-pause-reason" aria-live="polite"></div>
+        <button id="cmd-end-day" class="ghost" disabled>TERMINAR LA JORNADA</button>
+      </div>
+      <div class="cmd-grid">
+        <aside class="cmd-left">
+          <section class="panel">
+            <div class="panel-title"><span>FUERZAS DEL CUERPO</span><b>SEGÚN LOS ÚLTIMOS PARTES</b></div>
+            <div id="cmd-units" class="cmd-units"></div>
+          </section>
+          <section class="panel cmd-order-panel">
+            <div class="panel-title"><span>ORDEN</span><b id="cmd-order-unit">—</b></div>
+            <div id="cmd-order" class="cmd-order"></div>
+          </section>
+        </aside>
+        <section class="panel cmd-center">
+          <div class="panel-title"><span>CROQUIS OPERACIONAL · ESQUEMÁTICO, NO A ESCALA</span><b id="cmd-map-hint"></b></div>
+          <div id="cmd-map" class="cmd-map"></div>
+          <div class="map-legend">
+            <span><i class="lg own"></i>División propia (última posición comunicada)</span>
+            <span><i class="lg confirmed"></i>Contacto confirmado</span>
+            <span><i class="lg estimated"></i>Contacto estimado</span>
+            <span><i class="lg hq"></i>Tu puesto de mando</span>
+          </div>
+        </section>
+        <aside class="cmd-right">
+          <section class="panel cmd-inbox">
+            <div class="panel-title"><span>PARTES RECIBIDOS</span><b id="cmd-unread"></b></div>
+            <label class="cmd-filter"><input type="checkbox" id="cmd-only-important"> Solo partes importantes</label>
+            <div id="cmd-messages" class="cmd-messages"></div>
+          </section>
+        </aside>
+      </div>
+    </section>
   </main>
+
+  <dialog id="event-dialog" class="event-dialog">
+    <div class="dialog-head"><div><span class="eyebrow" id="event-from">PARTE</span><h2 id="event-title"></h2></div><span id="event-time" class="event-time"></span></div>
+    <div id="event-body" class="event-body"></div>
+    <section class="historical-box"><div class="historical-head"><span>REGISTRO DOCUMENTAL</span><b>HECHO HISTÓRICO</b></div><div id="event-history" class="historical-facts"></div></section>
+    <div class="event-actions"><button id="event-close" class="primary">VOLVER AL MAPA</button></div>
+  </dialog>
+
+  <dialog id="evaluation-dialog" class="evaluation-dialog">
+    <div id="evaluation-content"></div>
+  </dialog>
 
   <dialog id="encyclopedia-dialog" class="encyclopedia-dialog">
     <div class="dialog-head">
@@ -245,10 +275,12 @@
     <div id="chapters-list" class="chapters-list"></div>
   </dialog>
 
-  <script src="logo.js?v=0.6.2"></script>
-  <script src="data.js?v=0.6.1"></script>
-  <script src="encyclopedia.js?v=0.6.1"></script>
-  <script src="engine.js?v=0.6.1"></script>
-  <script src="app.js?v=0.6.1"></script>
+  <script src="logo.js?v=0.7.0"></script>
+  <script src="data.js?v=0.7.0"></script>
+  <script src="encyclopedia.js?v=0.7.0"></script>
+  <script src="scenario-fallweiss.js?v=0.7.0"></script>
+  <script src="command.js?v=0.7.0"></script>
+  <script src="command-ui.js?v=0.7.0"></script>
+  <script src="app.js?v=0.7.0"></script>
 </body>
 </html>
