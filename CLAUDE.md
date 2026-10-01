@@ -1009,3 +1009,32 @@ Ese es el juego.
 ---
 
 Última consolidación de reglas: **1 de octubre de 2026**.
+
+
+---
+
+# ENCICLOPEDIA DE CAMPAÑA · REGLA PERMANENTE
+
+FRONTLINE 1944 incluye una enciclopedia histórica progresiva y persistente.
+
+Reglas obligatorias para cualquier contenido nuevo:
+
+1. Toda **persona real, arma, vehículo, munición, organización, documento, doctrina, lugar, infraestructura o acontecimiento histórico relevante** que aparezca en la experiencia del jugador debe poder tener una ficha de enciclopedia.
+2. La ficha **no se muestra antes de que el jugador descubra el elemento** dentro de su campaña. El desbloqueo debe producirse al aparecer en un dossier, parte, escena, unidad, documento o registro conocido por el jugador.
+3. Las entradas no descubiertas pueden existir como registros clasificados, pero no deben revelar nombre, especificaciones ni información que el personaje aún no conoce.
+4. Las fichas deben separar, cuando proceda:
+   - descripción;
+   - especificaciones técnicas;
+   - variante/modelo y fecha;
+   - contexto histórico;
+   - función militar;
+   - relación con la campaña;
+   - advertencias de cronología o incertidumbre.
+5. No mezclar especificaciones de variantes de años distintos. Si un arma cambia de blindaje, motor, cañón, munición, peso o prestaciones, indicar la variante y la fecha.
+6. El archivo material de `FRONTLINE_DATA.armory` se incorpora automáticamente a la enciclopedia. Añadir una nueva referencia de armamento al arsenal debe hacerla disponible para el sistema de descubrimiento sin rediseñar la interfaz.
+7. Los comandantes históricos presentes en los órdenes de batalla se incorporan automáticamente como fichas básicas. Las figuras principales deben recibir fichas curadas más completas en `encyclopedia.js`.
+8. Los desbloqueos pertenecen al progreso global del usuario y deben sobrevivir al cambio entre campañas disponibles.
+9. La enciclopedia nunca sustituye el sistema de fuentes: una ficha puede resumir, pero los hechos históricos del capítulo deben seguir respaldándose en el archivo documental.
+10. El archivo principal de esta función es `encyclopedia.js`. La interfaz está en `index.html`, la lógica de descubrimiento/persistencia en `app.js` y el estilo en `styles.css`.
+
+Objetivo de diseño: que al terminar una campaña el jugador no solo recuerde qué decisiones tomó, sino que haya construido de manera orgánica un archivo técnico e histórico de todo lo que realmente fue encontrando.
