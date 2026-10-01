@@ -1,0 +1,874 @@
+# FRONTLINE 1944 — CLAUDE2
+## Documento de diseño narrativo, persistencia, ultrarrealismo e historia alternativa
+
+Este archivo define la dirección narrativa y sistémica de FRONTLINE 1944. Debe tratarse como documento canónico de diseño para cualquier trabajo futuro sobre narrativa, simulación histórica, persistencia del mundo, consecuencias, IA narrativa y finales.
+
+---
+
+# 1. VISIÓN CENTRAL
+
+FRONTLINE 1944 no debe ser simplemente un juego de estrategia con una campaña histórica prefijada.
+
+La idea central es:
+
+> NO JUEGAS UNA HISTORIA. GENERAS UNA CRÓNICA MILITAR ÚNICA DENTRO DE UNA SEGUNDA GUERRA MUNDIAL QUE RECUERDA TODO LO QUE HACES.
+
+El juego debe comenzar muy anclado en la historia real, aproximadamente desde 1938, y evolucionar gradualmente hacia una cronología alternativa generada por las decisiones del jugador y por las consecuencias sistémicas del mundo.
+
+La historia no debe tener raíles invisibles.
+
+Cada orden militar puede producir desviaciones históricas.
+
+El juego nunca debe limitarse a preguntar al jugador si desea “cambiar la historia”. La desviación debe emerger naturalmente de las acciones, errores, victorias, derrotas y decisiones logísticas, tácticas, estratégicas, políticas y humanas.
+
+Ejemplo:
+
+- Una división que históricamente fue destruida puede sobrevivir porque el jugador ordenó retirarla antes.
+- Esa división conserva oficiales, veteranos, material y experiencia.
+- Meses después puede participar en una operación en la que históricamente nunca estuvo.
+- Esa operación puede acabar de otra forma.
+- Esa nueva consecuencia altera despliegues posteriores.
+- La desviación se propaga.
+
+La historia alternativa debe surgir de cadenas de causalidad, no de botones de “historia alternativa”.
+
+---
+
+# 2. WORLD CHRONICLE — MEMORIA HISTÓRICA DEL MUNDO
+
+Debe existir un sistema central llamado conceptualmente WORLD CHRONICLE.
+
+Este sistema funciona como historiador invisible del juego.
+
+Debe registrar todo acontecimiento relevante y utilizarlo posteriormente para construir narrativa, consecuencias y contexto.
+
+Debe registrar, como mínimo:
+
+- órdenes importantes;
+- operaciones;
+- movimientos de unidades;
+- unidades destruidas;
+- unidades salvadas;
+- oficiales muertos;
+- oficiales heridos;
+- oficiales ascendidos;
+- oficiales degradados;
+- ciudades tomadas;
+- ciudades perdidas;
+- ciudades destruidas o dañadas;
+- evacuaciones;
+- puentes destruidos;
+- puentes reparados;
+- ferrocarriles dañados;
+- suministros abandonados;
+- capturas de material;
+- derrotas;
+- victorias;
+- retiradas;
+- rendiciones;
+- desobediencias;
+- conflictos entre mandos;
+- relaciones con otros comandantes;
+- relaciones con el Alto Mando;
+- órdenes políticas recibidas;
+- órdenes ignoradas;
+- inteligencia recibida;
+- inteligencia errónea;
+- operaciones secretas;
+- bajas;
+- heridas;
+- ascensos;
+- sustituciones de mando;
+- reputación;
+- moral;
+- fallos de suministro;
+- errores desconocidos para el jugador;
+- decisiones con consecuencias todavía no visibles;
+- cambios diplomáticos;
+- cambios industriales;
+- variaciones en producción y reservas;
+- cambios de control territorial.
+
+No deben ser estadísticas aisladas.
+
+WORLD CHRONICLE debe utilizar estos hechos para construir acontecimientos futuros.
+
+Una decisión tomada en el capítulo 4 puede reaparecer en el capítulo 37.
+
+Principio fundamental:
+
+> EL MUNDO DEBE RECORDAR AL JUGADOR.
+
+---
+
+# 3. DECISIONES ORGÁNICAS, NO BOTONES DE DESTINO
+
+FRONTLINE 1944 debe evitar decisiones artificiales del tipo:
+
+“¿Atacas Moscú?”
+A) Sí
+B) No
+
+Las grandes consecuencias deben nacer de pequeñas decisiones militares y logísticas.
+
+Ejemplo:
+
+El cuerpo de ejército dispone de combustible para aproximadamente 48 horas.
+
+Tres formaciones solicitan prioridad:
+
+- 3.ª Panzer: 160.000 litros.
+- 29.ª Motorizada: 90.000 litros.
+- Reserva logística del flanco: 70.000 litros.
+
+El jugador reparte combustible.
+
+No sabe que dentro de cuatro días habrá una contraofensiva.
+
+El jugador no seleccionó “perder la batalla”.
+
+Eligió cómo administrar recursos.
+
+El simulador produjo las consecuencias.
+
+Este principio debe repetirse en todos los sistemas:
+
+> EL JUGADOR DECIDE SOBRE PROBLEMAS REALES. LA HISTORIA EMERGE DE LAS CONSECUENCIAS.
+
+---
+
+# 4. ULTRARREALISMO SIN CONVERTIR EL JUEGO EN UNA HOJA DE CÁLCULO
+
+El ultrarrealismo de FRONTLINE 1944 debe basarse en causalidad, estructura militar realista, información imperfecta y consecuencias coherentes.
+
+No debe consistir únicamente en mostrar miles de cifras.
+
+Las unidades deben existir como organizaciones reales.
+
+Una división puede estar formada por:
+
+- regimientos;
+- batallones;
+- compañías;
+- oficiales;
+- suboficiales;
+- soldados;
+- artillería;
+- carros de combate;
+- vehículos;
+- ingenieros;
+- sanitarios;
+- transmisiones;
+- cocinas de campaña;
+- talleres;
+- caballos;
+- camiones;
+- combustible;
+- munición;
+- repuestos;
+- radios;
+- alimentos;
+- material médico.
+
+Pero el jugador es un general.
+
+Por tanto, el jugador no debe administrar manualmente cada caja de munición.
+
+Debe recibir informes de Estado Mayor.
+
+Ejemplo:
+
+INFORME LOGÍSTICO — 06:20
+
+La 12.ª División Panzer informa de reservas de combustible inferiores a dos días.
+31 vehículos permanecen inmovilizados por averías.
+El ferrocarril de suministro ha sufrido interrupciones durante la noche.
+El comandante solicita prioridad logística.
+
+El jugador decide.
+
+El simulador resuelve.
+
+La narrativa interpreta las consecuencias.
+
+---
+
+# 5. NIEBLA DE GUERRA E INFORMACIÓN IMPERFECTA
+
+La información nunca debe ser perfecta.
+
+El jugador no debe conocer automáticamente:
+
+- el número exacto de tropas enemigas;
+- la ubicación exacta de todas las unidades enemigas;
+- su moral exacta;
+- su combustible exacto;
+- sus reservas exactas;
+- sus intenciones exactas.
+
+La información debe clasificarse, por ejemplo, como:
+
+- CONFIRMADA
+- PROBABLE
+- POSIBLE
+- RUMOR
+- DESACTUALIZADA
+- CONTRADICTORIA
+- NO VERIFICADA
+
+Ejemplo:
+
+“Se estima presencia de entre 40 y 70 carros enemigos.”
+
+Podrían ser 22.
+
+Podrían ser 110.
+
+Un reconocimiento puede equivocarse.
+Un oficial puede interpretar mal una retirada.
+Un avión de reconocimiento puede confundir señuelos con vehículos reales.
+Un prisionero puede mentir.
+Una transmisión interceptada puede ser desinformación.
+
+El jugador debe tomar decisiones con incertidumbre.
+
+La incertidumbre es parte central de la narrativa.
+
+---
+
+# 6. MUNDO PERSISTENTE
+
+La guerra debe continuar aunque el jugador no esté mirando una región concreta.
+
+El mundo no existe solamente alrededor del jugador.
+
+Mientras el jugador combate en un frente:
+
+- otras naciones toman decisiones;
+- otros generales combaten;
+- la industria produce;
+- las fábricas pierden capacidad;
+- unidades reciben reemplazos;
+- oficiales ascienden;
+- oficiales mueren;
+- divisiones son reorganizadas;
+- fortificaciones se construyen;
+- reservas se desplazan;
+- líneas ferroviarias sufren daños;
+- carreteras se deterioran;
+- ciudades cambian de control;
+- poblaciones se desplazan;
+- gobiernos toman decisiones;
+- alianzas evolucionan;
+- operaciones futuras cambian.
+
+Debe existir un WORLD STATE persistente.
+
+Cada campaña es una ventana dentro de ese estado.
+
+Cuando el jugador vuelva a una región meses o años después, debe encontrar las consecuencias acumuladas.
+
+Ejemplos:
+
+- un puente destruido en 1940 puede seguir sin reconstruir completamente en 1941;
+- una ciudad devastada continúa dañada;
+- una unidad recuerda una derrota anterior;
+- un comandante conserva una opinión del jugador;
+- una carretera usada intensivamente puede estar deteriorada;
+- una unidad veterana puede conservar experiencia de campañas anteriores.
+
+---
+
+# 7. OBJETIVO DEL JUEGO
+
+El objetivo no debe reducirse a:
+
+“Ganar la Segunda Guerra Mundial.”
+
+El objetivo principal debe ser:
+
+> SOBREVIVIR A LA HISTORIA Y DEJAR UNA HUELLA EN ELLA.
+
+El jugador interpreta a un oficial alemán que desarrolla una carrera militar.
+
+El personaje puede:
+
+- ascender;
+- ser degradado;
+- ser relevado;
+- ser trasladado;
+- ser herido;
+- morir;
+- ganar prestigio;
+- perder prestigio;
+- ganarse enemigos;
+- ganarse aliados;
+- recibir mejores unidades;
+- quedar relegado a frentes secundarios;
+- obtener mando de cuerpos;
+- obtener mando de ejércitos;
+- perder la confianza del Alto Mando;
+- terminar prisionero;
+- sobrevivir a la guerra;
+- desaparecer durante el colapso;
+- participar en acontecimientos alternativos generados por la simulación.
+
+Una derrota militar no debe equivaler automáticamente a una mala partida.
+
+Una campaña perdida puede producir una narrativa extraordinaria.
+
+El éxito debe medirse también por:
+
+- supervivencia;
+- cumplimiento de objetivos;
+- conservación de fuerzas;
+- reputación;
+- capacidad de mando;
+- impacto histórico;
+- decisiones;
+- consecuencias;
+- legado.
+
+---
+
+# 8. FINALES SISTÉMICOS, NO UN PEQUEÑO MENÚ DE FINALES
+
+No debe haber simplemente:
+
+- final bueno;
+- final malo;
+- final secreto.
+
+Debe haber familias de estados finales.
+
+Ejemplos de grandes familias:
+
+## Victoria del Eje
+
+Puede existir de muchas formas:
+
+- hegemonía alemana sobre Europa;
+- paz negociada;
+- guerra congelada;
+- fragmentación soviética;
+- Reino Unido continúa la guerra;
+- Estados Unidos no entra;
+- Estados Unidos entra de otra forma;
+- Europa queda dividida de manera diferente.
+
+## Victoria aliada aproximadamente histórica
+
+Pero las condiciones pueden variar:
+
+- Berlín cae antes;
+- Berlín cae después;
+- Alemania capitula regionalmente;
+- el jugador se rinde;
+- el jugador queda aislado;
+- el jugador muere;
+- el jugador termina prisionero;
+- el jugador sobrevive.
+
+## Colapso interno alemán
+
+Puede producirse por diferentes cadenas de hechos.
+
+## Armisticio anticipado
+
+## Guerra prolongada más allá de 1945
+
+## Europa fragmentada
+
+## Mundo bipolar alternativo
+
+## Multipolaridad de posguerra
+
+## Conflictos posteriores derivados directamente de la cronología generada
+
+Los finales deben ser estados del mundo, no escenas predeterminadas.
+
+---
+
+# 9. HISTORIA ALTERNATIVA GENERADA DINÁMICAMENTE
+
+Debe existir conceptualmente una variable interna denominada HISTORICAL DIVERGENCE.
+
+No tiene por qué mostrarse siempre al jugador.
+
+Ejemplo conceptual:
+
+- 0%: la cronología coincide casi completamente con la historia real;
+- 10%: pequeñas diferencias;
+- 30%: acontecimientos históricos empiezan a modificarse;
+- 60%: las referencias históricas ya no bastan para predecir el mundo;
+- 90%: la guerra ha evolucionado hacia una cronología prácticamente nueva.
+
+A medida que aumenta la divergencia, el motor debe apoyarse menos en acontecimientos prefijados y más en la simulación.
+
+Cuando el mundo se separa suficientemente de la historia real:
+
+> EL MOTOR DEJA DE PREGUNTAR “¿QUÉ OCURRIÓ HISTÓRICAMENTE?” Y EMPIEZA A PREGUNTAR “¿QUÉ OCURRIRÍA LÓGICAMENTE AHORA?”
+
+A partir de ahí pueden generarse:
+
+- nuevas operaciones;
+- nuevos frentes;
+- nuevas alianzas;
+- nuevas crisis;
+- cambios políticos;
+- tratados alternativos;
+- levantamientos;
+- golpes internos;
+- sustituciones de comandantes;
+- campañas inexistentes históricamente;
+- nuevos objetivos estratégicos;
+- cambios industriales;
+- doctrinas emergentes;
+- nuevos mapas políticos.
+
+La Segunda Guerra Mundial debe convertirse gradualmente en LA SEGUNDA GUERRA MUNDIAL DEL JUGADOR.
+
+---
+
+# 10. EL JUGADOR NO DEBE SABER SI ALGO ES HISTÓRICO O EMERGENTE
+
+El juego no debería etiquetar continuamente:
+
+“EVENTO HISTÓRICO”
+“EVENTO ALTERNATIVO”
+
+Debe mantener la ilusión de estar viviendo dentro de la historia.
+
+Ejemplo:
+
+BERLÍN — 14 DE FEBRERO DE 1942
+
+“El Alto Mando estudia una nueva ofensiva limitada en el Cáucaso.
+Se solicita a su Estado Mayor una evaluación operacional.”
+
+Ese acontecimiento podría:
+
+- haber ocurrido realmente;
+- ser una adaptación de un acontecimiento histórico;
+- ser completamente nuevo;
+- existir porque el jugador cambió la situación seis meses antes.
+
+El jugador no tiene por qué saberlo.
+
+---
+
+# 11. PERSONAJES Y OFICIALES PERSISTENTES
+
+Los oficiales no deben ser simples bonificaciones.
+
+Deben ser personajes persistentes.
+
+Cada oficial puede tener:
+
+- nombre;
+- rango;
+- edad;
+- experiencia;
+- historial de servicio;
+- especialidades;
+- relación con el jugador;
+- opinión del jugador;
+- confianza;
+- miedo;
+- ambición;
+- lealtad institucional;
+- reputación;
+- heridas;
+- campañas;
+- condecoraciones;
+- errores;
+- rivalidades;
+- amistades;
+- memoria de decisiones pasadas.
+
+Ejemplo:
+
+Un jefe de Estado Mayor acompaña al jugador desde 1939.
+
+Ha estado en Polonia.
+Ha estado en Francia.
+Ha estado en los Balcanes.
+Ha estado en Rusia.
+
+Ha discutido varias veces con el jugador.
+
+En 1943 llega:
+
+“El Oberst Weber ha resultado gravemente herido durante un ataque aéreo al puesto de mando.”
+
+Esto debe tener peso emocional porque el personaje ha formado parte de la campaña durante años.
+
+Los oficiales pueden generar:
+
+- diarios;
+- memorias;
+- cartas;
+- informes;
+- fotografías ficticias;
+- mapas anotados;
+- testimonios;
+- conversaciones;
+- recomendaciones tácticas;
+- desacuerdos.
+
+---
+
+# 12. MOTOR FUNDAMENTAL: CAUSE → CONSEQUENCE → MEMORY → STORY
+
+Toda la arquitectura narrativa debe construirse alrededor de cuatro fases.
+
+## CAUSE
+
+El jugador toma una decisión.
+
+## CONSEQUENCE
+
+El simulador militar calcula qué ocurre realmente.
+
+## MEMORY
+
+WORLD CHRONICLE registra:
+
+- qué pasó;
+- cuándo;
+- dónde;
+- quién participó;
+- por qué ocurrió;
+- qué sabe cada actor;
+- qué consecuencias siguen abiertas.
+
+## STORY
+
+El motor narrativo transforma esas consecuencias en:
+
+- nuevos informes;
+- nuevos personajes;
+- operaciones;
+- oportunidades;
+- conflictos;
+- problemas;
+- consecuencias futuras.
+
+Este principio debe permitir generar cientos de miles de historias sin escribir manualmente cientos de miles de guiones.
+
+El objetivo no es escribir todas las historias.
+
+El objetivo es construir un mundo capaz de producir historias.
+
+---
+
+# 13. ESTRUCTURA HISTÓRICA INICIAL
+
+La campaña debe comenzar aproximadamente en 1938.
+
+La primera fase puede cubrir:
+
+- reorganización militar;
+- expansión de las fuerzas armadas;
+- preparación;
+- crisis europeas;
+- movilización;
+- planificación;
+- tensiones internacionales;
+- cambios doctrinales;
+- asignación de mandos.
+
+Después:
+
+- 1939;
+- campaña de Polonia;
+- campañas occidentales;
+- Francia;
+- Balcanes;
+- Barbarroja;
+- desarrollo del Frente Oriental;
+- Mediterráneo;
+- Norte de África cuando corresponda;
+- defensa del Reich;
+- campañas posteriores.
+
+Inicialmente la historia debe ser casi documental.
+
+Después, las acciones del jugador pueden producir desviaciones cada vez mayores.
+
+La experiencia ideal es llegar a un momento en el que el jugador mire el mapa y piense:
+
+> “ES 1944, PERO ESTE YA NO ES NUESTRO 1944.”
+
+Ese debe ser uno de los momentos más importantes de FRONTLINE 1944.
+
+---
+
+# 14. CRÓNICA DE GUERRA AL FINAL DE CADA PARTIDA
+
+Cuando una campaña termine, FRONTLINE 1944 debe poder generar una CRÓNICA DE GUERRA completa.
+
+No debe ser una simple pantalla de puntuación.
+
+Debe poder contener:
+
+- mapas históricos de la partida;
+- cronología;
+- campañas;
+- operaciones;
+- órdenes relevantes;
+- ascensos;
+- derrotas;
+- victorias;
+- cambios territoriales;
+- oficiales;
+- bajas;
+- unidades;
+- estadísticas;
+- diarios;
+- momentos decisivos;
+- decisiones fundamentales;
+- consecuencias;
+- divergencias respecto a la historia real;
+- situación política final;
+- situación geopolítica;
+- destino del personaje;
+- destino de sus oficiales;
+- estado final del mundo.
+
+Idealmente debe sentirse como un libro de historia perteneciente a una línea temporal que nunca existió.
+
+Cada partida debe convertirse en un documento histórico ficticio irrepetible.
+
+---
+
+# 15. PRINCIPIOS DE DISEÑO OBLIGATORIOS
+
+Todo desarrollo futuro de FRONTLINE 1944 debe respetar estos principios.
+
+## PRINCIPIO A — La simulación precede a la narrativa
+
+La historia debe surgir de hechos simulados siempre que sea posible.
+
+No se debe inventar un resultado narrativo que contradiga el estado real del mundo.
+
+## PRINCIPIO B — Persistencia absoluta
+
+Los acontecimientos importantes deben dejar memoria.
+
+## PRINCIPIO C — Causalidad
+
+Cada gran acontecimiento debe tener causas rastreables.
+
+## PRINCIPIO D — Consecuencias diferidas
+
+Una decisión puede no mostrar sus efectos inmediatamente.
+
+## PRINCIPIO E — Información imperfecta
+
+El jugador nunca debe poseer omnisciencia.
+
+## PRINCIPIO F — Escala de mando
+
+El jugador es un general, no un operador de cada soldado.
+
+## PRINCIPIO G — Historia emergente
+
+Las decisiones pequeñas pueden generar grandes desviaciones.
+
+## PRINCIPIO H — Sin railroading invisible
+
+No forzar artificialmente el retorno a la cronología real cuando la simulación ya se ha separado de ella.
+
+## PRINCIPIO I — Coherencia histórica
+
+Mientras la divergencia sea pequeña, utilizar la historia real como marco.
+
+## PRINCIPIO J — Coherencia contrafactual
+
+Cuando la divergencia sea grande, utilizar lógica militar, económica, política, industrial y diplomática para generar el futuro.
+
+## PRINCIPIO K — El mundo existe fuera del jugador
+
+Otros actores deben tomar decisiones independientemente.
+
+## PRINCIPIO L — Los personajes recuerdan
+
+Las relaciones humanas deben evolucionar con el tiempo.
+
+## PRINCIPIO M — No todo debe explicarse
+
+El jugador puede no conocer las causas reales de determinados acontecimientos.
+
+## PRINCIPIO N — La derrota también genera historia
+
+Perder una batalla, un frente o incluso la guerra puede formar parte de una gran campaña.
+
+## PRINCIPIO O — Ninguna partida debe sentirse idéntica
+
+Incluso partiendo de condiciones iniciales históricas similares.
+
+---
+
+# 16. ARQUITECTURA LÓGICA RECOMENDADA
+
+La arquitectura conceptual debería separar:
+
+1. WORLD STATE
+2. MILITARY SIMULATION
+3. WORLD CHRONICLE
+4. KNOWLEDGE / FOG OF WAR
+5. CHARACTER MEMORY
+6. HISTORICAL DIVERGENCE
+7. EVENT GENERATOR
+8. NARRATIVE ENGINE
+9. CONSEQUENCE ENGINE
+10. END STATE / WAR CHRONICLE
+
+Flujo:
+
+PLAYER ORDER
+↓
+MILITARY SIMULATION
+↓
+WORLD STATE UPDATE
+↓
+WORLD CHRONICLE
+↓
+KNOWLEDGE FILTER
+↓
+NARRATIVE INTERPRETATION
+↓
+PLAYER REPORT
+↓
+FUTURE CONSEQUENCES
+
+Nunca permitir que el Narrative Engine sobrescriba arbitrariamente la simulación.
+
+---
+
+# 17. EJEMPLO COMPLETO DE CADENA EMERGENTE
+
+1939.
+
+El jugador ordena conservar combustible durante una operación secundaria.
+
+Como consecuencia:
+
+- una división avanza más lentamente;
+- una unidad enemiga consigue retirarse;
+- esa unidad evita ser destruida;
+- participa posteriormente en otra batalla;
+- provoca bajas adicionales;
+- retrasa una operación;
+- cambia el calendario operacional;
+- otro cuerpo de ejército permanece más tiempo en una región;
+- llegan las lluvias;
+- aumenta el desgaste logístico;
+- un comandante pierde reputación;
+- cambia un nombramiento;
+- la campaña de 1940 comienza con una composición de mandos ligeramente diferente.
+
+Nada de esto fue elegido en un menú.
+
+Todo surgió de una decisión logística.
+
+Ese es el tipo de historia que FRONTLINE 1944 debe producir.
+
+---
+
+# 18. TONO NARRATIVO
+
+La narrativa debe sentirse:
+
+- militar;
+- documental;
+- sobria;
+- tensa;
+- profesional;
+- humana;
+- históricamente plausible;
+- imperfecta;
+- burocrática cuando corresponda;
+- dramática cuando los hechos realmente lo justifiquen.
+
+Evitar convertir cada acontecimiento en una escena cinematográfica exagerada.
+
+Muchos momentos importantes deben llegar mediante:
+
+- telegramas;
+- mapas;
+- informes;
+- memorandos;
+- órdenes;
+- llamadas;
+- conversaciones de Estado Mayor;
+- diarios;
+- periódicos;
+- inteligencia;
+- mensajes de radio;
+- partes de bajas;
+- informes médicos;
+- cartas;
+- comunicados.
+
+La interfaz narrativa debe hacer sentir al jugador que dirige una guerra desde un Estado Mayor real.
+
+---
+
+# 19. VISIÓN FINAL
+
+FRONTLINE 1944 debe combinar:
+
+- estrategia militar profunda;
+- simulación operacional;
+- ultrarrealismo;
+- narrativa emergente;
+- historia real;
+- historia alternativa;
+- personajes persistentes;
+- mundo persistente;
+- consecuencias a largo plazo;
+- información imperfecta;
+- memoria.
+
+La experiencia debe comenzar siendo reconocible históricamente.
+
+Después debe deformarse lentamente según las acciones de los jugadores y del propio mundo.
+
+La meta no es alcanzar necesariamente 1945 de una forma prefijada.
+
+El juego debe ser capaz de continuar siempre que exista una situación histórica, militar y política coherente que simular.
+
+Puede terminar en 1945.
+
+Puede terminar antes.
+
+Puede continuar después.
+
+La cronología resultante debe ser consecuencia del mundo.
+
+---
+
+# 20. REGLA MAESTRA PARA CLAUDE Y CUALQUIER IA QUE TRABAJE EN EL PROYECTO
+
+Cuando diseñes o implementes cualquier nueva función para FRONTLINE 1944, pregúntate:
+
+1. ¿Esta función produce decisiones reales?
+2. ¿Estas decisiones generan consecuencias?
+3. ¿El mundo recuerda esas consecuencias?
+4. ¿Pueden reaparecer más adelante?
+5. ¿Respeta el estado real de la simulación?
+6. ¿Respeta la información disponible para el jugador?
+7. ¿Puede contribuir a una historia distinta en otra partida?
+8. ¿Mantiene el ultrarrealismo sin obligar al general a microgestionar absurdamente?
+9. ¿Funciona incluso si la cronología ya se ha separado de la historia real?
+10. ¿Hace que el mundo parezca existir incluso cuando el jugador no lo observa?
+
+Si la respuesta es sí, encaja con FRONTLINE 1944.
+
+Si la respuesta es no, debe rediseñarse.
+
+---
+
+FIN DEL DOCUMENTO.
