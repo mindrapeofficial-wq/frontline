@@ -1,0 +1,504 @@
+{
+  "project": "FRONTLINE 1944",
+  "campaign": "1938 — Reorganización militar",
+  "generated_at": "2026-10-01",
+  "total_images": 56,
+  "categories": [
+    {
+      "slug": "01-direccion-mandos",
+      "label": "Dirección, mandos y figuras",
+      "drive_folder": "https://drive.google.com/drive/folders/1VAtOV0Lwn3rWDNJnYoEc_1lnWHXU14Ac",
+      "image_count": 9,
+      "images": [
+        {
+          "index": 1,
+          "title": "01 — 1938 portrait photograph of Adolf Hitler.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 239970,
+          "drive_id": "1IH94BUU1CUPkXFloFOhucoOVCTWtFmdD",
+          "source_url": "https://drive.google.com/file/d/1IH94BUU1CUPkXFloFOhucoOVCTWtFmdD/view?usp=drivesdk"
+        },
+        {
+          "index": 2,
+          "title": "02 — Bundesarchiv Bild 183-H03417, Berlin, Hitler nach Anschluß Österreichs.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 57243,
+          "drive_id": "1CnzYqS3F3rbrxV4iurMncYF3hjiep5L8",
+          "source_url": "https://drive.google.com/file/d/1CnzYqS3F3rbrxV4iurMncYF3hjiep5L8/view?usp=drivesdk"
+        },
+        {
+          "index": 3,
+          "title": "03 — Bundesarchiv Bild 183-2004-1202-504, Berlin, Adolf Hitler und Hermann Göring.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 67503,
+          "drive_id": "1g0GUy68BSB69q42s8fe7HADJVlfPW_eD",
+          "source_url": "https://drive.google.com/file/d/1g0GUy68BSB69q42s8fe7HADJVlfPW_eD/view?usp=drivesdk"
+        },
+        {
+          "index": 4,
+          "title": "04 — Bundesarchiv Bild 183-H13039, Münchener Abkommen, Rückkehr Hitler.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 54448,
+          "drive_id": "1H_V-HSbuHy4tIIxAD7RUwBM6asZTnUMA",
+          "source_url": "https://drive.google.com/file/d/1H_V-HSbuHy4tIIxAD7RUwBM6asZTnUMA/view?usp=drivesdk"
+        },
+        {
+          "index": 5,
+          "title": "05 — Bundesarchiv Bild 183-H12951, Münchener Abkommen, Hitler nach erster Besprechnung.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 67693,
+          "drive_id": "1uJ5Yl7YnwsoozCVAecbKnh8rn9DF2aEh",
+          "source_url": "https://drive.google.com/file/d/1uJ5Yl7YnwsoozCVAecbKnh8rn9DF2aEh/view?usp=drivesdk"
+        },
+        {
+          "index": 6,
+          "title": "06 — Bundesarchiv Bild 183-R69173, Münchener Abkommen, Staatschefs.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 65862,
+          "drive_id": "1YHGYL2b-4BO_HRKvRT_ZG-lcclDcLs6V",
+          "source_url": "https://drive.google.com/file/d/1YHGYL2b-4BO_HRKvRT_ZG-lcclDcLs6V/view?usp=drivesdk"
+        },
+        {
+          "index": 7,
+          "title": "07 — Bundesarchiv Bild 146-1976-033-06, Münchener Abkommen, Unterschrift Adolf Hitler.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 51007,
+          "drive_id": "1Aor9PuS-1mxWAzvIi43ppMENuvtOqgxu",
+          "source_url": "https://drive.google.com/file/d/1Aor9PuS-1mxWAzvIi43ppMENuvtOqgxu/view?usp=drivesdk"
+        },
+        {
+          "index": 8,
+          "title": "08 — Bundesarchiv Bild 119-5243, Wien, Arthur Seyß-Inquart, Adolf Hitler.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 51431,
+          "drive_id": "1M_pSakL6IwYXk3v30S5YfHLFQuVWQH9s",
+          "source_url": "https://drive.google.com/file/d/1M_pSakL6IwYXk3v30S5YfHLFQuVWQH9s/view?usp=drivesdk"
+        },
+        {
+          "index": 9,
+          "title": "09 — Bundesarchiv Bild 183-H12262, Nürnberg, Reichsparteitag, Tag der Wehrmacht.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 83162,
+          "drive_id": "1wZmz0FVZ3WEUKeqBGcagiY-im9busDeB",
+          "source_url": "https://drive.google.com/file/d/1wZmz0FVZ3WEUKeqBGcagiY-im9busDeB/view?usp=drivesdk"
+        }
+      ]
+    },
+    {
+      "slug": "02-heer-organizacion-entrenamiento",
+      "label": "Heer, organización y entrenamiento",
+      "drive_folder": "https://drive.google.com/drive/folders/17IpI8_X-krRzh3vA6T9h2t-cHBfAA9kN",
+      "image_count": 10,
+      "images": [
+        {
+          "index": 1,
+          "title": "01 — 1938 Lehmann & Wundenberg Abdruck auf Ledergurt zur Aluminiumschnalle Heer der Wehrmacht.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 68004,
+          "drive_id": "1ElbL67FnBJ-faeVDm8RjHHy-EsUpieC2",
+          "source_url": "https://drive.google.com/file/d/1ElbL67FnBJ-faeVDm8RjHHy-EsUpieC2/view?usp=drivesdk"
+        },
+        {
+          "index": 2,
+          "title": "02 — Bundesarchiv Bild 183-H03527, Berlin, Kriegsakademie.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 62925,
+          "drive_id": "1eXEZ9hNlLuteE1FQwmthRSoThxfbjDkV",
+          "source_url": "https://drive.google.com/file/d/1eXEZ9hNlLuteE1FQwmthRSoThxfbjDkV/view?usp=drivesdk"
+        },
+        {
+          "index": 3,
+          "title": "03 — Bundesarchiv Bild 183-H03528, Berlin, Kriegsakademie.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 71258,
+          "drive_id": "1uP2Cyjc5QmFlbCscaYfbp5_teqju8pv8",
+          "source_url": "https://drive.google.com/file/d/1uP2Cyjc5QmFlbCscaYfbp5_teqju8pv8/view?usp=drivesdk"
+        },
+        {
+          "index": 4,
+          "title": "04 — Bundesarchiv Bild 146-1972-061-34, Anschluss sudetendeutscher Gebiete.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 91254,
+          "drive_id": "1gMLujbYxlvaaxGAj73rpR9LkSZVYaeBl",
+          "source_url": "https://drive.google.com/file/d/1gMLujbYxlvaaxGAj73rpR9LkSZVYaeBl/view?usp=drivesdk"
+        },
+        {
+          "index": 5,
+          "title": "05 — Bundesarchiv Bild 101I-001-0283-02, Wehrmachtsoldaten bei Ausbildung.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 66798,
+          "drive_id": "18w2cRog_Axi1OdtK06khG31BPD11Nis-",
+          "source_url": "https://drive.google.com/file/d/18w2cRog_Axi1OdtK06khG31BPD11Nis-/view?usp=drivesdk"
+        },
+        {
+          "index": 6,
+          "title": "06 — Bundesarchiv Bild 101I-001-0283-03, Wehrmachtsoldaten bei Ausbildung.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 54953,
+          "drive_id": "1xc3frGiPCe_NtvsKCLcm5qQD9JP1h3ww",
+          "source_url": "https://drive.google.com/file/d/1xc3frGiPCe_NtvsKCLcm5qQD9JP1h3ww/view?usp=drivesdk"
+        },
+        {
+          "index": 7,
+          "title": "07 — Bundesarchiv Bild 101I-001-0283-05, Wehrmachtsoldaten bei Ausbildung.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 61478,
+          "drive_id": "1A6E6RruqUTp4BuoOFUj0rLRj5m75lcKF",
+          "source_url": "https://drive.google.com/file/d/1A6E6RruqUTp4BuoOFUj0rLRj5m75lcKF/view?usp=drivesdk"
+        },
+        {
+          "index": 8,
+          "title": "08 — Bundesarchiv Bild 101I-001-0283-06, Wehrmachtsoldaten bei Ausbildung.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 60733,
+          "drive_id": "1ip1E-I27haSTpa2OmCDY-I3um_yqLANg",
+          "source_url": "https://drive.google.com/file/d/1ip1E-I27haSTpa2OmCDY-I3um_yqLANg/view?usp=drivesdk"
+        },
+        {
+          "index": 9,
+          "title": "09 — Bundesarchiv Bild 183-2006-1211-500, Wehrmacht, Fahrbare Funkstation.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 64410,
+          "drive_id": "1MZdMoW41JC4R_2I9J_LkeipgbjhrDPWr",
+          "source_url": "https://drive.google.com/file/d/1MZdMoW41JC4R_2I9J_LkeipgbjhrDPWr/view?usp=drivesdk"
+        },
+        {
+          "index": 10,
+          "title": "10 — Bundesarchiv Bild 183-2006-1211-501, Nachrichtentruppen, Funkstation.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 54750,
+          "drive_id": "1FaNX-DtXsAxM7Cy6br8nGSX-YMhZ_otb",
+          "source_url": "https://drive.google.com/file/d/1FaNX-DtXsAxM7Cy6br8nGSX-YMhZ_otb/view?usp=drivesdk"
+        }
+      ]
+    },
+    {
+      "slug": "03-luftwaffe",
+      "label": "Luftwaffe",
+      "drive_folder": "https://drive.google.com/drive/folders/1la0W1ap-LLmT0_Rd9nMBX9zLkP5e8m-k",
+      "image_count": 9,
+      "images": [
+        {
+          "index": 1,
+          "title": "01 — Bundesarchiv Bild 183-H01704, Berlin, Parade am Tag der Luftwaffe.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 89637,
+          "drive_id": "1BzS11o-qx6Ve2JWldbRABOHCumH1wWs5",
+          "source_url": "https://drive.google.com/file/d/1BzS11o-qx6Ve2JWldbRABOHCumH1wWs5/view?usp=drivesdk"
+        },
+        {
+          "index": 2,
+          "title": "02 — Bundesarchiv Bild 183-H02734, Berlin, Parade am Tag der Luftwaffe.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 93638,
+          "drive_id": "1F-yiVICUtykFBwLf688FAHFY4CSS_iP7",
+          "source_url": "https://drive.google.com/file/d/1F-yiVICUtykFBwLf688FAHFY4CSS_iP7/view?usp=drivesdk"
+        },
+        {
+          "index": 3,
+          "title": "03 — Bundesarchiv Bild 183-H02755, Berlin, Parade zum Tag der Luftwaffe.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 92951,
+          "drive_id": "1xkcsDCd41Pvzn6FrrFbk0rKLgzyWVVL6",
+          "source_url": "https://drive.google.com/file/d/1xkcsDCd41Pvzn6FrrFbk0rKLgzyWVVL6/view?usp=drivesdk"
+        },
+        {
+          "index": 4,
+          "title": "04 — Bundesarchiv Bild 183-H08192, Hermann Göring und Ernst Udet.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 47476,
+          "drive_id": "1n3uzVU3jGmTDEQf3cuTAdjf8u4B0KNnt",
+          "source_url": "https://drive.google.com/file/d/1n3uzVU3jGmTDEQf3cuTAdjf8u4B0KNnt/view?usp=drivesdk"
+        },
+        {
+          "index": 5,
+          "title": "05 — Bundesarchiv Bild 183-H27413, Berlin, Reichsluftfahrtministerium.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 67661,
+          "drive_id": "1NS_P54uO0sgYK3bzReWNRA-xMfzKX99m",
+          "source_url": "https://drive.google.com/file/d/1NS_P54uO0sgYK3bzReWNRA-xMfzKX99m/view?usp=drivesdk"
+        },
+        {
+          "index": 6,
+          "title": "06 — Bundesarchiv Bild 183-2008-0909-500, Wien, Göring ehrt Gefallene des Weltkrieges.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 89387,
+          "drive_id": "1ci6aSzbjRDR3NeXQsLS9fkfCHVQrgB-c",
+          "source_url": "https://drive.google.com/file/d/1ci6aSzbjRDR3NeXQsLS9fkfCHVQrgB-c/view?usp=drivesdk"
+        },
+        {
+          "index": 7,
+          "title": "07 — Bundesarchiv Bild 101I-643-4752-30A, Rudermarkierungen.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 75290,
+          "drive_id": "1GkUla-k_cfiMs7bBAcd9GE3j7t14P7Pc",
+          "source_url": "https://drive.google.com/file/d/1GkUla-k_cfiMs7bBAcd9GE3j7t14P7Pc/view?usp=drivesdk"
+        },
+        {
+          "index": 8,
+          "title": "08 — Bundesarchiv Bild 141-2141, Funkstelle V Fliegerkorps.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 93710,
+          "drive_id": "1A_AEEkzvPLRMpvF3NnmaxtnowYrp7mHj",
+          "source_url": "https://drive.google.com/file/d/1A_AEEkzvPLRMpvF3NnmaxtnowYrp7mHj/view?usp=drivesdk"
+        },
+        {
+          "index": 9,
+          "title": "09 — Bundesarchiv Bild 146-1978-013-19, Luftwaffen-Helfer, Übungsalarm.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 86241,
+          "drive_id": "1NRxyf3ThPMaex0sY_LRxqLeesPWmCKh9",
+          "source_url": "https://drive.google.com/file/d/1NRxyf3ThPMaex0sY_LRxqLeesPWmCKh9/view?usp=drivesdk"
+        }
+      ]
+    },
+    {
+      "slug": "04-kriegsmarine",
+      "label": "Kriegsmarine",
+      "drive_folder": "https://drive.google.com/drive/folders/12BSxV4vSrw_SNepVL5BkuNGGdv8r7hfq",
+      "image_count": 9,
+      "images": [
+        {
+          "index": 1,
+          "title": "01 — Bundesarchiv Bild 146-1984-097-36, Flugzeugträger \"Graf Zeppelin\" nach Stapellauf.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 37997,
+          "drive_id": "1ws1hTqQc-qVrOTxrcxl8XMGviqCKHRXD",
+          "source_url": "https://drive.google.com/file/d/1ws1hTqQc-qVrOTxrcxl8XMGviqCKHRXD/view?usp=drivesdk"
+        },
+        {
+          "index": 2,
+          "title": "02 — Bundesarchiv Bild 183-2006-0810-500, Flugzeugträger \"Graf Zeppelin\", Hitler bei Stapellauf.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 63536,
+          "drive_id": "12zRkJN9JzXrlC-3pjjSviHNfD06H2FFu",
+          "source_url": "https://drive.google.com/file/d/12zRkJN9JzXrlC-3pjjSviHNfD06H2FFu/view?usp=drivesdk"
+        },
+        {
+          "index": 3,
+          "title": "03 — Besuch vom ungar. Staatsoberhaupt Miklos von Horthy und Reichskanzler Adolf Hitler zum Stapellauf des Schweren Kreuzers PRINZ EUGEN (Kiel 53.179).jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 125473,
+          "drive_id": "1b458lXdsO-HIwBav5WL1JHYJQVlqr56P",
+          "source_url": "https://drive.google.com/file/d/1b458lXdsO-HIwBav5WL1JHYJQVlqr56P/view?usp=drivesdk"
+        },
+        {
+          "index": 4,
+          "title": "04 — Bundesarchiv DVM 10 Bild-23-63-06, Panzerschiff \"Admiral Graf Spee\".jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 219936,
+          "drive_id": "1trHHO9pxM208l7IDAVa0MVWkuk99GaGp",
+          "source_url": "https://drive.google.com/file/d/1trHHO9pxM208l7IDAVa0MVWkuk99GaGp/view?usp=drivesdk"
+        },
+        {
+          "index": 5,
+          "title": "05 — Admiral Graf Spee-A01.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 397479,
+          "drive_id": "1bSw3GN1y59Aol5CM9UNZFpmuyX-hU_08",
+          "source_url": "https://drive.google.com/file/d/1bSw3GN1y59Aol5CM9UNZFpmuyX-hU_08/view?usp=drivesdk"
+        },
+        {
+          "index": 6,
+          "title": "06 — De1938~w.png",
+          "mime_type": "image/png",
+          "size_bytes": 14015,
+          "drive_id": "1fhqXf06gIBjpUJK-PufpBdbMr75pgEVF",
+          "source_url": "https://drive.google.com/file/d/1fhqXf06gIBjpUJK-PufpBdbMr75pgEVF/view?usp=drivesdk"
+        },
+        {
+          "index": 7,
+          "title": "07 — Die Wehrmacht - Fahnen Flaggen u Standarten der deutschen Wehrmacht - Reichskriegsflagge Infanterie Kavalerie Kriegsmarine Luftwaffe Soldatenbund - Nazi Germany Armed forces Flags Colours swastika poster ca. 1936-38 No known copyright.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 581229,
+          "drive_id": "1LogyVqY6mxAIY-SWHw8pMhp3zN24ZkDt",
+          "source_url": "https://drive.google.com/file/d/1LogyVqY6mxAIY-SWHw8pMhp3zN24ZkDt/view?usp=drivesdk"
+        },
+        {
+          "index": 8,
+          "title": "08 — Reibert Der Dienstunterricht im Heere Kanonier 1938 (0169) KOMMANDO- UND STABSFLAGGEN DER KRIGSMARINE DER LUFTWAFFE Wehrmacht handbook Nazi Germany Navy Air force command post staff flags standards No copyright Low-res scan.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 315973,
+          "drive_id": "1kdLSfnnmylmn1Cl0xleSwQf-mqCn9_0T",
+          "source_url": "https://drive.google.com/file/d/1kdLSfnnmylmn1Cl0xleSwQf-mqCn9_0T/view?usp=drivesdk"
+        },
+        {
+          "index": 9,
+          "title": "09 — Bundesarchiv Bild 101II-MN-1038-06, Kiel, Schwerer Kreuzer \"Lützow\".jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 76688,
+          "drive_id": "1BGHuXR1RiPMt_i_i9KMn4daTEatY6bxB",
+          "source_url": "https://drive.google.com/file/d/1BGHuXR1RiPMt_i_i9KMn4daTEatY6bxB/view?usp=drivesdk"
+        }
+      ]
+    },
+    {
+      "slug": "05-expansion-1938",
+      "label": "Anschluss, Sudetes y expansión 1938",
+      "drive_folder": "https://drive.google.com/drive/folders/1XtyS19AjEebrEFRgvEfEee1ZCg7PcXNG",
+      "image_count": 10,
+      "images": [
+        {
+          "index": 1,
+          "title": "01 — Bundesarchiv Bild 137-049270, Anschluss Österreich.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 67842,
+          "drive_id": "1jU5qPkpQt0_E6S9Jef0xZrll29t745GE",
+          "source_url": "https://drive.google.com/file/d/1jU5qPkpQt0_E6S9Jef0xZrll29t745GE/view?usp=drivesdk"
+        },
+        {
+          "index": 2,
+          "title": "02 — Bundesarchiv Bild 137-049271, Anschluss Österreich.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 69284,
+          "drive_id": "14Dn2vjvrH5moR9GRrXpWvb5gai9SRvCK",
+          "source_url": "https://drive.google.com/file/d/14Dn2vjvrH5moR9GRrXpWvb5gai9SRvCK/view?usp=drivesdk"
+        },
+        {
+          "index": 3,
+          "title": "03 — Bundesarchiv Bild 137-049278, Anschluss Österreich.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 70897,
+          "drive_id": "1vPz6a-gDSFMwCLAHcpYbHEGt6RXzzlnA",
+          "source_url": "https://drive.google.com/file/d/1vPz6a-gDSFMwCLAHcpYbHEGt6RXzzlnA/view?usp=drivesdk"
+        },
+        {
+          "index": 4,
+          "title": "04 — Bundesarchiv Bild 146-1972-028-14, Anschluss Österreich.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 93405,
+          "drive_id": "1DhgK1EqCATp3ZlFEwpXRZGazRNO2rXUT",
+          "source_url": "https://drive.google.com/file/d/1DhgK1EqCATp3ZlFEwpXRZGazRNO2rXUT/view?usp=drivesdk"
+        },
+        {
+          "index": 5,
+          "title": "05 — Bundesarchiv Bild 146-1985-083-10, Anschluss Österreich, Wien.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 93000,
+          "drive_id": "1xLJ_CLiitkZQJhO2GxRrx8z2yy4t9QKw",
+          "source_url": "https://drive.google.com/file/d/1xLJ_CLiitkZQJhO2GxRrx8z2yy4t9QKw/view?usp=drivesdk"
+        },
+        {
+          "index": 6,
+          "title": "06 — Bundesarchiv Bild 183-1987-0922-503, Wien, Einmarsch deutscher Truppen, Spähpanzer.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 93166,
+          "drive_id": "1QUAADJqmAe8lzPeR-JemW0zGt1LycNaa",
+          "source_url": "https://drive.google.com/file/d/1QUAADJqmAe8lzPeR-JemW0zGt1LycNaa/view?usp=drivesdk"
+        },
+        {
+          "index": 7,
+          "title": "07 — Bundesarchiv Bild 183-H13158, Anschluss sudetendeutscher Gebiete.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 75122,
+          "drive_id": "1MYWJr79UaSxoa_HqTMOasxpfk5LKChab",
+          "source_url": "https://drive.google.com/file/d/1MYWJr79UaSxoa_HqTMOasxpfk5LKChab/view?usp=drivesdk"
+        },
+        {
+          "index": 8,
+          "title": "08 — Bundesarchiv Bild 146-2006-0015, Einmarsch Sudetenland, Leitmeritz.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 60143,
+          "drive_id": "1Wy3Z8aKJWvc9WK5Z_ZizkvSrTxHmx2ey",
+          "source_url": "https://drive.google.com/file/d/1Wy3Z8aKJWvc9WK5Z_ZizkvSrTxHmx2ey/view?usp=drivesdk"
+        },
+        {
+          "index": 9,
+          "title": "09 — Bundesarchiv Bild 146-1991-075-00, Reichenau, Einmarsch deutscher Truppen.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 55736,
+          "drive_id": "1UcA_s3jFqpn_dJfZEdd2FNavBEXGYuBy",
+          "source_url": "https://drive.google.com/file/d/1UcA_s3jFqpn_dJfZEdd2FNavBEXGYuBy/view?usp=drivesdk"
+        },
+        {
+          "index": 10,
+          "title": "10 — Bundesarchiv Bild 146-2003-0038, Besetzung Sudetenland, Panzerwerk.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 31971,
+          "drive_id": "19QjJ-mKxg9M9loaGTYJTA44KIfYdT1jh",
+          "source_url": "https://drive.google.com/file/d/19QjJ-mKxg9M9loaGTYJTA44KIfYdT1jh/view?usp=drivesdk"
+        }
+      ]
+    },
+    {
+      "slug": "06-mapas-insignias-simbolos",
+      "label": "Mapas, insignias y símbolos históricos",
+      "drive_folder": "https://drive.google.com/drive/folders/10mRujd68BnAaqD0wO28cuMOhTD4gO8Jh",
+      "image_count": 9,
+      "images": [
+        {
+          "index": 1,
+          "title": "01 — German Map Sudeten.png",
+          "mime_type": "image/png",
+          "size_bytes": 180725,
+          "drive_id": "1YNLQpWMcnbLlO81UhPi61z4MffJQ1rlu",
+          "source_url": "https://drive.google.com/file/d/1YNLQpWMcnbLlO81UhPi61z4MffJQ1rlu/view?usp=drivesdk"
+        },
+        {
+          "index": 2,
+          "title": "02 — BlankMap-World-1938march.png",
+          "mime_type": "image/png",
+          "size_bytes": 78556,
+          "drive_id": "1duWaHa9Gph4MGnl6aVv2Ulb0dFkK4RJI",
+          "source_url": "https://drive.google.com/file/d/1duWaHa9Gph4MGnl6aVv2Ulb0dFkK4RJI/view?usp=drivesdk"
+        },
+        {
+          "index": 3,
+          "title": "03 — State of Austria within Germany 1938.png",
+          "mime_type": "image/png",
+          "size_bytes": 129690,
+          "drive_id": "1Ub-tpljFjIM8j-XLRvPe41d4K-CuZZGE",
+          "source_url": "https://drive.google.com/file/d/1Ub-tpljFjIM8j-XLRvPe41d4K-CuZZGE/view?usp=drivesdk"
+        },
+        {
+          "index": 4,
+          "title": "04 — Kstn131b1937.jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 177361,
+          "drive_id": "1K0lodvIvawrpFAloWDyrSMxaWtru2mnS",
+          "source_url": "https://drive.google.com/file/d/1K0lodvIvawrpFAloWDyrSMxaWtru2mnS/view?usp=drivesdk"
+        },
+        {
+          "index": 5,
+          "title": "05 — Aufklärungs-Abteilung (mot.) (Wehrmacht) 1.png",
+          "mime_type": "image/png",
+          "size_bytes": 123059,
+          "drive_id": "1hxDyUzw_-Dh68ZE1AEvgy5o2qv2v0czx",
+          "source_url": "https://drive.google.com/file/d/1hxDyUzw_-Dh68ZE1AEvgy5o2qv2v0czx/view?usp=drivesdk"
+        },
+        {
+          "index": 6,
+          "title": "06 — Aufklärungsabteilung (teilmot) (Wehrmacht).jpg",
+          "mime_type": "image/jpeg",
+          "size_bytes": 15000,
+          "drive_id": "1yQXuOfTb5pDLwEMvm4Ks7-IVqkIJPMoy",
+          "source_url": "https://drive.google.com/file/d/1yQXuOfTb5pDLwEMvm4Ks7-IVqkIJPMoy/view?usp=drivesdk"
+        },
+        {
+          "index": 7,
+          "title": "07 — Aukflärungs-Abteilung (teilmot.) (Wehrmacht).png",
+          "mime_type": "image/png",
+          "size_bytes": 47087,
+          "drive_id": "1n7gbZN1iy7UfJhzduhJmLpBkreCOw9BA",
+          "source_url": "https://drive.google.com/file/d/1n7gbZN1iy7UfJhzduhJmLpBkreCOw9BA/view?usp=drivesdk"
+        },
+        {
+          "index": 8,
+          "title": "08 — Radfahr-Abteilung 1 (Wehrmacht) 1.png",
+          "mime_type": "image/png",
+          "size_bytes": 138671,
+          "drive_id": "17C9AhoPzib2IpmNjrmP-UeF1C9TOYpoE",
+          "source_url": "https://drive.google.com/file/d/17C9AhoPzib2IpmNjrmP-UeF1C9TOYpoE/view?usp=drivesdk"
+        },
+        {
+          "index": 9,
+          "title": "09 — Radfahr-Abteilung 1 (Wehrmacht) 2.png",
+          "mime_type": "image/png",
+          "size_bytes": 253215,
+          "drive_id": "1UjC1UwbcIOhFz8t5gJa_QXXd2fuSm-Or",
+          "source_url": "https://drive.google.com/file/d/1UjC1UwbcIOhFz8t5gJa_QXXd2fuSm-Or/view?usp=drivesdk"
+        }
+      ]
+    }
+  ]
+}
