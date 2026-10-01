@@ -1,77 +1,125 @@
 # FRONTLINE 1944
 
-Juego de estrategia narrativa histórica para navegador, centrado en la guerra terrestre de la Segunda Guerra Mundial desde puestos de mando del Heer.
+Juego de estrategia narrativa histórica para navegador centrado en la Segunda Guerra Mundial desde puestos de mando del Heer.
 
-## Versión 0.5.0
+## Estado actual · 0.6.0
 
-Mapa operacional con turnos sobre la jornada del 1 de septiembre:
+El proyecto ya contiene dos campañas jugables de forma independiente:
 
-- croquis del Corredor Polaco con las tres divisiones del cuerpo, el Brda, los bosques de Tuchola y los contactos conocidos;
-- entre parte y parte das una orden a cada división: avanzar, atacar, reconocer, mantener o reabastecer;
-- las órdenes pueden no llegar y las divisiones pueden no informar: el mapa muestra lo que tu Estado Mayor sabe, no la verdad;
-- fuerzas polacas ocultas que bloquean los ejes, emboscan a columnas ciegas y solo se descubren con reconocimiento;
-- las escenas narrativas reaccionan al mapa (si tomas Chojnice en un turno, el parte de Chojnice ya no llega).
+- **Prólogo 1938 · REORGANIZACIÓN** — mando, reorganización militar, Anschluss, preparación del Heer, coordinación interarmas, Múnich, Sudetes y rearme.
+- **1939 · FALL WEISS** — campaña de Polonia desde el XIX. Armeekorps (mot.) de Heinz Guderian.
 
-## Versión 0.4.0
+El juego está diseñado como simulación narrativa de mando: el jugador recibe información incompleta, consulta a su Estado Mayor, administra recursos, emite órdenes y vive consecuencias persistentes. No pretende ser un RTS convencional ni un clon de Supremacy / Call of War.
 
-El 1 de septiembre de 1939 es ahora una jornada jugable con consecuencias reales:
+## Pilares
 
-- reloj de campaña: cada orden consume tiempo y la luz se acaba;
-- objetivo medible (alcanzar el Brda) con avance, bajas y vehículos perdidos;
-- verdad oculta sorteada en cada partida (Chojnice, puentes del Brda, caballería polaca) e informes del Ic que pueden ser falsos según tu reconocimiento;
-- órdenes bloqueadas cuando faltan combustible, munición, cohesión o mando;
-- fracasos posibles (cuerpo desarticulado, Panzer sin combustible);
-- balance final puntuado y comparado con lo que ocurrió en la historia.
+1. Realismo histórico, militar y armamentístico extremo.
+2. Profundidad táctica, operacional y logística.
+3. Perspectiva limitada del comandante.
+4. Información imperfecta y retrasos de comunicaciones.
+5. Persistencia de decisiones y consecuencias.
+6. Separación visible entre hecho histórico, reconstrucción narrativa y divergencia del jugador.
+7. Historia alternativa emergente, nunca seleccionada mediante un simple botón.
 
-## Versión 0.3.0
+## Campaña 1938
 
-La campaña ya no comienza en 1944. El recorrido histórico empieza en **Polonia, septiembre de 1939**, y avanzará capítulo a capítulo por las principales campañas terrestres hasta 1944-45.
+La campaña de 1938 está integrada en el juego y utiliza **56 referencias visuales históricas**, cada una asociada a una función narrativa o documental.
 
-### Capítulo I · FALL WEISS
+Variables principales:
 
-Primer rol histórico del prototipo:
+- mando;
+- comunicaciones;
+- combustible;
+- munición;
+- movilidad;
+- cohesión;
+- reconocimiento;
+- fatiga.
+
+El contenido recorre la reorganización del mando, el Anschluss, entrenamiento y movilidad, transmisiones, coordinación con la Luftwaffe, programas navales, Núremberg, la crisis de los Sudetes, Múnich, la ocupación y el cierre del año.
+
+## FALL WEISS
+
+Primer mando de campaña:
 
 **General der Panzertruppe Heinz Guderian**  
 **XIX. Armeekorps (mot.) · 4. Armee · Heeresgruppe Nord**
 
-Incluye:
+Incluye 3. Panzer-Division, 2. Infanterie-Division (mot.) y 20. Infanterie-Division (mot.).
 
-- dossier histórico inicial;
-- escenas narrativas fechadas y documentadas;
-- decisiones operacionales ramificadas;
-- 3. Panzer-Division, 2. Infanterie-Division (mot.) y 20. Infanterie-Division (mot.);
-- mando, comunicaciones, combustible, munición, ritmo de marcha, cohesión, reconocimiento y fatiga;
-- Estado Mayor con personajes ficticios marcados como tales;
-- memoria de decisiones por usuario;
-- fotografías y cartografía histórica con atribución;
-- archivo de fuentes dentro del juego.
+El 1 de septiembre de 1939 es una jornada jugable con objetivo, consecuencias y posibilidad de fracaso (motor `engine.js`):
+
+- objetivo medible: llevar el cuerpo hasta el río Brda antes del anochecer sin desarticularlo;
+- reloj de campaña: cada orden consume tiempo y la luz se acaba;
+- croquis operacional del Corredor Polaco con turnos: entre parte y parte das una orden a cada división (avanzar, atacar, reconocer, mantener o reabastecer);
+- las órdenes pueden no llegar y las divisiones pueden no informar: el mapa muestra lo que tu Estado Mayor sabe, no la verdad;
+- verdad oculta sorteada en cada partida (Chojnice, puentes del Brda, caballería polaca), contactos confirmados o estimados e informes del Ic que pueden ser falsos según tu reconocimiento;
+- escenas que reaccionan al mapa y a tus recursos, órdenes bloqueadas cuando falta combustible, munición, cohesión o mando;
+- fracasos posibles (cuerpo desarticulado, Panzer sin combustible) y balance final puntuado y comparado con la historia.
+
+## Enciclopedia de campaña
+
+La interfaz incluye una **enciclopedia histórica progresiva**. Sus fichas no se entregan como un wiki completo desde el inicio: se desbloquean cuando el jugador encuentra realmente una persona, arma, organización, documento, lugar o acontecimiento durante la campaña.
+
+El sistema guarda los descubrimientos entre campañas, muestra registros todavía clasificados sin revelar su contenido y combina fichas curadas con entradas automáticas procedentes del archivo de armamento y de los órdenes de batalla históricos.
+
+Las entradas técnicas deben indicar variante y cronología cuando las especificaciones cambian a lo largo de la guerra.
+
+## Narrativa persistente
+
+El archivo `claude2` define la evolución del proyecto hacia un sistema de crónica persistente denominado conceptualmente **WORLD CHRONICLE**.
+
+El objetivo es que el mundo recuerde órdenes, pérdidas, oficiales, ciudades, logística, relaciones de mando, inteligencia, errores y divergencias. Una decisión tomada mucho antes puede alterar campañas posteriores.
+
+La Segunda Guerra Mundial comienza muy cerca de la historia real y puede separarse progresivamente de ella mediante cadenas de causalidad plausibles.
+
+## Multijugador futuro
+
+La visión multijugador no consiste en controlar países completos.
+
+Cada jugador controlará fuerzas dentro de un frente compartido, con:
+
+- línea de frente dinámica;
+- cadena de mando entre jugadores;
+- jerarquías y permisos por rango;
+- logística compartida;
+- niebla de guerra individual;
+- información imperfecta;
+- campañas históricas limitadas;
+- referencia de escala de hasta **100 jugadores**, 50 por bando en un escenario grande como Normandía.
+
+## Interfaz
+
+La interfaz debe sentirse como un puesto de mando histórico:
+
+- informes;
+- mapas operacionales;
+- fotografías;
+- telegramas;
+- fichas de unidades;
+- inteligencia;
+- Estado Mayor;
+- órdenes y logística.
+
+La narrativa y la simulación tienen prioridad sobre el espectáculo gráfico.
+
+## Logo
+
+`logo-official.svg` es el logo oficial del proyecto y debe usarse en login, portada y superficies principales sin deformarlo ni sustituirlo.
 
 ## Acceso
 
-La versión 0.3 añade página de entrada con usuario, contraseña y registro.
+El prototipo actual incluye usuario, contraseña y registro locales al navegador. Es una solución temporal de prototipo y deberá sustituirse por autenticación y persistencia de servidor antes del multijugador real.
 
-Por ahora las cuentas son **locales al navegador** y la contraseña se guarda como hash SHA-256 en localStorage. Esto sirve para el prototipo de un jugador, no sustituye a un backend de autenticación para producción.
+## Documentación para agentes
 
-## Principios
+- `CLAUDE.md` — constitución general del proyecto y reglas de desarrollo.
+- `claude2` — diseño narrativo, persistencia, ultrarrealismo, historia alternativa y finales.
+- `docs/GDD.md` — documento de diseño resumido.
 
-1. Realismo histórico, militar y armamentístico.
-2. Profundidad táctica y operacional.
-3. Perspectiva limitada del mando alemán.
-4. Información imperfecta.
-5. Separación visible entre hecho histórico, reconstrucción narrativa y divergencia del jugador.
+Cualquier agente que trabaje en el repositorio debe leer **CLAUDE.md y claude2 antes de realizar cambios estructurales**.
 
-## Recursos visuales
+## Despliegue
 
-El juego incorpora cartografía pública del United States Military Academy y fotografías del Bundesarchiv distribuidas por Wikimedia Commons, manteniendo la atribución y licencia de cada recurso.
+El proyecto es actualmente una web estática HTML/CSS/JavaScript preparada para desplegarse directamente en Render.
 
-## Próximo tramo
-
-El siguiente desarrollo del Capítulo I cubrirá:
-
-- bosques de Tuchola;
-- cierre del Corredor Polaco;
-- cruces del Brda/Vístula;
-- pérdidas, averías y combustible con magnitudes documentadas;
-- informes de radio con retrasos;
-- órdenes de división y regimiento;
-- consecuencias diferidas.
