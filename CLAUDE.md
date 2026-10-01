@@ -851,7 +851,20 @@ Estado actual:
 - CSS;
 - JavaScript;
 - datos de campaña separados en `data.js`;
+- motor narrativo en `engine.js` (condiciones, efectos, reloj, verdad oculta, fiabilidad de informes, fracasos y evaluación), sin acceso al DOM;
+- interfaz en `app.js`, que solo lee el estado y llama al motor;
 - aplicación web estática.
+
+Formato de escenas en `data.js` (desde 0.4):
+
+- `at`: hora mínima de la escena en minutos desde las 00:00 del 1 SEP 1939;
+- `body`, `intel`, `historical`: listas de texto; cada elemento puede ser `{if:{...}, text:"..."}`;
+- `onEnter`: efectos que se aplican una sola vez al entrar;
+- `choices[]`: `effects`, `outcomes` (primer desenlace cuyas condiciones se cumplan), `requires` + `blockedText`, `visibleIf`, `next` (texto o lista `{if, to}`);
+- condiciones: `flag`, `noFlag`, `res`, `hidden`, `progress`, `clock`, `losses`, `accurate`/`inaccurate` (informe exacto según el reconocimiento), `all`, `any`, `not`;
+- `hidden` del capítulo: verdad del escenario sorteada al empezar cada partida;
+- `failures` del capítulo: condiciones que terminan la jornada antes de tiempo;
+- `evaluation` del capítulo: criterios puntuados, veredictos y comparación histórica.
 
 Principios técnicos:
 

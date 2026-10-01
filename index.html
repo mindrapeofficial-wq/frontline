@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#0c0b08">
   <title>FRONTLINE 1944 · Campaña histórica</title>
   <meta name="description" content="Estrategia narrativa histórica de la Segunda Guerra Mundial desde la perspectiva de un general del Heer.">
-  <link rel="stylesheet" href="styles.css?v=0.3.1">
+  <link rel="stylesheet" href="styles.css?v=0.4.0">
   <link id="game-favicon" rel="icon" href="">
 </head>
 <body>
@@ -77,6 +77,13 @@
           <div class="command-seal"><span>CADENA DE MANDO</span><strong>4. ARMEE</strong><small>HEERESGRUPPE NORD</small></div>
         </section>
 
+        <section class="panel objective-panel">
+          <div class="panel-title"><span>OBJETIVO DEL DÍA</span><b id="objective-state">EN CURSO</b></div>
+          <p id="objective-text" class="objective-text"></p>
+          <div class="objective-track" aria-hidden="true"><span>FRONTERA</span><div class="objective-bar"><i id="objective-fill"></i></div><span>BRDA</span></div>
+          <div class="objective-meta"><div><small>AVANCE ESTIMADO</small><strong id="objective-progress">0%</strong></div><div><small>BAJAS ESTIMADAS</small><strong id="losses-men">0</strong></div><div><small>VEHÍCULOS PERDIDOS</small><strong id="losses-vehicles">0</strong></div></div>
+        </section>
+
         <section class="panel">
           <div class="panel-title"><span>SITUACIÓN OPERACIONAL</span><b>INDICADORES</b></div>
           <div class="resources">
@@ -127,6 +134,7 @@
 
           <div id="choices" class="choices"></div>
           <div id="decision-result" class="decision-result hidden"></div>
+          <div id="evaluation" class="evaluation hidden"></div>
         </section>
 
         <section class="panel archive-visuals">
@@ -157,7 +165,7 @@
         <section class="panel intel-panel">
           <div class="panel-title"><span>IMAGEN DE INTELIGENCIA</span><b id="intel-reliability">49%</b></div>
           <p id="intel-text">La información disponible antes del cruce de frontera es incompleta y pierde valor rápidamente con el movimiento.</p>
-          <div class="confidence-scale"><span>RUMOR</span><span>PROBABLE</span><span>CONFIRMADO</span></div>
+          <div class="confidence-scale"><span data-level="RUMOR">RUMOR</span><span data-level="PROBABLE">PROBABLE</span><span data-level="CONFIRMADO">CONFIRMADO</span></div>
         </section>
 
         <section class="panel doctrine-panel">
@@ -179,8 +187,9 @@
     <div id="chapters-list" class="chapters-list"></div>
   </dialog>
 
-  <script src="logo.js?v=0.3.1"></script>
-  <script src="data.js?v=0.3.1"></script>
-  <script src="app.js?v=0.3.1"></script>
+  <script src="logo.js?v=0.4.0"></script>
+  <script src="data.js?v=0.4.0"></script>
+  <script src="engine.js?v=0.4.0"></script>
+  <script src="app.js?v=0.4.0"></script>
 </body>
 </html>

@@ -8,10 +8,9 @@ let authMode="login";
 let currentUser=null;
 let state=null;
 
-function clone(v){return JSON.parse(JSON.stringify(v));}
 function clamp(v,min=0,max=100){return Math.max(min,Math.min(max,Math.round(Number(v)||0)));}
 function normalizeUser(v){return String(v||"").trim().toLowerCase().replace(/[^a-z0-9._-]/g,"");}
-function stateKey(user){return "frontline_campaign_v03_"+normalizeUser(user);}
+function stateKey(user){return "frontline_campaign_v04_"+normalizeUser(user);}
 
 async function hashPassword(value){
   if(!(window.crypto&&crypto.subtle))throw new Error("crypto-unavailable");
@@ -24,20 +23,18 @@ function saveAccounts(v){localStorage.setItem(ACCOUNTS_KEY,JSON.stringify(v))}
 function setSession(user){if(user)localStorage.setItem(SESSION_KEY,user);else localStorage.removeItem(SESSION_KEY)}
 function getSession(){return localStorage.getItem(SESSION_KEY)}
 
-function freshState(){
-  return{
-    chapter:"ch1",
-    stage:"dossier",
-    sceneId:"briefing",
-    resources:clone(FRONTLINE_DATA.chapter1.resources),
-    formations:clone(FRONTLINE_DATA.chapter1.formations),
-    log:[],
-    decisionResult:null,
-    nextScene:null,
-    path:[]
-  };
+const E=FrontlineEngine;
+const CHAPTER={...FRONTLINE_DATA.chapter1,scenes:FRONTLINE_DATA.scenes};
+
+function freshState(){return E.newRun(CHAPTER);}
+// Las partidas de versiones anteriores no tienen reloj ni verdad oculta: se reinician.
+function loadGame(user){
+  try{
+    const saved=JSON.parse(localStorage.getItem(stateKey(user)));
+    if(saved&&saved.version===4&&CHAPTER.scenes[saved.sceneId])return saved;
+  }catch{}
+  return freshState();
 }
-function loadGame(user){try{return JSON.parse(localStorage.getItem(stateKey(user)))||freshState()}catch{return freshState()}}
 function saveGame(){if(currentUser&&state)localStorage.setItem(stateKey(currentUser),JSON.stringify(state))}
 
 function showAuth(){
@@ -119,6 +116,8 @@ function applyAssets(){
 
 function renderGame(){
   renderChapterChrome();
+  renderClock();
+  renderObjective();
   renderResources();
   renderFormations();
   renderStaff();
@@ -130,22 +129,40 @@ function renderGame(){
   saveGame();
 }
 function renderChapterChrome(){
-  const c=FRONTLINE_DATA.chapter1;
-  $("#chapter-title").textContent=c.title;
-  $("#chapter-subtitle").textContent=c.subtitle;
-  $("#commander-name").textContent=c.protagonist;
-  $("#commander-command").textContent=c.command;
+  $("#chapter-title").textContent=CHAPTER.title;
+  $("#chapter-subtitle").textContent=CHAPTER.subtitle;
+  $("#commander-name").textContent=CHAPTER.protagonist;
+  $("#commander-command").textContent=CHAPTER.command;
+}
+function renderClock(){
+  const date=E.formatDate(state.clock),time=E.formatTime(state.clock);
+  $("#scene-date").textContent=date;
+  $("#scene-time").textContent=time;
+  $("#dispatch-date").textContent=date;
+  $("#dispatch-time").textContent=time;
+}
+function renderObjective(){
+  const reach=70;
+  const pct=Math.min(100,Math.round(state.progress/reach*100));
+  const crossed=["bridgehead","bridgehead_small","bridgehead_costly"].some(f=>state.flags.includes(f));
+  $("#objective-text").textContent=CHAPTER.objective;
+  $("#objective-fill").style.width=pct+"%";
+  $("#objective-progress").textContent=pct+"%";
+  $("#objective-state").textContent=crossed?"CABEZA DE PUENTE":pct>=100?"BRDA ALCANZADO":"EN CURSO";
+  $("#losses-men").textContent=state.losses.men.toLocaleString("es-ES");
+  $("#losses-vehicles").textContent=state.losses.vehicles;
 }
 function renderResources(){
   const r=state.resources;
-  $("#res-command").textContent=clamp(r.command,0,9);
-  $("#res-communications").textContent=clamp(r.communications)+"%";
-  $("#res-fuel").textContent=clamp(r.fuel)+"%";
-  $("#res-ammunition").textContent=clamp(r.ammunition)+"%";
-  $("#res-movement").textContent=clamp(r.movement)+"%";
-  $("#res-cohesion").textContent=clamp(r.cohesion)+"%";
-  $("#res-reconnaissance").textContent=clamp(r.reconnaissance)+"%";
-  $("#res-fatigue").textContent=clamp(r.fatigue)+"%";
+  const set=(id,v,warn)=>{const el=$(id);el.textContent=v;el.classList.toggle("warn",!!warn);};
+  set("#res-command",clamp(r.command,0,9),r.command<=2);
+  set("#res-communications",clamp(r.communications)+"%",r.communications<50);
+  set("#res-fuel",clamp(r.fuel)+"%",r.fuel<40);
+  set("#res-ammunition",clamp(r.ammunition)+"%",r.ammunition<45);
+  set("#res-movement",clamp(r.movement)+"%",r.movement<50);
+  set("#res-cohesion",clamp(r.cohesion)+"%",r.cohesion<55);
+  set("#res-reconnaissance",clamp(r.reconnaissance)+"%",r.reconnaissance<40);
+  set("#res-fatigue",clamp(r.fatigue)+"%",r.fatigue>=30);
 }
 function renderFormations(){
   $("#formations-list").innerHTML=state.formations.map(f=>
@@ -154,27 +171,28 @@ function renderFormations(){
       '<span>'+f.role+'</span>'+
       '<small>'+f.commander+'</small>'+
       '<small>'+f.position+'</small>'+
-      '<div class="formation-bars"><div class="mini-bar"><i style="width:'+clamp(f.readiness)+'%"></i></div><div class="mini-bar"><i style="width:'+clamp(f.supply)+'%"></i></div></div>'+
+      '<div class="formation-bars">'+
+        '<div><small>PREPARACIÓN '+clamp(f.readiness)+'%</small><div class="mini-bar"><i style="width:'+clamp(f.readiness)+'%"></i></div></div>'+
+        '<div><small>SUMINISTRO '+clamp(f.supply)+'%</small><div class="mini-bar"><i style="width:'+clamp(f.supply)+'%"></i></div></div>'+
+      '</div>'+
     '</article>'
   ).join("");
 }
 function renderStaff(){
-  $("#staff-list").innerHTML=FRONTLINE_DATA.chapter1.staff.map(s=>{
-    let note=s.note;
-    if(state.resources.cohesion<72&&s.id==="ia")note="Las diferencias de ritmo entre las columnas empiezan a preocupar a Operaciones. Keller pide reducir órdenes simultáneas.";
-    if(state.resources.reconnaissance>60&&s.id==="ic")note="La imagen táctica está mejorando. Weber recuerda que un informe correcto hace treinta minutos puede ser falso ahora.";
-    if(state.resources.fuel<72&&s.id==="qu")note="La situación de combustible sigue siendo utilizable, pero Hartmann exige evitar movimientos sin objetivo operativo claro.";
-    return '<article class="staff-card"><span>'+s.rank+' · '+s.role+'</span><strong>'+s.name+(s.fictional?' <small>· ficticio</small>':'')+'</strong><p>'+note+'</p><div class="staff-trust">Confianza profesional: '+s.trust+'/100</div></article>';
+  $("#staff-list").innerHTML=CHAPTER.staff.map(s=>{
+    const note=E.texts(s.notes,state)[0]||"";
+    const trust=state.trust[s.id]??s.trust;
+    return '<article class="staff-card"><span>'+s.rank+' · '+s.role+'</span><strong>'+s.name+(s.fictional?' <small>· ficticio</small>':'')+'</strong><p>'+note+'</p><div class="staff-trust">Confianza profesional: '+trust+'/100</div></article>';
   }).join("");
 }
 function renderIntel(){
   const v=clamp(state.resources.reconnaissance);
-  $("#intel-reliability").textContent=v+"%";
-  let txt="La información disponible antes del cruce de frontera es incompleta y pierde valor rápidamente con el movimiento.";
-  if(state.sceneId==="fog")txt="La niebla reduce la observación directa. Partes de vanguardia y radio no llegan siempre en el mismo orden en que ocurrieron los hechos.";
-  if(state.sceneId==="chojnice")txt="El frente se mueve con rapidez. La posición exacta de unidades polacas puede quedar obsoleta antes de que un parte llegue al cuerpo.";
-  if(state.sceneId==="brda")txt="El balance del primer día depende tanto de lo que sabes como de lo que aún ignoras sobre fuerzas polacas intentando retirarse o contraatacar.";
-  $("#intel-text").textContent=txt;
+  const level=E.reliabilityLabel(v);
+  $("#intel-reliability").textContent=v+"% · "+level;
+  const scene=CHAPTER.scenes[state.sceneId];
+  const txt=state.stage==="dossier"?"La información disponible antes del cruce de frontera es incompleta y pierde valor rápidamente con el movimiento.":E.texts(scene&&scene.intel,state).join(" ");
+  $("#intel-text").textContent=txt+" Fiabilidad de los informes ahora: "+level.toLowerCase()+".";
+  $$(".confidence-scale span").forEach(s=>s.classList.toggle("active",s.dataset.level===level));
 }
 function renderJournal(){
   const host=$("#decision-log");
@@ -199,9 +217,7 @@ function renderStage(){
   if(state.stage==="dossier"){
     dossier.classList.remove("hidden");
     situation.classList.add("hidden");
-    $("#dossier-text").innerHTML=FRONTLINE_DATA.chapter1.dossier.map(p=>"<p>"+p+"</p>").join("");
-    $("#scene-date").textContent="31 AGO 1939";
-    $("#scene-time").textContent="23:35";
+    $("#dossier-text").innerHTML=CHAPTER.dossier.map(p=>"<p>"+p+"</p>").join("");
     return;
   }
   dossier.classList.add("hidden");
@@ -210,90 +226,86 @@ function renderStage(){
 }
 
 function renderScene(){
-  const scene=FRONTLINE_DATA.scenes[state.sceneId];
+  const scene=CHAPTER.scenes[state.sceneId];
   if(!scene)return;
-  $("#scene-date").textContent=scene.date;
-  $("#scene-time").textContent=scene.time;
-  $("#dispatch-date").textContent=scene.date;
-  $("#dispatch-time").textContent=scene.time;
   $("#scene-title").textContent=scene.title;
   $("#scene-from").textContent=scene.from;
   $("#scene-urgency").textContent=scene.urgency;
   $("#scene-classification").textContent=scene.classification;
-  $("#scene-body").innerHTML=scene.body.map(p=>"<p>"+p+"</p>").join("");
-  $("#historical-facts").innerHTML=scene.historical.map(p=>"<p>"+p+"</p>").join("");
+  $("#scene-body").innerHTML=E.texts(scene.body,state).map(p=>"<p>"+p+"</p>").join("");
+  const facts=E.texts(scene.historical,state);
+  $(".historical-box").classList.toggle("hidden",!facts.length);
+  $("#historical-facts").innerHTML=facts.map(p=>"<p>"+p+"</p>").join("");
 
-  const choices=$("#choices"),result=$("#decision-result");
+  const choices=$("#choices"),result=$("#decision-result"),evaluation=$("#evaluation");
+  evaluation.classList.add("hidden");
+  evaluation.innerHTML="";
+
   if(state.decisionResult){
     choices.innerHTML="";
     result.classList.remove("hidden");
-    result.innerHTML="<strong>ORDEN REGISTRADA</strong><br>"+state.decisionResult+(state.nextScene?'<button id="continue-button" class="continue-button">CONTINUAR</button>':"");
-    $("#continue-button")?.addEventListener("click",continueScene);
+    const r=state.decisionResult;
+    result.innerHTML="<strong>ORDEN REGISTRADA</strong><br>"+r.text+(r.effects?'<span class="effects">'+r.effects+'</span>':"")+(state.nextScene?'<button id="continue-button" class="continue-button">RECIBIR EL SIGUIENTE PARTE</button>':"");
     return;
   }
-
   result.classList.add("hidden");
   result.innerHTML="";
-  if(!scene.choices.length){
-    choices.innerHTML='<div class="decision-result"><strong>FIN DEL CAPÍTULO I · PROTOTIPO 0.3</strong><br>El siguiente tramo cubrirá los combates en los bosques de Tuchola y el cierre del Corredor Polaco.<button id="restart-button" class="continue-button">REINICIAR CAPÍTULO</button></div>';
-    $("#restart-button")?.addEventListener("click",()=>{if(confirm("¿Reiniciar el capítulo? Se perderán tus decisiones y el estado actual.")){state=freshState();renderGame();window.scrollTo({top:0,behavior:"smooth"});}});
-  }else{
-    choices.innerHTML=scene.choices.map(c=>
-      '<button class="choice" data-choice="'+c.id+'"><div><strong>'+c.title+'</strong><p>'+c.desc+'</p></div><em>'+c.tag+'</em></button>'
-    ).join("");
-    $$(".choice").forEach(b=>b.addEventListener("click",()=>choose(b.dataset.choice)));
+
+  if(scene.ending){
+    choices.innerHTML="";
+    renderEvaluation(evaluation);
+    return;
   }
+  choices.innerHTML=E.choicesFor(scene,state).map(c=>{
+    const time=c.effects&&c.effects.minutes?"≈ "+E.formatDuration(c.effects.minutes):"inmediato";
+    return '<button class="choice'+(c.available?"":" blocked")+'" data-choice="'+c.id+'"'+(c.available?"":" disabled")+'>'+
+      '<div><strong>'+c.title+'</strong><p>'+c.desc+'</p>'+
+      (c.available?"":'<p class="blocked-reason">'+c.blockedText+'</p>')+
+      '</div><div class="choice-meta"><em>'+c.tag+'</em><small>'+time+'</small></div></button>';
+  }).join("");
 }
 
-function choose(id){
-  const scene=FRONTLINE_DATA.scenes[state.sceneId];
-  const choice=scene.choices.find(c=>c.id===id);
-  if(!choice)return;
-  const before=clone(state.resources);
-  for(const [key,value] of Object.entries(choice.effects||{})){
-    if(!(key in state.resources))continue;
-    const max=key==="command"?9:100;
-    state.resources[key]=clamp(state.resources[key]+value,0,max);
-  }
-  applyFormationEffects(id);
-  const effects=describeEffects(before,state.resources);
-  state.path.push({scene:scene.id,choice:id,date:scene.date,time:scene.time});
-  state.log.push({date:scene.date,time:scene.time,title:choice.title,effects});
-  state.decisionResult=choice.result+(effects?'<span class="effects">'+effects+'</span>':"");
-  state.nextScene=choice.next||null;
+function renderEvaluation(host){
+  const ev=E.evaluate(CHAPTER,state);
+  host.classList.remove("hidden");
+  host.innerHTML=
+    '<div class="evaluation-head"><span class="eyebrow">BALANCE PARA LA 4. ARMEE</span><h3>'+ev.verdict.title+'</h3><div class="evaluation-score"><strong>'+ev.score+'</strong><small>/ 100</small></div></div>'+
+    '<p class="evaluation-verdict">'+ev.verdict.text+'</p>'+
+    '<div class="evaluation-rows">'+ev.rows.map(r=>
+      '<div class="evaluation-row"><div><strong>'+r.label+'</strong><small>'+r.text+'</small></div><b>'+r.points+'/'+r.max+'</b></div>'
+    ).join("")+'</div>'+
+    '<div class="evaluation-history"><span class="eyebrow">LO QUE OCURRIÓ EN LA HISTORIA</span>'+ev.history.map(h=>"<p>"+h+"</p>").join("")+'</div>'+
+    '<p class="evaluation-hint">Cada partida decide en secreto la fuerza de Chojnice, el estado de los puentes y la posición de la caballería polaca. Otra partida puede plantear una situación distinta.</p>'+
+    '<button id="restart-button" class="continue-button">JUGAR DE NUEVO EL 1 DE SEPTIEMBRE</button>';
+}
+
+function chooseOrder(id){
+  if(!E.choose(CHAPTER,state,id))return;
   renderGame();
 }
 function continueScene(){
   if(!state.nextScene)return;
-  state.sceneId=state.nextScene;
-  state.nextScene=null;
-  state.decisionResult=null;
+  E.advance(CHAPTER,state);
   renderGame();
   window.scrollTo({top:0,behavior:"smooth"});
 }
-function applyFormationEffects(id){
-  const byId=x=>state.formations.find(f=>f.id===x);
-  if(id==="push_armor"){const f=byId("3pz");if(f){f.readiness=clamp(f.readiness-4);f.supply=clamp(f.supply-7);f.position="Vanguardia adelantada";}}
-  if(id==="traffic_control"){state.formations.forEach(f=>f.readiness=clamp(f.readiness+2));}
-  if(id==="recon_first"){const f=byId("3pz");if(f)f.position="Avance con reconocimiento reforzado";}
-  if(id==="concentrate"){const f=byId("3pz");if(f)f.readiness=clamp(f.readiness+3);}
-  if(id==="broad_front"){state.formations.forEach(f=>f.readiness=clamp(f.readiness+1));}
-  if(id==="pause_support"){state.formations.forEach(f=>{f.supply=clamp(f.supply+5);f.readiness=clamp(f.readiness+2);});}
-}
-function describeEffects(before,after){
-  const labels={command:"Mando",communications:"Comunicaciones",fuel:"Combustible",ammunition:"Munición",movement:"Ritmo",cohesion:"Cohesión",reconnaissance:"Reconocimiento",fatigue:"Fatiga"};
-  const parts=[];
-  for(const [key,label] of Object.entries(labels)){
-    const d=Math.round(after[key]-before[key]);
-    if(d)parts.push(label+" "+(d>0?"+":"")+d);
-  }
-  return parts.join(" · ");
+function restartChapter(){
+  if(!confirm("¿Empezar de nuevo el capítulo? Se perderán tus decisiones y el estado actual."))return;
+  state=freshState();
+  renderGame();
+  window.scrollTo({top:0,behavior:"smooth"});
 }
 
 $("#login-tab").addEventListener("click",()=>setAuthMode("login"));
 $("#register-tab").addEventListener("click",()=>setAuthMode("register"));
 $("#auth-form").addEventListener("submit",handleAuth);
 $("#start-chapter").addEventListener("click",()=>{state.stage="scene";renderGame();window.scrollTo({top:0,behavior:"smooth"});});
+$("#situation-panel").addEventListener("click",e=>{
+  const choice=e.target.closest("[data-choice]");
+  if(choice&&!choice.disabled){chooseOrder(choice.dataset.choice);return}
+  if(e.target.closest("#continue-button")){continueScene();return}
+  if(e.target.closest("#restart-button"))restartChapter();
+});
 $("#sources-button").addEventListener("click",()=>$("#sources-dialog").showModal());
 $("#close-sources").addEventListener("click",()=>$("#sources-dialog").close());
 $("#chapters-button").addEventListener("click",()=>$("#chapters-dialog").showModal());

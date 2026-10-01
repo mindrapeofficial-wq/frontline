@@ -2,6 +2,17 @@
 
 Juego de estrategia narrativa histórica para navegador, centrado en la guerra terrestre de la Segunda Guerra Mundial desde puestos de mando del Heer.
 
+## Versión 0.4.0
+
+El 1 de septiembre de 1939 es ahora una jornada jugable con consecuencias reales:
+
+- reloj de campaña: cada orden consume tiempo y la luz se acaba;
+- objetivo medible (alcanzar el Brda) con avance, bajas y vehículos perdidos;
+- verdad oculta sorteada en cada partida (Chojnice, puentes del Brda, caballería polaca) e informes del Ic que pueden ser falsos según tu reconocimiento;
+- órdenes bloqueadas cuando faltan combustible, munición, cohesión o mando;
+- fracasos posibles (cuerpo desarticulado, Panzer sin combustible);
+- balance final puntuado y comparado con lo que ocurrió en la historia.
+
 ## Versión 0.3.0
 
 La campaña ya no comienza en 1944. El recorrido histórico empieza en **Polonia, septiembre de 1939**, y avanzará capítulo a capítulo por las principales campañas terrestres hasta 1944-45.
