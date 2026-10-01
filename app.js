@@ -11,7 +11,8 @@ let state=null;
 function clone(v){return JSON.parse(JSON.stringify(v));}
 function clamp(v,min=0,max=100){return Math.max(min,Math.min(max,Math.round(Number(v)||0)));}
 function normalizeUser(v){return String(v||"").trim().toLowerCase().replace(/[^a-z0-9._-]/g,"");}
-function stateKey(user){return "frontline_campaign_v04_"+normalizeUser(user);}
+function stateKey(user){return "frontline_campaign_v05_"+normalizeUser(user);}
+function getCampaign(id=state?.chapter||"ch0"){return FRONTLINE_DATA.campaigns[id]||FRONTLINE_DATA.campaigns.ch0;}
 
 async function hashPassword(value){
   const data=new TextEncoder().encode(String(value));
@@ -23,20 +24,34 @@ function saveAccounts(v){localStorage.setItem(ACCOUNTS_KEY,JSON.stringify(v))}
 function setSession(user){if(user)localStorage.setItem(SESSION_KEY,user);else localStorage.removeItem(SESSION_KEY)}
 function getSession(){return localStorage.getItem(SESSION_KEY)}
 
-function freshState(){
+function freshState(chapter="ch0"){
+  const campaign=getCampaign(chapter);
   return{
-    chapter:"ch1",
+    chapter,
     stage:"dossier",
-    sceneId:"command_change",
-    resources:clone(FRONTLINE_DATA.chapter1.resources),
-    formations:clone(FRONTLINE_DATA.chapter1.formations),
+    sceneId:campaign.startScene,
+    resources:clone(campaign.resources),
+    formations:clone(campaign.formations),
     log:[],
     decisionResult:null,
     nextScene:null,
     path:[]
   };
 }
-function loadGame(user){try{return JSON.parse(localStorage.getItem(stateKey(user)))||freshState()}catch{return freshState()}}
+function switchChapter(chapter){
+  const meta=FRONTLINE_DATA.chapters.find(c=>c.id===chapter);
+  if(!meta||meta.status!=="available"||!FRONTLINE_DATA.campaigns[chapter])return;
+  state=freshState(chapter);
+  $("#chapters-dialog")?.close();
+  renderGame();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function loadGame(user){
+  try{
+    const saved=JSON.parse(localStorage.getItem(stateKey(user)))||freshState();
+    return FRONTLINE_DATA.campaigns[saved.chapter]?saved:freshState();
+  }catch{return freshState()}
+}
 function saveGame(){if(currentUser&&state)localStorage.setItem(stateKey(currentUser),JSON.stringify(state))}
 
 function showAuth(){
@@ -102,9 +117,14 @@ async function handleAuth(event){
 }
 
 function assetUrl(file){return FRONTLINE_DATA.assetBase+encodeURIComponent(file);}
+function visualSrc(v){return v.url||assetUrl(v.file);}
+function campaignAsset(campaign,key){
+  return campaign.assets?.[key+"Url"]||assetUrl(campaign.assets?.[key+"File"]||"");
+}
 function applyAssets(){
-  $(".auth-photo").style.backgroundImage='url("'+assetUrl(FRONTLINE_DATA.assets.heroFile)+'")';
-  $("#dossier-map").src=assetUrl(FRONTLINE_DATA.assets.campaignMapFile);
+  const campaign=getCampaign(state?.chapter||"ch0");
+  $(".auth-photo").style.backgroundImage='url("'+campaignAsset(getCampaign("ch0"),"hero")+'")';
+  $("#dossier-map").src=campaignAsset(campaign,"campaignMap");
 
   const logo=window.FRONTLINE_OFFICIAL_LOGO;
   if(logo){
@@ -125,16 +145,24 @@ function renderVisualList(visuals){
       ? '<span class="archive-badge">'+(v.chronology==="retrospective-archive"?"ARCHIVO POSTERIOR":"ARCHIVO DE REFERENCIA")+'</span>'
       : '<span class="archive-badge">DOCUMENTO DE ÉPOCA</span>';
     return '<figure>'+badge+
-      '<img loading="lazy" src="'+assetUrl(v.file)+'" alt="'+v.caption.replace(/"/g,"&quot;")+'">'+
+      '<img loading="lazy" src="'+visualSrc(v)+'" alt="'+v.caption.replace(/"/g,"&quot;")+'">'+
       '<figcaption><strong>'+v.caption+'</strong><span>'+v.usage+'</span></figcaption></figure>';
   }).join("");
 }
 function renderSceneVisuals(scene){renderVisualList(scene.visuals||[]);}
 function renderDossierVisuals(){
-  renderVisualList([
-    {file:FRONTLINE_DATA.assets.heroFile,caption:"Kriegsakademie, Berlín.",usage:"Introduce la formación del Estado Mayor y la reorganización de 1938.",chronology:"contemporary"},
-    {file:FRONTLINE_DATA.assets.staffFile,caption:"Kriegsakademie, Berlín.",usage:"Segundo documento de referencia para el dossier inicial.",chronology:"contemporary"}
-  ]);
+  const campaign=getCampaign();
+  if(state.chapter==="ch0"){
+    renderVisualList([
+      {file:campaign.assets.heroFile,caption:"Kriegsakademie, Berlín.",usage:"Introduce la formación del Estado Mayor y la reorganización de 1938.",chronology:"contemporary"},
+      {file:campaign.assets.staffFile,caption:"Kriegsakademie, Berlín.",usage:"Segundo documento de referencia para el dossier inicial.",chronology:"contemporary"}
+    ]);
+  }else{
+    renderVisualList([
+      {url:campaign.assets.heroUrl,caption:"Panzer I e infantería alemana en Polonia.",usage:"Documento visual de apertura de FALL WEISS.",chronology:"contemporary"},
+      {url:campaign.assets.staffUrl,caption:"Oficiales alemanes ante un mapa de situación.",usage:"Dossier visual del Estado Mayor durante la campaña de 1939.",chronology:"contemporary"}
+    ]);
+  }
 }
 
 function renderGame(){
@@ -150,12 +178,20 @@ function renderGame(){
   saveGame();
 }
 function renderChapterChrome(){
-  const c=FRONTLINE_DATA.chapter1;
+  const c=getCampaign();
   $("#chapter-title").textContent=c.title;
   $("#chapter-subtitle").textContent=c.subtitle;
   $("#chapter-header").textContent=c.title;
   $("#commander-name").textContent=c.protagonist;
   $("#commander-command").textContent=c.command;
+  $(".command-seal strong").textContent=state.chapter==="ch0"?"OKH":"4. ARMEE";
+  $(".command-seal small").textContent=state.chapter==="ch0"?"HEER · 1938":"HEERESGRUPPE NORD";
+  $(".formations-panel .panel-title span").textContent=state.chapter==="ch0"?"ÁREAS DE REORGANIZACIÓN":"FORMACIONES DEL CUERPO";
+  $(".formations-panel .panel-title b").textContent=state.chapter==="ch0"?"1938":"1 SEP 1939";
+  $(".staff-panel .panel-title b").textContent=state.chapter==="ch0"?"OKH":"XIX AK";
+  $(".dossier-stamp").innerHTML=state.chapter==="ch0"?"HEER<br>1938":"FALL WEISS<br>1939";
+  $(".dossier-content h2").textContent=state.chapter==="ch0"?"Un ejército en transformación":"Europa entra en guerra";
+  $("#dossier-map").src=campaignAsset(c,"campaignMap");
 }
 function renderResources(){
   const r=state.resources;
@@ -180,7 +216,7 @@ function renderFormations(){
   ).join("");
 }
 function renderStaff(){
-  $("#staff-list").innerHTML=FRONTLINE_DATA.chapter1.staff.map(s=>{
+  $("#staff-list").innerHTML=getCampaign().staff.map(s=>{
     let note=s.note;
     if(state.resources.cohesion<72&&s.id==="ia")note="Las diferencias de ritmo entre las columnas empiezan a preocupar a Operaciones. Keller pide reducir órdenes simultáneas.";
     if(state.resources.reconnaissance>60&&s.id==="ic")note="La imagen táctica está mejorando. Weber recuerda que un informe correcto hace treinta minutos puede ser falso ahora.";
@@ -191,7 +227,7 @@ function renderStaff(){
 function renderIntel(){
   const v=clamp(state.resources.reconnaissance);
   $("#intel-reliability").textContent=v+"%";
-  const scene=FRONTLINE_DATA.scenes[state.sceneId];
+  const scene=getCampaign().scenes[state.sceneId];
   $("#intel-text").textContent=scene?.intel||"El Estado Mayor trabaja con información incompleta, de calidad desigual y con retrasos.";
 }
 function renderJournal(){
@@ -202,14 +238,15 @@ function renderJournal(){
   ).join("");
 }
 function renderSources(){
-  $("#sources-list").innerHTML=FRONTLINE_DATA.sources.map(s=>
+  $("#sources-list").innerHTML=getCampaign().sources.map(s=>
     '<a class="source-card" href="'+s.url+'" target="_blank" rel="noopener noreferrer"><strong>'+s.short+'</strong><small>'+s.title+' · '+s.publisher+'</small></a>'
   ).join("");
 }
 function renderChapters(){
   $("#chapters-list").innerHTML=FRONTLINE_DATA.chapters.map(c=>
-    '<article class="chapter-card '+(c.status==="locked"?"locked":"")+'"><div class="number">'+c.number+'</div><div><strong>'+c.year+' · '+c.title+'</strong><small>'+c.subtitle+'</small></div><em>'+(c.status==="available"?"DISPONIBLE":"EN DESARROLLO")+'</em></article>'
+    '<article class="chapter-card '+(c.status==="locked"?"locked":"")+(state.chapter===c.id?" active":"")+'" data-chapter="'+c.id+'"><div class="number">'+c.number+'</div><div><strong>'+c.year+' · '+c.title+'</strong><small>'+c.subtitle+'</small></div><em>'+(state.chapter===c.id?"EN CURSO":c.status==="available"?"JUGAR":"EN DESARROLLO")+'</em></article>'
   ).join("");
+  $(".chapter-card[data-chapter]").forEach(card=>card.addEventListener("click",()=>switchChapter(card.dataset.chapter)));
 }
 
 function renderStage(){
@@ -217,9 +254,10 @@ function renderStage(){
   if(state.stage==="dossier"){
     dossier.classList.remove("hidden");
     situation.classList.add("hidden");
-    $("#dossier-text").innerHTML=FRONTLINE_DATA.chapter1.dossier.map(p=>"<p>"+p+"</p>").join("");
-    $("#scene-date").textContent=FRONTLINE_DATA.chapter1.startDate;
-    $("#scene-time").textContent=FRONTLINE_DATA.chapter1.startTime;
+    const campaign=getCampaign();
+    $("#dossier-text").innerHTML=campaign.dossier.map(p=>"<p>"+p+"</p>").join("");
+    $("#scene-date").textContent=campaign.startDate;
+    $("#scene-time").textContent=campaign.startTime;
     renderDossierVisuals();
     return;
   }
@@ -229,7 +267,7 @@ function renderStage(){
 }
 
 function renderScene(){
-  const scene=FRONTLINE_DATA.scenes[state.sceneId];
+  const scene=getCampaign().scenes[state.sceneId];
   if(!scene)return;
   $("#scene-date").textContent=scene.date;
   $("#scene-time").textContent=scene.time;
@@ -265,7 +303,7 @@ function renderScene(){
 }
 
 function choose(id){
-  const scene=FRONTLINE_DATA.scenes[state.sceneId];
+  const scene=getCampaign().scenes[state.sceneId];
   const choice=scene.choices.find(c=>c.id===id);
   if(!choice)return;
   const before=clone(state.resources);
