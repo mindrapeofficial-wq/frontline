@@ -7,6 +7,7 @@ const SESSION_KEY="frontline_session_v1";
 let authMode="login";
 let currentUser=null;
 let state=null;
+let armoryFilter="all";
 
 function clone(v){return JSON.parse(JSON.stringify(v));}
 function clamp(v,min=0,max=100){return Math.max(min,Math.min(max,Math.round(Number(v)||0)));}
@@ -174,6 +175,7 @@ function renderGame(){
   renderJournal();
   renderSources();
   renderChapters();
+  renderArmory();
   renderStage();
   saveGame();
 }
@@ -241,6 +243,35 @@ function renderSources(){
   $("#sources-list").innerHTML=getCampaign().sources.map(s=>
     '<a class="source-card" href="'+s.url+'" target="_blank" rel="noopener noreferrer"><strong>'+s.short+'</strong><small>'+s.title+' · '+s.publisher+'</small></a>'
   ).join("");
+}
+function currentCampaignYear(){
+  const scene=FRONTLINE_DATA.scenes[state?.sceneId];
+  const source=scene?.date||FRONTLINE_DATA.chapter1.startDate||"1938";
+  const match=String(source).match(/(19\d{2})/);
+  return match?Number(match[1]):1938;
+}
+function renderArmory(){
+  const grid=$("#armory-grid"),summary=$("#armory-summary");
+  if(!grid||!summary||!FRONTLINE_DATA.armory)return;
+  const year=currentCampaignYear();
+  const all=FRONTLINE_DATA.armory;
+  const current=all.filter(x=>x.year<=year);
+  const future=all.filter(x=>x.year>year);
+  let items=all;
+  if(armoryFilter==="current")items=current;
+  if(armoryFilter==="future")items=future;
+  if(armoryFilter==="ammo")items=all.filter(x=>x.kind==="ammo");
+  summary.innerHTML="<strong>"+current.length+"</strong> referencias disponibles en "+year+
+    " · <strong>"+future.length+"</strong> bloqueadas por cronología · <strong>"+all.filter(x=>x.kind==="ammo").length+"</strong> fichas de munición";
+  grid.innerHTML=items.map(item=>{
+    const available=item.year<=year;
+    const status=available?"DISPONIBLE · "+item.year:"BLOQUEADO · "+item.year;
+    return '<article class="armory-card '+(available?"available":"locked")+' '+(item.kind==="ammo"?"ammo":"")+'">'+
+      '<div class="armory-image"><img loading="lazy" src="'+assetUrl(item.file)+'" alt="'+item.name.replace(/"/g,"&quot;")+'"><span>'+status+'</span></div>'+
+      '<div class="armory-copy"><small>'+item.type+'</small><strong>'+item.name+'</strong><p><b>Munición / sistema:</b> '+item.ammo+'</p><p>'+item.note+'</p></div>'+
+    '</article>';
+  }).join("");
+  $(".armory-filter").forEach(b=>b.classList.toggle("active",b.dataset.armoryFilter===armoryFilter));
 }
 function renderChapters(){
   $("#chapters-list").innerHTML=FRONTLINE_DATA.chapters.map(c=>
@@ -351,6 +382,10 @@ $("#login-tab").addEventListener("click",()=>setAuthMode("login"));
 $("#register-tab").addEventListener("click",()=>setAuthMode("register"));
 $("#auth-form").addEventListener("submit",handleAuth);
 $("#start-chapter").addEventListener("click",()=>{state.stage="scene";renderGame();window.scrollTo({top:0,behavior:"smooth"});});
+$("#armory-button").addEventListener("click",()=>{$("#armory-dialog").showModal();renderArmory();});
+$("#close-armory").addEventListener("click",()=>$("#armory-dialog").close());
+$("#armory-dialog").addEventListener("click",e=>{if(e.target===$("#armory-dialog"))$("#armory-dialog").close()});
+$(".armory-filter").forEach(b=>b.addEventListener("click",()=>{armoryFilter=b.dataset.armoryFilter;renderArmory();}));
 $("#sources-button").addEventListener("click",()=>$("#sources-dialog").showModal());
 $("#close-sources").addEventListener("click",()=>$("#sources-dialog").close());
 $("#chapters-button").addEventListener("click",()=>$("#chapters-dialog").showModal());
