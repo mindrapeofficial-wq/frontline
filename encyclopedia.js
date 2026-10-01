@@ -246,3 +246,75 @@ function frontlineDiscoverEntries(text){
 function frontlineEncyclopediaEntry(id){
   return FRONTLINE_ENCYCLOPEDIA.entries.find(entry=>entry.id===id)||null;
 }
+
+
+function frontlineExpandEncyclopediaCatalog(){
+  const names=new Set(FRONTLINE_ENCYCLOPEDIA.entries.map(entry=>frontlineNormalizeText(entry.name)));
+
+  const add=entry=>{
+    const key=frontlineNormalizeText(entry.name);
+    if(!key||names.has(key))return;
+    names.add(key);
+    FRONTLINE_ENCYCLOPEDIA.entries.push(entry);
+  };
+
+  (FRONTLINE_DATA.armory||[]).forEach(item=>{
+    add({
+      id:"armory-"+frontlineNormalizeText(item.name).replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,""),
+      category:"vehicle",
+      name:item.name,
+      period:"Introducción / referencia: "+item.year,
+      aliases:[item.name],
+      summary:item.note||("Referencia material de "+item.type+"."),
+      specs:{
+        "Tipo":item.type||"Material militar",
+        "Año de referencia":String(item.year||"No especificado"),
+        "Munición / sistema":item.ammo||"Consultar variante"
+      },
+      details:[
+        "Esta ficha se genera desde el archivo material del juego para que cualquier arma o munición incorporada al arsenal pueda formar parte también de la enciclopedia.",
+        "Cuando existan variantes con diferencias relevantes de peso, blindaje, munición o prestaciones, FRONTLINE debe tratarlas como fichas separadas o indicar expresamente la variante."
+      ],
+      context:"Se desbloquea cuando esta referencia material aparece en la narración, un parte, una unidad o un documento de campaña."
+    });
+  });
+
+  Object.values(FRONTLINE_DATA.campaigns||{}).forEach(campaign=>{
+    if(campaign.protagonist){
+      add({
+        id:"person-"+frontlineNormalizeText(campaign.protagonist).replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,""),
+        category:"person",
+        name:campaign.protagonist,
+        period:campaign.startDate||"Registro de campaña",
+        aliases:[campaign.protagonist],
+        summary:"Mando histórico representado en "+campaign.title+".",
+        specs:{"Mando":campaign.command||"No especificado","Campaña":campaign.title||"Campaña histórica"},
+        details:["La ficha se genera desde el orden de batalla de la campaña. Las biografías especialmente relevantes pueden sustituirse por una entrada curada más completa."],
+        context:"Vincula el personaje histórico con la cadena de mando que el jugador está viendo en ese momento."
+      });
+    }
+
+    (campaign.formations||[]).forEach(formation=>{
+      const commander=String(formation.commander||"").trim();
+      if(!commander||/^(OKH|inspecciones|arma de|estado mayor|mando|desconocido)/i.test(commander))return;
+      add({
+        id:"person-"+frontlineNormalizeText(commander).replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,""),
+        category:"person",
+        name:commander,
+        period:campaign.startDate||"Registro de campaña",
+        aliases:[commander],
+        summary:"Comandante histórico asociado a "+formation.name+".",
+        specs:{
+          "Unidad":formation.name||"No especificada",
+          "Función":formation.role||"Mando de formación",
+          "Posición inicial":formation.position||"No especificada",
+          "Campaña":campaign.title||"Campaña histórica"
+        },
+        details:["Esta entrada se genera directamente desde el orden de batalla histórico cargado por la campaña.","Puede ampliarse con una biografía curada sin cambiar el sistema de descubrimiento."],
+        context:"Permite pasar de la ficha de una unidad a la persona histórica que la mandaba."
+      });
+    });
+  });
+}
+
+frontlineExpandEncyclopediaCatalog();
