@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: frontline-1944
+    runtime: static
+    plan: free
+    buildCommand: ""
+    staticPublishPath: .
+    previews:
+      generation: automatic
