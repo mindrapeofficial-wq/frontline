@@ -1,1 +1,1 @@
-window.FRONTLINE_OFFICIAL_LOGO = "assets/frontline-1944-logo-oficial.png";
+window.FRONTLINE_OFFICIAL_LOGO = "logo-official.svg";
