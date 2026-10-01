@@ -108,7 +108,7 @@ function applyAssets(){
 
   const logo=window.FRONTLINE_OFFICIAL_LOGO;
   if(logo){
-    $("[data-official-logo]").forEach(img=>{img.src=logo;});
+    $$("[data-official-logo]").forEach(img=>{img.src=logo;});
     const favicon=$("#game-favicon");
     if(favicon)favicon.href=logo;
   }
