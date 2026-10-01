@@ -359,7 +359,7 @@ function renderEncyclopedia(){
       const unread=archive.unread.includes(entry.id);
       return '<button class="encyclopedia-card unlocked'+(unread?' unread':'')+'" data-encyclopedia-id="'+entry.id+'"><span>'+encyclopediaCategoryLabel(entry.category)+(unread?' · NUEVO':'')+'</span><strong>'+entry.name+'</strong><small>'+entry.period+'</small></button>';
     }).join("");
-    $(".encyclopedia-card.unlocked",list).forEach(card=>card.addEventListener("click",()=>{
+    $$(".encyclopedia-card.unlocked",list).forEach(card=>card.addEventListener("click",()=>{
       encyclopediaSelected=card.dataset.encyclopediaId;
       renderEncyclopediaDetail(encyclopediaSelected);
       card.classList.remove("unread");
