@@ -254,6 +254,14 @@ function frontlineExpandEncyclopediaCatalog(){
   const add=entry=>{
     const key=frontlineNormalizeText(entry.name);
     if(!key||names.has(key))return;
+    if(entry.category==="person"){
+      const duplicate=FRONTLINE_ENCYCLOPEDIA.entries.some(existing=>{
+        if(existing.category!=="person")return false;
+        const variants=[existing.name,...(existing.aliases||[])].map(frontlineNormalizeText).filter(Boolean);
+        return variants.some(v=>key===v||key.includes(v)||v.includes(key));
+      });
+      if(duplicate)return;
+    }
     names.add(key);
     FRONTLINE_ENCYCLOPEDIA.entries.push(entry);
   };
