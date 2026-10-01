@@ -1,6 +1,45 @@
 const FRONTLINE_DATA = {
   "build": "0.5.0",
   "assetBase": "https://commons.wikimedia.org/wiki/Special:Redirect/file/",
+  "armory": [
+    {"id":"mp40","name":"MP 40","type":"Subfusil","kind":"weapon","year":1940,"ammo":"9×19 mm Parabellum","file":"Maschinenpistole_MP40.jpg","note":"Posterior a la campaña de 1938; se desbloquea cronológicamente."},
+    {"id":"p08","name":"Luger P08","type":"Pistola","kind":"weapon","year":1908,"ammo":"9×19 mm Parabellum","file":"Luger P08 1908 9mm Germany .png","note":"Arma corta ya presente en inventarios del Heer."},
+    {"id":"p38","name":"Walther P38","type":"Pistola","kind":"weapon","year":1938,"ammo":"9×19 mm Parabellum","file":"Walther-p38.jpg","note":"Modelo adoptado en 1938; su presencia inicial es limitada."},
+    {"id":"c96","name":"Mauser C96","type":"Pistola","kind":"weapon","year":1896,"ammo":"Según variante","file":"Pistolet Mauser C96.jpg","note":"Material heredado y no uniforme, útil para representar stocks antiguos."},
+    {"id":"kar98k","name":"Karabiner 98k","type":"Fusil de cerrojo","kind":"weapon","year":1935,"ammo":"7,92×57 mm Mauser","file":"Kar 98K - AM.021488.jpg","note":"Fusil estándar del Heer en la campaña de 1938."},
+    {"id":"g43","name":"Gewehr 43 / Karabiner 43","type":"Fusil semiautomático","kind":"weapon","year":1943,"ammo":"7,92×57 mm Mauser","file":"Gewehr43Rifle.jpg","note":"Posterior a 1938."},
+    {"id":"fg42","name":"FG 42","type":"Fusil automático","kind":"weapon","year":1942,"ammo":"7,92×57 mm Mauser","file":"Rifle FG42 model 2.jpg","note":"Posterior a 1938; asociado a tropas aerotransportadas."},
+    {"id":"stg44","name":"StG 44 / MP 44","type":"Fusil de asalto","kind":"weapon","year":1944,"ammo":"7,92×33 mm Kurz","file":"Sturmgewehr 44.jpg","note":"Muy posterior a la primera campaña."},
+    {"id":"mg13","name":"MG 13","type":"Ametralladora","kind":"weapon","year":1930,"ammo":"7,92×57 mm Mauser","file":"MG-13-machine gun.jpg","note":"Modelo anterior todavía relevante para reservas y unidades de segunda línea."},
+    {"id":"mg34","name":"MG 34","type":"Ametralladora de propósito general","kind":"weapon","year":1934,"ammo":"7,92×57 mm Mauser","file":"MG34.jpg","note":"Clave para la estandarización del apoyo de infantería."},
+    {"id":"mg42","name":"MG 42","type":"Ametralladora de propósito general","kind":"weapon","year":1942,"ammo":"7,92×57 mm Mauser","file":"MG42 1 noBG.jpg","note":"Posterior a 1938."},
+    {"id":"pzb39","name":"Panzerbüchse 39","type":"Fusil anticarro","kind":"weapon","year":1939,"ammo":"7,92×94 mm Patrone 318","file":"D. 112-1, Panzerabwehrbüchse 39.png","note":"Aparece después de la campaña de 1938."},
+    {"id":"panzerfaust","name":"Panzerfaust","type":"Arma anticarro desechable","kind":"weapon","year":1943,"ammo":"Carga hueca","file":"Panzerfaust.jpg","note":"Posterior a 1938."},
+    {"id":"panzerschreck","name":"Panzerschreck","type":"Lanzacohetes anticarro","kind":"weapon","year":1943,"ammo":"Cohete RPzB de 88 mm","file":"Panzerschreck.jpg","note":"Posterior a 1938."},
+    {"id":"stiel24","name":"Stielhandgranate 24","type":"Granada de mano","kind":"weapon","year":1924,"ammo":"Carga explosiva integrada","file":"Stielhandgranate24 noBG.png","note":"Granada reglamentaria disponible."},
+    {"id":"eih39","name":"Eihandgranate 39","type":"Granada de mano","kind":"weapon","year":1939,"ammo":"Carga explosiva integrada","file":"Eihandgranate.jpg","note":"Posterior a la campaña de 1938."},
+    {"id":"legrw36","name":"5 cm leGrW 36","type":"Mortero ligero","kind":"weapon","year":1936,"ammo":"Granada de mortero de 50 mm","file":"Bundesarchiv Bild 183-2007-1005-501, Soldaten am leichten Granatwerfer.jpg","note":"Apoyo orgánico ligero disponible en 1938."},
+    {"id":"grw34","name":"8 cm GrW 34","type":"Mortero medio","kind":"weapon","year":1934,"ammo":"Granada de mortero de 81 mm","file":"8 cm Schwerer Granatwerfer 34 01.JPG","note":"Pieza de apoyo de infantería disponible."},
+    {"id":"grw42","name":"12 cm GrW 42","type":"Mortero pesado","kind":"weapon","year":1942,"ammo":"Granada de mortero de 120 mm","file":"Granatwerfer 42 an der Ostfront.jpg","note":"Posterior a 1938."},
+    {"id":"pak36","name":"3,7 cm Pak 35/36","type":"Cañón anticarro","kind":"weapon","year":1936,"ammo":"37 mm","file":"3.7 cm Pak.jpg","note":"Principal referencia anticarro de la campaña inicial."},
+    {"id":"pak38","name":"5 cm Pak 38","type":"Cañón anticarro","kind":"weapon","year":1940,"ammo":"50 mm","file":"D. 72, Hs. 5 mit 5 cm Pak 38.png","note":"Posterior a 1938."},
+    {"id":"pak40","name":"7,5 cm Pak 40","type":"Cañón anticarro","kind":"weapon","year":1942,"ammo":"75 mm","file":"7.5cm Pak 40 L46.jpg","note":"Posterior a 1938."},
+    {"id":"leig18","name":"7,5 cm leIG 18","type":"Cañón ligero de infantería","kind":"weapon","year":1932,"ammo":"75 mm","file":"7.5 cm leichtes Infanteriegeschütz 18.jpg","note":"Apoyo directo de infantería disponible."},
+    {"id":"lefh18","name":"10,5 cm leFH 18","type":"Obús de campaña","kind":"weapon","year":1935,"ammo":"105 mm","file":"Artilleriestellung Baltikum 1943-1 by-RaBoe.jpg","note":"Pieza de artillería de campaña disponible; la foto es archivo posterior."},
+    {"id":"sfh18","name":"15 cm sFH 18","type":"Obús pesado","kind":"weapon","year":1934,"ammo":"150 mm","file":"15 cm sFH 18 Sapun M 2009 G1.jpg","note":"Artillería pesada disponible."},
+    {"id":"sig33","name":"15 cm sIG 33","type":"Cañón pesado de infantería","kind":"weapon","year":1936,"ammo":"150 mm","file":"Schweres Infanteriegeschütz 33 at Wehrtechnische Studiensammlung Koblenz.jpg","note":"Apoyo pesado de infantería disponible."},
+    {"id":"flak88","name":"8,8 cm FlaK 18/36/37","type":"Cañón antiaéreo","kind":"weapon","year":1936,"ammo":"88 mm","file":"8.8 cm Flak.jpg","note":"Disponible en 1938; su empleo anticarro sistemático se desarrollará después."},
+    {"id":"flak38","name":"2 cm FlaK 38","type":"Cañón antiaéreo ligero","kind":"weapon","year":1940,"ammo":"20 mm","file":"2-cm-Flak 38 Gatow.JPG","note":"Posterior a 1938."},
+    {"id":"nebel41","name":"15 cm Nebelwerfer 41","type":"Lanzacohetes múltiple","kind":"weapon","year":1941,"ammo":"Cohete de 150 mm","file":"German Nebelwerfer 41 rocket launcher front view.jpg","note":"Posterior a 1938."},
+    {"id":"ammo9","name":"9×19 mm Parabellum","type":"Munición de arma corta/subfusil","kind":"ammo","year":1902,"ammo":"P08, P38, MP38/MP40","file":"9 × 19 mm Parabellum.jpg","note":"Calibre ya disponible en 1938."},
+    {"id":"ammo79257","name":"7,92×57 mm Mauser","type":"Munición de fusil/ametralladora","kind":"ammo","year":1905,"ammo":"Kar98k, MG13, MG34 y otros","file":"German 7.92x57mm Ammunition from WW2.JPG","note":"Calibre central de la estandarización logística."},
+    {"id":"ammo79233","name":"7,92×33 mm Kurz","type":"Munición intermedia","kind":"ammo","year":1942,"ammo":"StG 44 / MP43-44","file":"7.92×33mm Kurz.jpg","note":"Posterior a 1938."},
+    {"id":"ammo50pak","name":"5 cm Pak 38 — munición","type":"Munición anticarro","kind":"ammo","year":1940,"ammo":"Pak 38","file":"D 435-1 Die Munition der deutschen Geschtütze und Werfer, 5 cm Pak 38.png","note":"Posterior a 1938."},
+    {"id":"ammo75pak","name":"7,5 cm Pak 40 — proyectiles","type":"Munición anticarro","kind":"ammo","year":1942,"ammo":"Pak 40","file":"Pak40 helsinki shells.jpg","note":"Posterior a 1938."},
+    {"id":"ammo88","name":"8,8 cm Pzgr. 39","type":"Proyectil perforante","kind":"ammo","year":1940,"ammo":"Familia 8,8 cm","file":"8,8 cm Panzergranatpatrone 39 Kw.K. 36.JPG","note":"La familia de 88 mm ya existe, pero esta referencia concreta es posterior."},
+    {"id":"ammosig33","name":"15 cm sIG 33 — munición","type":"Munición de apoyo pesado","kind":"ammo","year":1936,"ammo":"sIG 33","file":"Munition 15cm sIG 33 Image 02.jpg","note":"Disponible en la campaña de 1938."},
+    {"id":"ammonebel","name":"15 cm Nebelwerfer 41 — cohete","type":"Cohete de artillería","kind":"ammo","year":1941,"ammo":"Nebelwerfer 41","file":"15 cm Nebelwerfer rocket Hämeenlinna.JPG","note":"Posterior a 1938."}
+  ],
   "chapters": [
     {
       "id": "ch0",
@@ -271,7 +310,7 @@ const FRONTLINE_DATA = {
                 "communications": 2,
                 "movement": -2
               },
-              "next": "luftwaffe_day",
+              "next": "armament_review",
               "result": "La estructura gana coherencia y facilita movilizaciones futuras."
             },
             {
@@ -285,12 +324,102 @@ const FRONTLINE_DATA = {
                 "command": 1,
                 "fatigue": 2
               },
-              "next": "luftwaffe_day",
+              "next": "armament_review",
               "result": "La expansión acelera, pero aparecen más excepciones locales y cargas de coordinación."
             }
           ]
         },
-        "luftwaffe_day": {
+        "armament_review": {
+      "id": "armament_review",
+      "date": "18 FEB 1938",
+      "time": "08:30",
+      "urgency": "RÜSTUNGSBESPRECHUNG",
+      "from": "OKH · Inspección de Infantería y Waffenamt",
+      "title": "Un ejército no combate con porcentajes",
+      "classification": "CONTEXTO HISTÓRICO + SIMULACIÓN DE ABASTECIMIENTO",
+      "body": [
+        "Las nuevas plantillas exigen algo más incómodo que dibujar divisiones sobre un organigrama: hay que decidir qué armas reciben realmente las unidades y qué calibres deben sostener los depósitos.",
+        "Sobre la mesa aparecen el Karabiner 98k, la MG 34, existencias antiguas de MG 13 y pistolas de distintos lotes. Cada excepción parece pequeña hasta que se multiplica por cientos de miles de hombres.",
+        "El problema no es elegir el arma más impresionante. Es conseguir que cada compañía pueda recibir repuestos, cargadores, munición y personal entrenado cuando la movilización deje de ser un ejercicio."
+      ],
+      "historical": [
+        "El Karabiner 98k había sido adoptado como fusil estándar del Heer en 1935.",
+        "La MG 34 fue la ametralladora de propósito general de referencia antes de la aparición de la MG 42.",
+        "El calibre 7,92×57 mm Mauser permitía compartir una familia logística entre fusiles y ametralladoras, aunque seguían existiendo armas y stocks heredados."
+      ],
+      "intel": "Los inventarios nominales son fiables; la disponibilidad real de repuestos, munición y personal entrenado varía mucho entre depósitos y unidades.",
+      "visuals": [
+        {"file":"Kar 98K - AM.021488.jpg","caption":"Karabiner 98k.","usage":"Arma estándar que permite discutir uniformidad de fusil y munición.","chronology":"contemporary"},
+        {"file":"MG34.jpg","caption":"MG 34.","usage":"Representa la estandarización del apoyo automático de infantería.","chronology":"contemporary"},
+        {"file":"German 7.92x57mm Ammunition from WW2.JPG","caption":"Munición 7,92×57 mm.","usage":"Convierte el calibre en una decisión logística, no en un dato decorativo.","chronology":"reference-archive"}
+      ],
+      "choices": [
+        {
+          "id":"standardize_792",
+          "title":"ESTANDARIZAR 7,92 MM",
+          "tag":"LOGÍSTICA",
+          "desc":"Priorizar Kar98k y MG34, retirar gradualmente material heredado y simplificar depósitos.",
+          "effects":{"ammunition":7,"cohesion":5,"communications":1,"movement":-2},
+          "next":"antitank_review",
+          "result":"La transición consume tiempo y exige inventariar material antiguo, pero las unidades empiezan a compartir una cadena de munición y repuestos más predecible."
+        },
+        {
+          "id":"keep_mixed_stocks",
+          "title":"CONSERVAR STOCKS MIXTOS",
+          "tag":"CANTIDAD",
+          "desc":"Mantener en servicio todo lo utilizable para acelerar la expansión de unidades.",
+          "effects":{"movement":4,"ammunition":-5,"cohesion":-4,"command":1},
+          "next":"antitank_review",
+          "result":"La expansión inmediata resulta más fácil, pero los depósitos acumulan excepciones y las unidades dependen más de saber exactamente qué lote llevan."
+        }
+      ]
+    },
+    "antitank_review": {
+      "id": "antitank_review",
+      "date": "24 FEB 1938",
+      "time": "16:10",
+      "urgency": "WAFFENAMT · PRÜFBERICHT",
+      "from": "Heereswaffenamt · Artillería e Infantería",
+      "title": "El cañón adecuado para la guerra equivocada",
+      "classification": "CONTEXTO HISTÓRICO + SIMULACIÓN DOCTRINAL",
+      "body": [
+        "El 3,7 cm Pak 35/36 es móvil, numeroso y encaja en las unidades que el Heer está construyendo. Pero los informes extranjeros insisten en que el blindaje de los carros aumenta.",
+        "Al mismo tiempo, morteros de 5 y 8 cm y piezas de infantería de 7,5 y 15 cm compiten por tractores, munición, instrucción y espacio en las columnas.",
+        "No puedes fabricar en febrero de 1938 las armas que existirán años después. Sí puedes decidir qué problema estudiar antes de que la experiencia de combate obligue a hacerlo."
+      ],
+      "historical": [
+        "El 3,7 cm Pak 35/36 era el cañón anticarro estándar alemán de preguerra.",
+        "El 5 cm leGrW 36, el 8 cm GrW 34 y los cañones de infantería formaban parte del sistema de apoyo terrestre de la época.",
+        "Pak 38, Pak 40, Panzerschreck, Panzerfaust y otros sistemas del catálogo pertenecen a fases posteriores y permanecen bloqueados por fecha."
+      ],
+      "intel": "La amenaza futura de blindados más pesados es plausible, pero no existe una imagen perfecta de qué enfrentará el Heer ni cuándo.",
+      "visuals": [
+        {"file":"3.7 cm Pak.jpg","caption":"3,7 cm Pak 35/36.","usage":"Muestra la capacidad anticarro disponible en 1938.","chronology":"contemporary"},
+        {"file":"8 cm Schwerer Granatwerfer 34 01.JPG","caption":"8 cm GrW 34.","usage":"Representa el fuego de apoyo orgánico de infantería.","chronology":"contemporary"},
+        {"file":"7.5 cm leichtes Infanteriegeschütz 18.jpg","caption":"7,5 cm leIG 18.","usage":"Introduce el coste logístico de mantener distintas familias de apoyo.","chronology":"reference-archive"}
+      ],
+      "choices": [
+        {
+          "id":"train_antitank_depth",
+          "title":"ENTRENAR DEFENSA ANTICARRO EN PROFUNDIDAD",
+          "tag":"DOCTRINA",
+          "desc":"Compensar las limitaciones del Pak 35/36 con reconocimiento, emplazamientos y fuego coordinado.",
+          "effects":{"reconnaissance":6,"cohesion":3,"ammunition":-2,"fatigue":2},
+          "next":"luftwaffe_day",
+          "result":"No aparece mágicamente un cañón mejor. Lo que mejora es la forma de detectar, canalizar y enfrentar blindados con el material realmente disponible."
+        },
+        {
+          "id":"support_fire_priority",
+          "title":"PRIORIZAR FUEGO DE APOYO",
+          "tag":"ARTILLERÍA",
+          "desc":"Dedicar más instrucción y munición a morteros y piezas de infantería para sostener el avance.",
+          "effects":{"ammunition":-4,"cohesion":5,"movement":2,"reconnaissance":-1},
+          "next":"luftwaffe_day",
+          "result":"Las unidades practican un apoyo de fuego más denso, pero consumen reservas y horas de instrucción que no pueden emplearse en otros problemas."
+        }
+      ]
+    },
+    "luftwaffe_day": {
           "id": "luftwaffe_day",
           "date": "1 MAR 1938",
           "time": "11:00",
