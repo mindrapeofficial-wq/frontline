@@ -117,6 +117,14 @@ async function handleAuth(event){
   showGame();
 }
 
+function ensureCampaignStyles(){
+  if(document.querySelector('link[data-frontline-campaign-styles]'))return;
+  const link=document.createElement("link");
+  link.rel="stylesheet";
+  link.href="campaign-1938.css?v=0.5.0";
+  link.dataset.frontlineCampaignStyles="true";
+  document.head.appendChild(link);
+}
 function assetUrl(file){return FRONTLINE_DATA.assetBase+encodeURIComponent(file);}
 function visualSrc(v){return v.url||assetUrl(v.file);}
 function campaignAsset(campaign,key){
@@ -245,8 +253,9 @@ function renderSources(){
   ).join("");
 }
 function currentCampaignYear(){
-  const scene=FRONTLINE_DATA.scenes[state?.sceneId];
-  const source=scene?.date||FRONTLINE_DATA.chapter1.startDate||"1938";
+  const campaign=getCampaign();
+  const scene=campaign.scenes[state?.sceneId];
+  const source=scene?.date||campaign.startDate||"1938";
   const match=String(source).match(/(19\d{2})/);
   return match?Number(match[1]):1938;
 }
@@ -394,6 +403,7 @@ $("#sources-dialog").addEventListener("click",e=>{if(e.target===$("#sources-dial
 $("#chapters-dialog").addEventListener("click",e=>{if(e.target===$("#chapters-dialog"))$("#chapters-dialog").close()});
 $("#logout-button").addEventListener("click",()=>{setSession(null);currentUser=null;state=null;showAuth()});
 
+ensureCampaignStyles();
 applyAssets();
 setAuthMode("login");
 const existing=getSession();
