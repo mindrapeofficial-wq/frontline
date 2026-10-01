@@ -8,6 +8,7 @@ let authMode="login";
 let currentUser=null;
 let state=null;
 let armoryFilter="all";
+let encyclopediaSelected=null;
 
 function clone(v){return JSON.parse(JSON.stringify(v));}
 function clamp(v,min=0,max=100){return Math.max(min,Math.min(max,Math.round(Number(v)||0)));}
@@ -36,13 +37,17 @@ function freshState(chapter="ch0"){
     log:[],
     decisionResult:null,
     nextScene:null,
-    path:[]
+    path:[],
+    encyclopedia:{unlocked:[],unread:[]}
   };
 }
 function switchChapter(chapter){
   const meta=FRONTLINE_DATA.chapters.find(c=>c.id===chapter);
   if(!meta||meta.status!=="available"||!FRONTLINE_DATA.campaigns[chapter])return;
+  const encyclopedia=clone(state?.encyclopedia||{unlocked:[],unread:[]});
   state=freshState(chapter);
+  state.encyclopedia=encyclopedia;
+  encyclopediaSelected=null;
   $("#chapters-dialog")?.close();
   renderGame();
   window.scrollTo({top:0,behavior:"smooth"});
@@ -50,7 +55,11 @@ function switchChapter(chapter){
 function loadGame(user){
   try{
     const saved=JSON.parse(localStorage.getItem(stateKey(user)))||freshState();
-    return FRONTLINE_DATA.campaigns[saved.chapter]?saved:freshState();
+    if(!FRONTLINE_DATA.campaigns[saved.chapter])return freshState();
+    if(!saved.encyclopedia)saved.encyclopedia={unlocked:[],unread:[]};
+    if(!Array.isArray(saved.encyclopedia.unlocked))saved.encyclopedia.unlocked=[];
+    if(!Array.isArray(saved.encyclopedia.unread))saved.encyclopedia.unread=[];
+    return saved;
   }catch{return freshState()}
 }
 function saveGame(){if(currentUser&&state)localStorage.setItem(stateKey(currentUser),JSON.stringify(state))}
@@ -175,6 +184,7 @@ function renderDossierVisuals(){
 }
 
 function renderGame(){
+  discoverCurrentEncyclopedia();
   renderChapterChrome();
   renderResources();
   renderFormations();
@@ -184,6 +194,7 @@ function renderGame(){
   renderSources();
   renderChapters();
   renderArmory();
+  renderEncyclopedia();
   renderStage();
   saveGame();
 }
@@ -282,6 +293,103 @@ function renderArmory(){
   }).join("");
   $(".armory-filter").forEach(b=>b.classList.toggle("active",b.dataset.armoryFilter===armoryFilter));
 }
+function ensureEncyclopediaState(){
+  if(!state)return {unlocked:[],unread:[]};
+  if(!state.encyclopedia)state.encyclopedia={unlocked:[],unread:[]};
+  if(!Array.isArray(state.encyclopedia.unlocked))state.encyclopedia.unlocked=[];
+  if(!Array.isArray(state.encyclopedia.unread))state.encyclopedia.unread=[];
+  return state.encyclopedia;
+}
+function encyclopediaCategoryLabel(category){
+  const pair=FRONTLINE_ENCYCLOPEDIA?.categories?.find(x=>x[0]===category);
+  return pair?pair[1]:String(category||"ARCHIVO").toUpperCase();
+}
+function currentDiscoveryText(){
+  const campaign=getCampaign();
+  const parts=[campaign.title,campaign.subtitle,campaign.protagonist,campaign.command];
+  if(state.stage==="dossier"){
+    parts.push(...(campaign.dossier||[]));
+    (campaign.formations||[]).forEach(f=>parts.push(f.name,f.commander,f.role,f.position));
+    (campaign.staff||[]).filter(s=>!s.fictional).forEach(s=>parts.push(s.name,s.rank,s.role));
+  }else{
+    const scene=campaign.scenes?.[state.sceneId];
+    if(scene){
+      parts.push(scene.title,scene.from,scene.urgency,scene.classification,scene.intel);
+      parts.push(...(scene.body||[]),...(scene.historical||[]));
+      (scene.visuals||[]).forEach(v=>parts.push(v.caption,v.usage));
+    }
+  }
+  return parts.filter(Boolean).join(" ");
+}
+function discoverCurrentEncyclopedia(){
+  if(!state||typeof frontlineDiscoverEntries!=="function")return;
+  const archive=ensureEncyclopediaState();
+  frontlineDiscoverEntries(currentDiscoveryText()).forEach(id=>{
+    if(!archive.unlocked.includes(id)){
+      archive.unlocked.push(id);
+      if(!archive.unread.includes(id))archive.unread.push(id);
+    }
+  });
+}
+function renderEncyclopedia(){
+  const list=$("#encyclopedia-list"),detail=$("#encyclopedia-detail");
+  if(!list||!detail||typeof FRONTLINE_ENCYCLOPEDIA==="undefined")return;
+  const archive=ensureEncyclopediaState();
+  const unlocked=new Set(archive.unlocked);
+  const query=frontlineNormalizeText($("#encyclopedia-search")?.value||"");
+  const category=$("#encyclopedia-category")?.value||"all";
+  const entries=FRONTLINE_ENCYCLOPEDIA.entries.filter(entry=>{
+    if(category!=="all"&&entry.category!==category)return false;
+    if(!query)return true;
+    if(!unlocked.has(entry.id))return false;
+    return frontlineNormalizeText([entry.name,entry.summary,entry.period,encyclopediaCategoryLabel(entry.category)].join(" ")).includes(query);
+  });
+  $("#encyclopedia-count").textContent=archive.unlocked.length+" / "+FRONTLINE_ENCYCLOPEDIA.entries.length;
+  const badge=$("#encyclopedia-badge");
+  if(badge){
+    badge.textContent=archive.unread.length;
+    badge.classList.toggle("hidden",archive.unread.length===0);
+  }
+  if(!entries.length){
+    list.innerHTML='<div class="encyclopedia-empty">No hay registros que coincidan con este filtro.</div>';
+  }else{
+    list.innerHTML=entries.map(entry=>{
+      const open=unlocked.has(entry.id);
+      if(!open)return '<article class="encyclopedia-card locked"><span>'+encyclopediaCategoryLabel(entry.category)+'</span><strong>REGISTRO NO DESCUBIERTO</strong><small>Continúa la campaña para revelar esta ficha.</small></article>';
+      const unread=archive.unread.includes(entry.id);
+      return '<button class="encyclopedia-card unlocked'+(unread?' unread':'')+'" data-encyclopedia-id="'+entry.id+'"><span>'+encyclopediaCategoryLabel(entry.category)+(unread?' · NUEVO':'')+'</span><strong>'+entry.name+'</strong><small>'+entry.period+'</small></button>';
+    }).join("");
+    $(".encyclopedia-card.unlocked",list).forEach(card=>card.addEventListener("click",()=>{
+      encyclopediaSelected=card.dataset.encyclopediaId;
+      renderEncyclopediaDetail(encyclopediaSelected);
+      card.classList.remove("unread");
+    }));
+  }
+  if(encyclopediaSelected&&!unlocked.has(encyclopediaSelected))encyclopediaSelected=null;
+  if(encyclopediaSelected)renderEncyclopediaDetail(encyclopediaSelected);
+}
+function renderEncyclopediaDetail(id){
+  const host=$("#encyclopedia-detail");
+  const entry=typeof frontlineEncyclopediaEntry==="function"?frontlineEncyclopediaEntry(id):null;
+  if(!host||!entry||!ensureEncyclopediaState().unlocked.includes(id))return;
+  const specs=Object.entries(entry.specs||{}).map(([key,value])=>'<div><span>'+key+'</span><strong>'+value+'</strong></div>').join("");
+  const details=(entry.details||[]).map(x=>"<p>"+x+"</p>").join("");
+  host.innerHTML='<header><span>'+encyclopediaCategoryLabel(entry.category)+'</span><h3>'+entry.name+'</h3><small>'+entry.period+'</small></header>'+
+    '<p class="encyclopedia-summary">'+entry.summary+'</p>'+
+    (specs?'<section class="encyclopedia-specs"><h4>FICHA TÉCNICA</h4>'+specs+'</section>':"")+
+    '<section class="encyclopedia-notes"><h4>CONTEXTO HISTÓRICO</h4>'+details+'</section>'+
+    '<aside><b>EN FRONTLINE 1944</b><p>'+entry.context+'</p></aside>';
+}
+function openEncyclopedia(){
+  const archive=ensureEncyclopediaState();
+  archive.unread=[];
+  if(!encyclopediaSelected)encyclopediaSelected=archive.unlocked[0]||null;
+  renderEncyclopedia();
+  if(encyclopediaSelected)renderEncyclopediaDetail(encyclopediaSelected);
+  $("#encyclopedia-dialog").showModal();
+  saveGame();
+}
+
 function renderChapters(){
   $("#chapters-list").innerHTML=FRONTLINE_DATA.chapters.map(c=>
     '<article class="chapter-card '+(c.status==="locked"?"locked":"")+(state.chapter===c.id?" active":"")+'" data-chapter="'+c.id+'"><div class="number">'+c.number+'</div><div><strong>'+c.year+' · '+c.title+'</strong><small>'+c.subtitle+'</small></div><em>'+(state.chapter===c.id?"EN CURSO":c.status==="available"?"JUGAR":"EN DESARROLLO")+'</em></article>'
@@ -391,6 +499,11 @@ $("#login-tab").addEventListener("click",()=>setAuthMode("login"));
 $("#register-tab").addEventListener("click",()=>setAuthMode("register"));
 $("#auth-form").addEventListener("submit",handleAuth);
 $("#start-chapter").addEventListener("click",()=>{state.stage="scene";renderGame();window.scrollTo({top:0,behavior:"smooth"});});
+$("#encyclopedia-button").addEventListener("click",openEncyclopedia);
+$("#close-encyclopedia").addEventListener("click",()=>$("#encyclopedia-dialog").close());
+$("#encyclopedia-dialog").addEventListener("click",e=>{if(e.target===$("#encyclopedia-dialog"))$("#encyclopedia-dialog").close()});
+$("#encyclopedia-search").addEventListener("input",renderEncyclopedia);
+$("#encyclopedia-category").addEventListener("change",renderEncyclopedia);
 $("#armory-button").addEventListener("click",()=>{$("#armory-dialog").showModal();renderArmory();});
 $("#close-armory").addEventListener("click",()=>$("#armory-dialog").close());
 $("#armory-dialog").addEventListener("click",e=>{if(e.target===$("#armory-dialog"))$("#armory-dialog").close()});
