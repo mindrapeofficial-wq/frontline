@@ -1,0 +1,15 @@
+/* FRONTLINE 1944 · 0.5.0
+   Estilos adicionales para archivo histórico contextual y selector de campañas. */
+.archive-grid figure{position:relative;overflow:hidden}
+.archive-grid figcaption{display:flex;flex-direction:column;gap:5px}
+.archive-grid figcaption strong{color:var(--text);font-size:.82rem;line-height:1.25}
+.archive-grid figcaption span{color:var(--muted);font-size:.72rem;line-height:1.35}
+.archive-badge{
+  position:absolute;top:8px;left:8px;z-index:2;
+  padding:5px 7px;border:1px solid rgba(203,187,145,.45);
+  background:rgba(11,11,8,.88);color:var(--paper);
+  font-size:.62rem;font-weight:800;letter-spacing:.09em
+}
+.chapter-card[data-chapter]:not(.locked){cursor:pointer}
+.chapter-card[data-chapter]:not(.locked):hover{border-color:var(--amber);transform:translateY(-1px)}
+.chapter-card.active{border-color:var(--paper);box-shadow:inset 3px 0 0 var(--amber)}
