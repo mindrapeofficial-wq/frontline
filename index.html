@@ -58,6 +58,7 @@
       <div class="campaign-clock"><span id="scene-date">4 FEB 1938</span><strong id="scene-time">12:00</strong></div>
       <div class="top-actions">
         <button id="chapters-button" class="ghost">CAPÍTULOS</button>
+        <button id="armory-button" class="ghost">ARMAMENTO</button>
         <button id="sources-button" class="ghost">FUENTES</button>
         <button id="logout-button" class="ghost">SALIR</button>
       </div>
@@ -158,6 +159,19 @@
       </aside>
     </section>
   </main>
+
+  <dialog id="armory-dialog" class="armory-dialog">
+    <div class="dialog-head"><div><span class="eyebrow">HEERESWAFFENAMT · ARCHIVO MATERIAL</span><h2>Armamento y municiones</h2></div><button id="close-armory" class="ghost">CERRAR</button></div>
+    <p>El archivo contiene material de 1938-45. En la campaña actual solo está operativo lo que ya existía en la fecha histórica; las armas posteriores permanecen bloqueadas para evitar anacronismos.</p>
+    <div class="armory-toolbar" role="group" aria-label="Filtrar archivo de armamento">
+      <button class="armory-filter active" data-armory-filter="all">TODO</button>
+      <button class="armory-filter" data-armory-filter="current">DISPONIBLE EN 1938</button>
+      <button class="armory-filter" data-armory-filter="future">POSTERIOR</button>
+      <button class="armory-filter" data-armory-filter="ammo">MUNICIONES</button>
+    </div>
+    <div id="armory-summary" class="armory-summary"></div>
+    <div id="armory-grid" class="armory-grid"></div>
+  </dialog>
 
   <dialog id="sources-dialog">
     <div class="dialog-head"><div><span class="eyebrow">ARCHIVO DOCUMENTAL</span><h2>Fuentes del capítulo</h2></div><button id="close-sources" class="ghost">CERRAR</button></div>
