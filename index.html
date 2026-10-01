@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#0c0b08">
   <title>FRONTLINE 1944 · Campaña histórica</title>
   <meta name="description" content="Estrategia narrativa histórica de la Segunda Guerra Mundial desde la perspectiva de un general del Heer.">
-  <link rel="stylesheet" href="styles.css?v=0.5.0">
+  <link rel="stylesheet" href="styles.css?v=0.6.0">
   <link id="game-favicon" rel="icon" href="">
 </head>
 <body>
@@ -58,6 +58,7 @@
       <div class="campaign-clock"><span id="scene-date">4 FEB 1938</span><strong id="scene-time">12:00</strong></div>
       <div class="top-actions">
         <button id="chapters-button" class="ghost">CAPÍTULOS</button>
+        <button id="encyclopedia-button" class="ghost encyclopedia-button">ENCICLOPEDIA <span id="encyclopedia-badge" class="encyclopedia-badge hidden">0</span></button>
         <button id="armory-button" class="ghost">ARMAMENTO</button>
         <button id="sources-button" class="ghost">FUENTES</button>
         <button id="logout-button" class="ghost">SALIR</button>
@@ -160,6 +161,37 @@
     </section>
   </main>
 
+  <dialog id="encyclopedia-dialog" class="encyclopedia-dialog">
+    <div class="dialog-head">
+      <div><span class="eyebrow">ARCHIVO DE CAMPAÑA</span><h2>Enciclopedia</h2></div>
+      <button id="close-encyclopedia" class="ghost">CERRAR</button>
+    </div>
+    <p class="encyclopedia-intro">Los registros se descubren dentro de la campaña. Una persona, arma, organización, documento, lugar o acontecimiento solo revela su ficha cuando aparece realmente ante el jugador.</p>
+    <div class="encyclopedia-toolbar">
+      <input id="encyclopedia-search" type="search" placeholder="Buscar registros descubiertos..." autocomplete="off">
+      <select id="encyclopedia-category" aria-label="Filtrar categoría">
+        <option value="all">TODAS LAS CATEGORÍAS</option>
+        <option value="person">PERSONAS</option>
+        <option value="organization">ORGANIZACIONES</option>
+        <option value="event">EVENTOS</option>
+        <option value="vehicle">VEHÍCULOS Y ARMAMENTO</option>
+        <option value="document">DOCUMENTOS Y DOCTRINA</option>
+        <option value="place">LUGARES E INFRAESTRUCTURA</option>
+      </select>
+      <div class="encyclopedia-progress"><span id="encyclopedia-count">0 / 0</span><small>REGISTROS DESCUBIERTOS</small></div>
+    </div>
+    <div class="encyclopedia-layout">
+      <div id="encyclopedia-list" class="encyclopedia-list"></div>
+      <article id="encyclopedia-detail" class="encyclopedia-detail">
+        <div class="classified-placeholder">
+          <span>ARCHIVO HISTÓRICO</span>
+          <strong>Selecciona un registro descubierto</strong>
+          <p>Las fichas combinan descripción histórica, datos técnicos, función dentro de la campaña y advertencias de cronología cuando una especificación cambia entre variantes.</p>
+        </div>
+      </article>
+    </div>
+  </dialog>
+
   <dialog id="armory-dialog" class="armory-dialog">
     <div class="dialog-head"><div><span class="eyebrow">HEERESWAFFENAMT · ARCHIVO MATERIAL</span><h2>Armamento y municiones</h2></div><button id="close-armory" class="ghost">CERRAR</button></div>
     <p>El archivo contiene material de 1938-45. En la campaña actual solo está operativo lo que ya existía en la fecha histórica; las armas posteriores permanecen bloqueadas para evitar anacronismos.</p>
@@ -184,8 +216,9 @@
     <div id="chapters-list" class="chapters-list"></div>
   </dialog>
 
-  <script src="logo.js?v=0.5.1"></script>
-  <script src="data.js?v=0.5.1"></script>
-  <script src="app.js?v=0.5.1"></script>
+  <script src="logo.js?v=0.6.0"></script>
+  <script src="data.js?v=0.6.0"></script>
+  <script src="encyclopedia.js?v=0.6.0"></script>
+  <script src="app.js?v=0.6.0"></script>
 </body>
 </html>
