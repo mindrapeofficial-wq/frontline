@@ -45,7 +45,17 @@ Primer mando de campaña:
 **General der Panzertruppe Heinz Guderian**  
 **XIX. Armeekorps (mot.) · 4. Armee · Heeresgruppe Nord**
 
-Incluye 3. Panzer-Division, 2. Infanterie-Division (mot.) y 20. Infanterie-Division (mot.), con decisiones sobre ritmo de marcha, combustible, munición, cohesión, reconocimiento y comunicaciones.
+Incluye 3. Panzer-Division, 2. Infanterie-Division (mot.) y 20. Infanterie-Division (mot.).
+
+El 1 de septiembre de 1939 es una jornada jugable con objetivo, consecuencias y posibilidad de fracaso (motor `engine.js`):
+
+- objetivo medible: llevar el cuerpo hasta el río Brda antes del anochecer sin desarticularlo;
+- reloj de campaña: cada orden consume tiempo y la luz se acaba;
+- croquis operacional del Corredor Polaco con turnos: entre parte y parte das una orden a cada división (avanzar, atacar, reconocer, mantener o reabastecer);
+- las órdenes pueden no llegar y las divisiones pueden no informar: el mapa muestra lo que tu Estado Mayor sabe, no la verdad;
+- verdad oculta sorteada en cada partida (Chojnice, puentes del Brda, caballería polaca), contactos confirmados o estimados e informes del Ic que pueden ser falsos según tu reconocimiento;
+- escenas que reaccionan al mapa y a tus recursos, órdenes bloqueadas cuando falta combustible, munición, cohesión o mando;
+- fracasos posibles (cuerpo desarticulado, Panzer sin combustible) y balance final puntuado y comparado con la historia.
 
 ## Enciclopedia de campaña
 

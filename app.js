@@ -15,8 +15,13 @@ function clamp(v,min=0,max=100){return Math.max(min,Math.min(max,Math.round(Numb
 function normalizeUser(v){return String(v||"").trim().toLowerCase().replace(/[^a-z0-9._-]/g,"");}
 function stateKey(user){return "frontline_campaign_v05_"+normalizeUser(user);}
 function getCampaign(id=state?.chapter||"ch0"){return FRONTLINE_DATA.campaigns[id]||FRONTLINE_DATA.campaigns.ch0;}
+const E=FrontlineEngine;
+// Las campañas con "engine" usan engine.js: reloj, verdad oculta, mapa y turnos.
+function isEngine(campaign=getCampaign()){return !!campaign.engine;}
+const ENGINE_STATE_VERSION=5;
 
 async function hashPassword(value){
+  if(!(window.crypto&&crypto.subtle))throw new Error("crypto-unavailable");
   const data=new TextEncoder().encode(String(value));
   const digest=await crypto.subtle.digest("SHA-256",data);
   return [...new Uint8Array(digest)].map(b=>b.toString(16).padStart(2,"0")).join("");
@@ -28,6 +33,12 @@ function getSession(){return localStorage.getItem(SESSION_KEY)}
 
 function freshState(chapter="ch0"){
   const campaign=getCampaign(chapter);
+  if(isEngine(campaign)){
+    const s=E.newRun(campaign);
+    s.chapter=chapter;
+    s.encyclopedia={unlocked:[],unread:[]};
+    return s;
+  }
   return{
     chapter,
     stage:"dossier",
@@ -56,6 +67,12 @@ function loadGame(user){
   try{
     const saved=JSON.parse(localStorage.getItem(stateKey(user)))||freshState();
     if(!FRONTLINE_DATA.campaigns[saved.chapter])return freshState();
+    // Las partidas del capítulo I anteriores al motor no tienen reloj ni mapa: se reinician conservando la enciclopedia.
+    if(isEngine(getCampaign(saved.chapter))&&(saved.version!==ENGINE_STATE_VERSION||!getCampaign(saved.chapter).scenes[saved.sceneId])){
+      const fresh=freshState(saved.chapter);
+      if(saved.encyclopedia)fresh.encyclopedia=saved.encyclopedia;
+      return fresh;
+    }
     if(!saved.encyclopedia)saved.encyclopedia={unlocked:[],unread:[]};
     if(!Array.isArray(saved.encyclopedia.unlocked))saved.encyclopedia.unlocked=[];
     if(!Array.isArray(saved.encyclopedia.unread))saved.encyclopedia.unread=[];
@@ -107,6 +124,7 @@ async function handleAuth(event){
   if(user.length<3){setAuthNotice("El usuario debe tener al menos 3 caracteres.");return}
   if(pass.length<4){setAuthNotice("La contraseña debe tener al menos 4 caracteres.");return}
   const accounts=getAccounts();
+  try{await hashPassword("");}catch{setAuthNotice("Este navegador no permite cifrar contraseñas en una página no segura (usa HTTPS o localhost).");return}
 
   if(authMode==="register"){
     if(pass!==confirm){setAuthNotice("Las contraseñas no coinciden.");return}
@@ -186,6 +204,8 @@ function renderDossierVisuals(){
 function renderGame(){
   discoverCurrentEncyclopedia();
   renderChapterChrome();
+  renderClock();
+  renderObjective();
   renderResources();
   renderFormations();
   renderStaff();
@@ -216,14 +236,15 @@ function renderChapterChrome(){
 }
 function renderResources(){
   const r=state.resources;
-  $("#res-command").textContent=clamp(r.command,0,9);
-  $("#res-communications").textContent=clamp(r.communications)+"%";
-  $("#res-fuel").textContent=clamp(r.fuel)+"%";
-  $("#res-ammunition").textContent=clamp(r.ammunition)+"%";
-  $("#res-movement").textContent=clamp(r.movement)+"%";
-  $("#res-cohesion").textContent=clamp(r.cohesion)+"%";
-  $("#res-reconnaissance").textContent=clamp(r.reconnaissance)+"%";
-  $("#res-fatigue").textContent=clamp(r.fatigue)+"%";
+  const set=(id,v,warn)=>{const el=$(id);el.textContent=v;el.classList.toggle("warn",!!warn);};
+  set("#res-command",clamp(r.command,0,9),r.command<=2);
+  set("#res-communications",clamp(r.communications)+"%",r.communications<50);
+  set("#res-fuel",clamp(r.fuel)+"%",r.fuel<40);
+  set("#res-ammunition",clamp(r.ammunition)+"%",r.ammunition<45);
+  set("#res-movement",clamp(r.movement)+"%",r.movement<50);
+  set("#res-cohesion",clamp(r.cohesion)+"%",r.cohesion<55);
+  set("#res-reconnaissance",clamp(r.reconnaissance)+"%",r.reconnaissance<40);
+  set("#res-fatigue",clamp(r.fatigue)+"%",r.fatigue>=30);
 }
 function renderFormations(){
   $("#formations-list").innerHTML=state.formations.map(f=>
@@ -231,12 +252,23 @@ function renderFormations(){
       '<strong>'+f.name+'</strong>'+
       '<span>'+f.role+'</span>'+
       '<small>'+f.commander+'</small>'+
-      '<small>'+f.position+'</small>'+
-      '<div class="formation-bars"><div class="mini-bar"><i style="width:'+clamp(f.readiness)+'%"></i></div><div class="mini-bar"><i style="width:'+clamp(f.supply)+'%"></i></div></div>'+
+      '<small>'+formationPosition(f)+'</small>'+
+      '<div class="formation-bars">'+
+        '<div><small>PREPARACIÓN '+clamp(f.readiness)+'%</small><div class="mini-bar"><i style="width:'+clamp(f.readiness)+'%"></i></div></div>'+
+        '<div><small>SUMINISTRO '+clamp(f.supply)+'%</small><div class="mini-bar"><i style="width:'+clamp(f.supply)+'%"></i></div></div>'+
+      '</div>'+
     '</article>'
   ).join("");
 }
 function renderStaff(){
+  if(isEngine()){
+    $("#staff-list").innerHTML=getCampaign().staff.map(s=>{
+      const note=E.texts(s.notes,state)[0]||"";
+      const trust=state.trust?.[s.id]??s.trust;
+      return '<article class="staff-card"><span>'+s.rank+' · '+s.role+'</span><strong>'+s.name+(s.fictional?' <small>· ficticio</small>':'')+'</strong><p>'+note+'</p><div class="staff-trust">Confianza profesional: '+trust+'/100</div></article>';
+    }).join("");
+    return;
+  }
   $("#staff-list").innerHTML=getCampaign().staff.map(s=>{
     let note=s.note;
     if(state.resources.cohesion<72&&s.id==="ia")note="Las diferencias de ritmo entre las columnas empiezan a preocupar a Operaciones. Keller pide reducir órdenes simultáneas.";
@@ -246,6 +278,8 @@ function renderStaff(){
   }).join("");
 }
 function renderIntel(){
+  if(isEngine()){renderEngineIntel();return}
+  $$(".confidence-scale span").forEach(s=>s.classList.remove("active"));
   const v=clamp(state.resources.reconnaissance);
   $("#intel-reliability").textContent=v+"%";
   const scene=getCampaign().scenes[state.sceneId];
@@ -266,7 +300,7 @@ function renderSources(){
 function currentCampaignYear(){
   const campaign=getCampaign();
   const scene=campaign.scenes[state?.sceneId];
-  const source=scene?.date||campaign.startDate||"1938";
+  const source=isEngine(campaign)?E.formatDate(state.clock):scene?.date||campaign.startDate||"1938";
   const match=String(source).match(/(19\d{2})/);
   return match?Number(match[1]):1938;
 }
@@ -291,7 +325,7 @@ function renderArmory(){
       '<div class="armory-copy"><small>'+item.type+'</small><strong>'+item.name+'</strong><p><b>Munición / sistema:</b> '+item.ammo+'</p><p>'+item.note+'</p></div>'+
     '</article>';
   }).join("");
-  $(".armory-filter").forEach(b=>b.classList.toggle("active",b.dataset.armoryFilter===armoryFilter));
+  $$(".armory-filter").forEach(b=>b.classList.toggle("active",b.dataset.armoryFilter===armoryFilter));
 }
 function ensureEncyclopediaState(){
   if(!state)return {unlocked:[],unread:[]};
@@ -314,8 +348,13 @@ function currentDiscoveryText(){
   }else{
     const scene=campaign.scenes?.[state.sceneId];
     if(scene){
-      parts.push(scene.title,scene.from,scene.urgency,scene.classification,scene.intel);
-      parts.push(...(scene.body||[]),...(scene.historical||[]));
+      if(isEngine()){
+        parts.push(scene.title,scene.from,scene.urgency,scene.classification);
+        parts.push(...E.texts(scene.intel,state),...E.texts(scene.body,state),...E.texts(scene.historical,state));
+      }else{
+        parts.push(scene.title,scene.from,scene.urgency,scene.classification,scene.intel);
+        parts.push(...(scene.body||[]),...(scene.historical||[]));
+      }
       (scene.visuals||[]).forEach(v=>parts.push(v.caption,v.usage));
     }
   }
@@ -394,10 +433,15 @@ function renderChapters(){
   $("#chapters-list").innerHTML=FRONTLINE_DATA.chapters.map(c=>
     '<article class="chapter-card '+(c.status==="locked"?"locked":"")+(state.chapter===c.id?" active":"")+'" data-chapter="'+c.id+'"><div class="number">'+c.number+'</div><div><strong>'+c.year+' · '+c.title+'</strong><small>'+c.subtitle+'</small></div><em>'+(state.chapter===c.id?"EN CURSO":c.status==="available"?"JUGAR":"EN DESARROLLO")+'</em></article>'
   ).join("");
-  $(".chapter-card[data-chapter]").forEach(card=>card.addEventListener("click",()=>switchChapter(card.dataset.chapter)));
+  $$(".chapter-card[data-chapter]").forEach(card=>card.addEventListener("click",()=>switchChapter(card.dataset.chapter)));
 }
 
 function renderStage(){
+  if(isEngine()){renderEngineStage();return}
+  $("#map-panel").classList.add("hidden");
+  $("#orders-panel").classList.add("hidden");
+  $("#evaluation").classList.add("hidden");
+  $(".historical-box").classList.remove("hidden");
   const dossier=$("#dossier-panel"),situation=$("#situation-panel");
   if(state.stage==="dossier"){
     dossier.classList.remove("hidden");
@@ -495,10 +539,255 @@ function describeEffects(before,after){
   return parts.join(" · ");
 }
 
+
+/* ---------- Campañas con motor (engine.js): reloj, mapa, turnos y balance ---------- */
+
+function renderClock(){
+  if(!isEngine())return;
+  const date=E.formatDate(state.clock),time=E.formatTime(state.clock);
+  $("#scene-date").textContent=date;
+  $("#scene-time").textContent=time;
+  $("#dispatch-date").textContent=date;
+  $("#dispatch-time").textContent=time;
+}
+function renderObjective(){
+  $(".objective-panel").classList.toggle("hidden",!isEngine());
+  if(!isEngine())return;
+  const reach=70;
+  const pct=Math.min(100,Math.round(state.progress/reach*100));
+  const crossed=["bridgehead","bridgehead_small","bridgehead_costly"].some(f=>state.flags.includes(f));
+  $("#objective-text").textContent=getCampaign().objective;
+  $("#objective-fill").style.width=pct+"%";
+  $("#objective-progress").textContent=pct+"%";
+  $("#objective-state").textContent=crossed?"CABEZA DE PUENTE":pct>=100?"BRDA ALCANZADO":"EN CURSO";
+  $("#losses-men").textContent=state.losses.men.toLocaleString("es-ES");
+  $("#losses-vehicles").textContent=state.losses.vehicles;
+}
+// Con mapa, la posición es la última comunicada; la situación de la escena se añade como nota.
+function formationPosition(f){
+  const u=state.units&&state.units[f.id];
+  if(!u||!getCampaign().map)return f.position;
+  const place=E.placeName(getCampaign().map.routes[f.id],u.known.pos);
+  return "Posición: "+place+(state.clock-u.known.clock>=30?" (parte de las "+E.formatTime(u.known.clock)+")":"");
+}
+function renderEngineIntel(){
+  const v=clamp(state.resources.reconnaissance);
+  const level=E.reliabilityLabel(v);
+  $("#intel-reliability").textContent=v+"% · "+level;
+  const scene=getCampaign().scenes[state.sceneId];
+  const txt=state.stage==="orders"||state.stage==="turnReport"?"Los contactos del mapa son lo que tu Estado Mayor cree saber. Los estimados pueden estar mal identificados y los antiguos pueden haberse movido.":state.stage==="dossier"?"La información disponible antes del cruce de frontera es incompleta y pierde valor rápidamente con el movimiento.":E.texts(scene&&scene.intel,state).join(" ");
+  $("#intel-text").textContent=txt+" Fiabilidad de los informes ahora: "+level.toLowerCase()+".";
+  $$(".confidence-scale span").forEach(s=>s.classList.toggle("active",s.dataset.level===level));
+}
+function renderEngineStage(){
+  const stage=state.stage;
+  $("#dossier-panel").classList.toggle("hidden",stage!=="dossier");
+  $("#map-panel").classList.toggle("hidden",stage==="dossier");
+  $("#situation-panel").classList.toggle("hidden",stage!=="scene");
+  $("#orders-panel").classList.toggle("hidden",stage!=="orders"&&stage!=="turnReport");
+  if(stage==="dossier"){
+    $("#dossier-text").innerHTML=getCampaign().dossier.map(p=>"<p>"+p+"</p>").join("");
+    renderDossierVisuals();
+    return;
+  }
+  renderMap();
+  if(stage==="scene")renderEngineScene();
+  else renderOrders();
+}
+
+/* ---------- Mapa operacional ---------- */
+
+const SVG_NS="http://www.w3.org/2000/svg";
+function esc(v){return String(v).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function renderMap(){
+  const map=getCampaign().map;
+  const parts=[];
+  parts.push('<rect class="m-bg" x="0" y="0" width="'+map.width+'" height="'+map.height+'"/>');
+  for(const f of map.forests)parts.push('<rect class="m-forest" x="'+f.x+'" y="'+f.y+'" width="'+f.w+'" height="'+f.h+'" rx="40"/><text class="m-forest-label" x="'+(f.x+f.w/2)+'" y="'+(f.y+f.h-12)+'" text-anchor="middle">'+esc(f.label)+'</text>');
+  parts.push('<path class="m-border" d="'+map.border+'"/><text class="m-border-label" x="158" y="545">FRONTERA DE 1939</text>');
+  for(const r of map.rivers)parts.push('<path class="m-river" d="'+r.d+'"/><text class="m-river-label" x="'+r.lx+'" y="'+r.ly+'">'+esc(r.name)+'</text>');
+  for(const def of map.units){
+    const pts=map.routes[def.id].points.map(p=>p.x+","+p.y).join(" ");
+    parts.push('<polyline class="m-axis" points="'+pts+'"/>');
+  }
+  for(const p of map.places)parts.push('<rect class="m-place" x="'+(p.x-3)+'" y="'+(p.y-3)+'" width="6" height="6"/><text class="m-place-label" x="'+(p.x+8)+'" y="'+(p.y+17)+'">'+esc(p.name)+'</text>');
+  const goal=E.mapPoint(map.routes["3pz"],70);
+  parts.push('<g class="m-goal"><circle cx="'+goal.x+'" cy="'+goal.y+'" r="15"/><text x="'+goal.x+'" y="'+(goal.y+32)+'" text-anchor="middle">OBJETIVO</text></g>');
+
+  for(const def of map.enemies){
+    const c=state.contacts[def.id];
+    if(!c||E.enemyCleared(def,state))continue;
+    const p=E.enemyPoint(getCampaign(),def,state);
+    if(!p)continue;
+    const age=state.clock-c.clock;
+    const cls=c.level==="confirmed"?"m-enemy confirmed":"m-enemy estimated";
+    const label=(c.level==="confirmed"?c.label:"¿"+c.label+"?")+(age>=60?" · hace "+E.formatDuration(age):"");
+    parts.push('<g class="'+cls+'"><path d="M'+p.x+' '+(p.y-12)+' L'+(p.x+12)+' '+p.y+' L'+p.x+' '+(p.y+12)+' L'+(p.x-12)+' '+p.y+' Z"/>'+
+      '<text x="'+p.x+'" y="'+(p.y-18)+'" text-anchor="middle">'+esc(label)+'</text></g>');
+  }
+
+  for(const def of map.units){
+    const u=state.units[def.id];
+    const known=u.known||{pos:0,clock:state.clock};
+    const p=E.mapPoint(map.routes[def.id],known.pos);
+    const stale=state.clock-known.clock>=30;
+    const armor=def.id==="3pz";
+    const order=E.ORDERS[u.order]?E.ORDERS[u.order].label:"";
+    parts.push('<g class="m-unit'+(stale?" stale":"")+'" transform="translate('+p.x+' '+p.y+')">'+
+      '<rect x="-22" y="-14" width="44" height="28"/>'+
+      (armor?'<rect class="m-sym" x="-14" y="-7" width="28" height="14" rx="7"/>':'<path class="m-sym" d="M-22 -14 L22 14 M22 -14 L-22 14"/>')+
+      '<text class="m-unit-name" x="0" y="30" text-anchor="middle">'+esc(def.short)+'</text>'+
+      '<text class="m-unit-order" x="0" y="43" text-anchor="middle">'+esc(order)+(stale?" · parte "+E.formatTime(known.clock):"")+'</text>'+
+    '</g>');
+  }
+  $("#map-host").innerHTML='<svg viewBox="0 0 '+map.width+' '+map.height+'" role="img" aria-label="Croquis operacional del Corredor Polaco con las divisiones del cuerpo y los contactos conocidos">'+parts.join("")+'</svg>';
+  $("#map-clock").textContent=E.formatDate(state.clock)+" · "+E.formatTime(state.clock);
+}
+
+/* ---------- Órdenes por turno ---------- */
+
+function renderOrders(){
+  const map=getCampaign().map,report=state.stage==="turnReport";
+  const next=getCampaign().scenes[state.pendingScene];
+  $("#orders-duration").textContent=E.formatDuration(state.turnMinutes||0);
+  $("#orders-title").textContent=report?"Partes del periodo":"Órdenes para el periodo";
+  $("#orders-intro").textContent=report?
+    "Esto es lo que tu Estado Mayor sabe al final del periodo. Algunas divisiones pueden no haber informado.":
+    "Hasta el siguiente parte"+(next&&next.at!=null?" (≈ "+E.formatTime(next.at)+")":"")+" tus divisiones ejecutarán estas órdenes. Una orden puede no llegar si las comunicaciones fallan.";
+  $("#orders-list").classList.toggle("hidden",report);
+  $("#execute-turn").classList.toggle("hidden",report);
+  const host=$("#turn-report");
+  host.classList.toggle("hidden",!report);
+  if(report){
+    const r=state.turnReport;
+    host.innerHTML=r.lines.map(l=>'<p class="tr-line '+l.type+'">'+l.text+'</p>').join("")+
+      (r.effects?'<span class="effects">'+r.effects+'</span>':"")+
+      '<button id="turn-continue" class="continue-button">RECIBIR EL SIGUIENTE PARTE</button>';
+    return;
+  }
+  state.draftOrders=state.draftOrders||{};
+  $("#orders-list").innerHTML=map.units.map(def=>{
+    const u=state.units[def.id];
+    const chosen=state.draftOrders[def.id]||u.order;
+    const pos=E.unitPos(state,def.id);
+    const ahead=map.enemies.filter(e=>e.route===def.id&&!E.enemyCleared(e,state)&&e.u>pos&&state.contacts[e.id]).sort((a,b)=>a.u-b.u)[0];
+    const c=ahead&&state.contacts[ahead.id];
+    const aheadText=c?(c.level==="confirmed"?"Por delante: "+c.label+" (confirmado).":"Por delante: ¿"+c.label+"? (sin confirmar)."):"Sin contactos conocidos por delante.";
+    const f=state.formations.find(x=>x.id===def.id);
+    return '<article class="order-card">'+
+      '<div class="order-head"><strong>'+f.name+'</strong><small>'+E.placeName(map.routes[def.id],u.known.pos)+(state.clock-u.known.clock>=30?" · último parte "+E.formatTime(u.known.clock):"")+' · preparación '+f.readiness+'%</small><small class="order-ahead">'+aheadText+'</small></div>'+
+      '<div class="order-options" role="radiogroup" aria-label="Orden para '+esc(f.name)+'">'+Object.entries(E.ORDERS).map(([id,o])=>
+        '<button class="order-option'+(id===chosen?" selected":"")+'" data-unit="'+def.id+'" data-order="'+id+'" role="radio" aria-checked="'+(id===chosen)+'" title="'+esc(o.desc)+'">'+o.label+'</button>'
+      ).join("")+'</div>'+
+      '<p class="order-desc">'+E.ORDERS[chosen].desc+'</p>'+
+    '</article>';
+  }).join("");
+}
+function executeTurn(){
+  const orders={};
+  for(const def of getCampaign().map.units)orders[def.id]=(state.draftOrders&&state.draftOrders[def.id])||state.units[def.id].order;
+  state.draftOrders=null;
+  E.runTurn(getCampaign(),state,orders);
+  renderGame();
+}
+function continueTurn(){
+  E.advance(getCampaign(),state);
+  renderGame();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function renderEngineScene(){
+  const scene=getCampaign().scenes[state.sceneId];
+  if(!scene)return;
+  $("#scene-title").textContent=scene.title;
+  $("#scene-from").textContent=scene.from;
+  $("#scene-urgency").textContent=scene.urgency;
+  $("#scene-classification").textContent=scene.classification;
+  $("#scene-body").innerHTML=E.texts(scene.body,state).map(p=>"<p>"+p+"</p>").join("");
+  renderSceneVisuals(scene);
+  const facts=E.texts(scene.historical,state);
+  $(".historical-box").classList.toggle("hidden",!facts.length);
+  $("#historical-facts").innerHTML=facts.map(p=>"<p>"+p+"</p>").join("");
+
+  const choices=$("#choices"),result=$("#decision-result"),evaluation=$("#evaluation");
+  evaluation.classList.add("hidden");
+  evaluation.innerHTML="";
+
+  if(state.decisionResult){
+    choices.innerHTML="";
+    result.classList.remove("hidden");
+    const r=state.decisionResult;
+    result.innerHTML="<strong>ORDEN REGISTRADA</strong><br>"+r.text+(r.effects?'<span class="effects">'+r.effects+'</span>':"")+(state.nextScene?'<button id="continue-button" class="continue-button">RECIBIR EL SIGUIENTE PARTE</button>':"");
+    return;
+  }
+  result.classList.add("hidden");
+  result.innerHTML="";
+
+  if(scene.ending){
+    choices.innerHTML="";
+    renderEvaluation(evaluation);
+    return;
+  }
+  choices.innerHTML=E.choicesFor(scene,state).map(c=>{
+    const time=c.effects&&c.effects.minutes?"≈ "+E.formatDuration(c.effects.minutes):"inmediato";
+    return '<button class="choice'+(c.available?"":" blocked")+'" data-choice="'+c.id+'"'+(c.available?"":" disabled")+'>'+
+      '<div><strong>'+c.title+'</strong><p>'+c.desc+'</p>'+
+      (c.available?"":'<p class="blocked-reason">'+c.blockedText+'</p>')+
+      '</div><div class="choice-meta"><em>'+c.tag+'</em><small>'+time+'</small></div></button>';
+  }).join("");
+}
+
+function renderEvaluation(host){
+  const ev=E.evaluate(getCampaign(),state);
+  host.classList.remove("hidden");
+  host.innerHTML=
+    '<div class="evaluation-head"><span class="eyebrow">BALANCE PARA LA 4. ARMEE</span><h3>'+ev.verdict.title+'</h3><div class="evaluation-score"><strong>'+ev.score+'</strong><small>/ 100</small></div></div>'+
+    '<p class="evaluation-verdict">'+ev.verdict.text+'</p>'+
+    '<div class="evaluation-rows">'+ev.rows.map(r=>
+      '<div class="evaluation-row"><div><strong>'+r.label+'</strong><small>'+r.text+'</small></div><b>'+r.points+'/'+r.max+'</b></div>'
+    ).join("")+'</div>'+
+    '<div class="evaluation-history"><span class="eyebrow">LO QUE OCURRIÓ EN LA HISTORIA</span>'+ev.history.map(h=>"<p>"+h+"</p>").join("")+'</div>'+
+    '<p class="evaluation-hint">Cada partida decide en secreto la fuerza de Chojnice, el estado de los puentes y la posición de la caballería polaca. Otra partida puede plantear una situación distinta.</p>'+
+    '<button id="restart-button" class="continue-button">JUGAR DE NUEVO EL 1 DE SEPTIEMBRE</button>';
+}
+
+function chooseOrder(id){
+  if(!E.choose(getCampaign(),state,id))return;
+  renderGame();
+}
+function continueEngineScene(){
+  if(!state.nextScene)return;
+  E.advance(getCampaign(),state);
+  renderGame();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function restartChapter(){
+  if(!confirm("¿Empezar de nuevo el capítulo? Se perderán tus decisiones y el estado actual."))return;
+  const encyclopedia=state.encyclopedia;
+  state=freshState(state.chapter);
+  state.encyclopedia=encyclopedia;
+  renderGame();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
 $("#login-tab").addEventListener("click",()=>setAuthMode("login"));
 $("#register-tab").addEventListener("click",()=>setAuthMode("register"));
 $("#auth-form").addEventListener("submit",handleAuth);
 $("#start-chapter").addEventListener("click",()=>{state.stage="scene";renderGame();window.scrollTo({top:0,behavior:"smooth"});});
+// Las escenas del motor usan delegación; las del prólogo conservan sus propios manejadores.
+$("#situation-panel").addEventListener("click",e=>{
+  if(!isEngine())return;
+  const choice=e.target.closest("[data-choice]");
+  if(choice&&!choice.disabled){chooseOrder(choice.dataset.choice);return}
+  if(e.target.closest("#continue-button")){continueEngineScene();return}
+  if(e.target.closest("#restart-button"))restartChapter();
+});
+$("#orders-panel").addEventListener("click",e=>{
+  const opt=e.target.closest("[data-order]");
+  if(opt){state.draftOrders=state.draftOrders||{};state.draftOrders[opt.dataset.unit]=opt.dataset.order;renderOrders();saveGame();return}
+  if(e.target.closest("#execute-turn")){executeTurn();return}
+  if(e.target.closest("#turn-continue"))continueTurn();
+});
 $("#encyclopedia-button").addEventListener("click",openEncyclopedia);
 $("#close-encyclopedia").addEventListener("click",()=>$("#encyclopedia-dialog").close());
 $("#encyclopedia-dialog").addEventListener("click",e=>{if(e.target===$("#encyclopedia-dialog"))$("#encyclopedia-dialog").close()});
@@ -507,7 +796,7 @@ $("#encyclopedia-category").addEventListener("change",renderEncyclopedia);
 $("#armory-button").addEventListener("click",()=>{$("#armory-dialog").showModal();renderArmory();});
 $("#close-armory").addEventListener("click",()=>$("#armory-dialog").close());
 $("#armory-dialog").addEventListener("click",e=>{if(e.target===$("#armory-dialog"))$("#armory-dialog").close()});
-$(".armory-filter").forEach(b=>b.addEventListener("click",()=>{armoryFilter=b.dataset.armoryFilter;renderArmory();}));
+$$(".armory-filter").forEach(b=>b.addEventListener("click",()=>{armoryFilter=b.dataset.armoryFilter;renderArmory();}));
 $("#sources-button").addEventListener("click",()=>$("#sources-dialog").showModal());
 $("#close-sources").addEventListener("click",()=>$("#sources-dialog").close());
 $("#chapters-button").addEventListener("click",()=>$("#chapters-dialog").showModal());
