@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#0c0b08">
   <title>FRONTLINE 1944 · Campaña histórica</title>
   <meta name="description" content="Estrategia narrativa histórica de la Segunda Guerra Mundial desde la perspectiva de un general del Heer.">
-  <link rel="stylesheet" href="styles.css?v=0.3.2">
+  <link rel="stylesheet" href="styles.css?v=0.5.0">
   <link id="game-favicon" rel="icon" href="">
 </head>
 <body>
@@ -18,7 +18,7 @@
     <section class="auth-card">
       <img class="official-logo" data-official-logo alt="FRONTLINE 1944">
       <p class="auth-kicker">ESTRATEGIA NARRATIVA HISTÓRICA · TIERRA</p>
-      <p class="auth-intro">Recibe informes, dirige formaciones, administra recursos militares y toma decisiones con información incompleta. La campaña comienza en Polonia, septiembre de 1939.</p>
+      <p class="auth-intro">Recibe informes, dirige formaciones, administra recursos militares y toma decisiones con información incompleta. La campaña comienza con un prólogo en 1938 sobre reorganización, mando, Anschluss y Sudetes; FALL WEISS de 1939 permanece como Capítulo I.</p>
 
       <div class="auth-tabs" role="tablist">
         <button id="login-tab" class="auth-tab active" type="button">ENTRAR</button>
@@ -44,7 +44,7 @@
 
       <div class="auth-foot">
         <small>Prototipo: las cuentas se guardan localmente en este navegador. No se envían credenciales a un servidor.</small>
-        <small>Fotografía histórica: Bundesarchiv, Bild 101I-012-0035-11A / Wagner / CC-BY-SA 3.0 DE.</small>
+        <small>Cada fotografía histórica tiene una función documental o jugable. El material posterior se marca expresamente como archivo retrospectivo.</small>
       </div>
     </section>
   </main>
@@ -53,9 +53,9 @@
     <header class="topbar">
       <div class="brand">
         <img data-official-logo alt="" class="brand-logo">
-        <div><strong>FRONTLINE 1944</strong><small id="chapter-header">CAPÍTULO I · FALL WEISS</small></div>
+        <div><strong>FRONTLINE 1944</strong><small id="chapter-header">PRÓLOGO · REORGANIZACIÓN</small></div>
       </div>
-      <div class="campaign-clock"><span id="scene-date">31 AGO 1939</span><strong id="scene-time">23:35</strong></div>
+      <div class="campaign-clock"><span id="scene-date">4 FEB 1938</span><strong id="scene-time">12:00</strong></div>
       <div class="top-actions">
         <button id="chapters-button" class="ghost">CAPÍTULOS</button>
         <button id="sources-button" class="ghost">FUENTES</button>
@@ -64,7 +64,7 @@
     </header>
 
     <section class="chapter-ribbon">
-      <div><span>CAMPAÑA</span><strong id="chapter-title">CAPÍTULO I · FALL WEISS</strong><small id="chapter-subtitle">Polonia · 1 de septiembre de 1939</small></div>
+      <div><span>CAMPAÑA</span><strong id="chapter-title">PRÓLOGO · REORGANIZACIÓN</strong><small id="chapter-subtitle">Alemania · febrero-diciembre de 1938</small></div>
       <div class="historical-warning">CONTEXTO HISTÓRICO DOCUMENTADO · LAS DECISIONES DEL JUGADOR PUEDEN CREAR DIVERGENCIAS</div>
     </section>
 
@@ -72,9 +72,9 @@
       <aside class="left-rail">
         <section class="panel commander-card">
           <span class="eyebrow">TU MANDO</span>
-          <h1 id="commander-name">Heinz Guderian</h1>
-          <p id="commander-command">XIX. Armeekorps (mot.)</p>
-          <div class="command-seal"><span>CADENA DE MANDO</span><strong>4. ARMEE</strong><small>HEERESGRUPPE NORD</small></div>
+          <h1 id="commander-name">Walther von Brauchitsch</h1>
+          <p id="commander-command">Oberbefehlshaber des Heeres · OKH</p>
+          <div class="command-seal"><span>CADENA DE MANDO</span><strong>OKH</strong><small>HEER · 1938</small></div>
         </section>
 
         <section class="panel">
@@ -93,7 +93,7 @@
         </section>
 
         <section class="panel formations-panel">
-          <div class="panel-title"><span>FORMACIONES DEL CUERPO</span><b>1 SEP 1939</b></div>
+          <div class="panel-title"><span>ÁREAS DE REORGANIZACIÓN</span><b>1938</b></div>
           <div id="formations-list" class="formations-list"></div>
         </section>
       </aside>
@@ -101,12 +101,12 @@
       <section class="center-stage">
         <section id="dossier-panel" class="panel dossier-panel">
           <div class="dossier-photo">
-            <img id="dossier-map" alt="Mapa histórico de la campaña de Polonia de 1939">
-            <div class="dossier-stamp">FALL WEISS<br>1939</div>
+            <img id="dossier-map" alt="Mapa de situación internacional de 1938">
+            <div class="dossier-stamp">HEER<br>1938</div>
           </div>
           <div class="dossier-content">
             <span class="eyebrow">DOSSIER HISTÓRICO</span>
-            <h2>Europa entra en guerra</h2>
+            <h2>Un ejército en transformación</h2>
             <div id="dossier-text"></div>
             <button id="start-chapter" class="primary">ABRIR PRIMER PARTE DE SITUACIÓN</button>
           </div>
@@ -130,16 +130,7 @@
         </section>
 
         <section class="panel archive-visuals">
-          <div class="archive-grid">
-            <figure>
-              <img id="archive-tank-photo" alt="Panzer I e infantería alemana en Polonia, septiembre de 1939">
-              <figcaption>Bundesarchiv, Bild 101I-012-0035-11A / Wagner / CC-BY-SA 3.0 DE.</figcaption>
-            </figure>
-            <figure>
-              <img id="archive-staff-photo" alt="Oficiales alemanes ante un mapa de situación en Varsovia, 1939">
-              <figcaption>Bundesarchiv, Bild 101I-001-0256-31 / Rieger, Alfons / CC-BY-SA 3.0 DE.</figcaption>
-            </figure>
-          </div>
+          <div id="archive-grid" class="archive-grid"></div>
         </section>
 
         <section class="panel journal-panel">
@@ -179,8 +170,8 @@
     <div id="chapters-list" class="chapters-list"></div>
   </dialog>
 
-  <script src="logo.js?v=0.3.2"></script>
-  <script src="data.js?v=0.3.2"></script>
-  <script src="app.js?v=0.3.2"></script>
+  <script src="logo.js?v=0.5.0"></script>
+  <script src="data.js?v=0.5.0"></script>
+  <script src="app.js?v=0.5.0"></script>
 </body>
 </html>
