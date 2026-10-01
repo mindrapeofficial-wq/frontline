@@ -1,0 +1,347 @@
+{
+  "title": "FRONTLINE 1944 — German armament visual catalog, 1938",
+  "version": "2026-10-02",
+  "scope": "German equipment and ammunition relevant to the 1938 campaign/prologue. Entries distinguish service, prototype and later reference imagery to prevent anachronisms.",
+  "image_count": 32,
+  "pending_without_image": [
+    {
+      "id": "17cm-kanone-e",
+      "name": "17 cm Kanone (E)",
+      "reason": "No reusable image with sufficiently clear identification/licensing was committed to the catalog yet."
+    }
+  ],
+  "drive": {
+    "folder": "https://drive.google.com/drive/folders/1nvjdXqm1zK89y45NME7bHoSNIipOC3UR",
+    "index": "https://docs.google.com/document/d/1Npk-HkH0Ybl3py0IbivtFMTkSxPiC_Pe8xFsSTq4qGQ/edit",
+    "catalogs": {
+      "blindados": "https://docs.google.com/document/d/1NHYKPRBImglf1HEHtPO5wFuqxWdxQp9XRvgt8qNeWpY/edit",
+      "canones": "https://docs.google.com/document/d/1M0DA9GI7PYpFDjMYKXje1tMxDug3TzzK7-dOcwshd6s/edit",
+      "aereo": "https://docs.google.com/document/d/1kz5yI3wejKI2WEXoYiroBrIwWj-UWpyqpl-iO0xhGWU/edit",
+      "ferroviaria": "https://docs.google.com/document/d/13HBb8uNNEQAmIFi1k2WThvTAiBtvLDIUJXIRgxA-GKk/edit",
+      "minas": "https://docs.google.com/document/d/1fcYafFKX6Uk8eL59XTv0g6Ya-T492PD0RXBS-DpXATI/edit",
+      "municion": "https://docs.google.com/document/d/1K76mezwdOQ965xuC9m21oeOcBLMMstTcV6WYcySaG5k/edit"
+    }
+  },
+  "records": [
+    {
+      "id": "panzer-i-a",
+      "cat": "blindados",
+      "name": "Panzer I Ausf. A",
+      "year": "1938",
+      "status": "service",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Panzerkampfwagen_I_Ausf_A.JPG",
+      "source": "https://commons.wikimedia.org/wiki/File:Panzerkampfwagen_I_Ausf_A.JPG",
+      "note": "Carro ligero; armamento principal 2 × MG 13 de 7,92 mm."
+    },
+    {
+      "id": "panzer-ii-a-c",
+      "cat": "blindados",
+      "name": "Panzer II Ausf. A-C",
+      "year": "1938",
+      "status": "service",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Panzerkampfwagen_II_Ausf._A-C.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Panzerkampfwagen_II_Ausf._A-C.jpg",
+      "note": "Familia de serie disponible en 1938; 2 cm KwK 30 L/55."
+    },
+    {
+      "id": "panzer-iii-a",
+      "cat": "blindados",
+      "name": "Panzer III Ausf. A",
+      "year": "1938",
+      "status": "service-reference",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Panzer_III_Ausf_A_in_Berlin_c1938.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Panzer_III_Ausf_A_in_Berlin_c1938.jpg",
+      "note": "Referencia de las primeras series de Panzer III con 3,7 cm KwK 36 L/45."
+    },
+    {
+      "id": "panzer-iv-b-c",
+      "cat": "blindados",
+      "name": "Panzer IV Ausf. B/C",
+      "year": "1938",
+      "status": "service",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/PzIV-011-BCD.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:PzIV-011-BCD.jpg",
+      "note": "Comparación visual de variantes tempranas; 7,5 cm KwK 37 L/24."
+    },
+    {
+      "id": "neubaufahrzeug",
+      "cat": "blindados",
+      "name": "Neubaufahrzeug",
+      "year": "1938",
+      "status": "experimental",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Neubaufahrzeug,_Seitenansicht.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Neubaufahrzeug,_Seitenansicht.jpg",
+      "note": "Vehículo experimental; no tratar como carro de serie."
+    },
+    {
+      "id": "kwk30-20mm",
+      "cat": "canones-carro",
+      "name": "2 cm KwK 30 L/55",
+      "year": "1938",
+      "status": "service",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Bilderatlas,_2_cm_Kw._K._30.png",
+      "source": "https://commons.wikimedia.org/wiki/File:Bilderatlas,_2_cm_Kw._K._30.png",
+      "note": "Armamento principal del Panzer II temprano."
+    },
+    {
+      "id": "kwk36-37mm",
+      "cat": "canones-carro",
+      "name": "3,7 cm KwK 36 L/45",
+      "year": "1938",
+      "status": "service",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Bilderatlas,_3,7_cm_Kw._K._36.png",
+      "source": "https://commons.wikimedia.org/wiki/File:Bilderatlas,_3,7_cm_Kw._K._36.png",
+      "note": "Armamento principal de las primeras series del Panzer III."
+    },
+    {
+      "id": "kwk37-75mm",
+      "cat": "canones-carro",
+      "name": "7,5 cm KwK 37 L/24",
+      "year": "1938",
+      "status": "service",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Bilderatlas,_7,5_cm_Kw._K._37.png",
+      "source": "https://commons.wikimedia.org/wiki/File:Bilderatlas,_7,5_cm_Kw._K._37.png",
+      "note": "Cañón corto del Panzer IV temprano."
+    },
+    {
+      "id": "mg15",
+      "cat": "armamento-aereo",
+      "name": "MG 15",
+      "year": "1938",
+      "status": "service",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Maschinengewehr_MG_15.JPG",
+      "source": "https://commons.wikimedia.org/wiki/File:Maschinengewehr_MG_15.JPG",
+      "note": "Ametralladora defensiva móvil de 7,92 mm."
+    },
+    {
+      "id": "mg17",
+      "cat": "armamento-aereo",
+      "name": "MG 17",
+      "year": "1938",
+      "status": "service",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/MG_17.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:MG_17.jpg",
+      "note": "Ametralladora fija ofensiva de 7,92 mm."
+    },
+    {
+      "id": "mgff",
+      "cat": "armamento-aereo",
+      "name": "MG FF",
+      "year": "1938",
+      "status": "service",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/MG_FF_MLP_01.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:MG_FF_MLP_01.jpg",
+      "note": "Cañón automático aéreo de 20 mm."
+    },
+    {
+      "id": "he112-c30l",
+      "cat": "armamento-aereo",
+      "name": "Heinkel He 112 A-0 / referencia MG C/30L",
+      "year": "1938",
+      "status": "experimental-reference",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Heinkel_He_112_A-0.png",
+      "source": "https://commons.wikimedia.org/wiki/File:Heinkel_He_112_A-0.png",
+      "note": "Contexto visual del programa experimental de cañón de 20 mm; no sustituye una foto técnica del arma."
+    },
+    {
+      "id": "15cm-kanone-e",
+      "cat": "artilleria-ferroviaria",
+      "name": "15 cm Kanone (E)",
+      "year": "1938",
+      "status": "service",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Bilderatlas,_15_cm_Kanone_(E).png",
+      "source": "https://commons.wikimedia.org/wiki/File:Bilderatlas,_15_cm_Kanone_(E).png",
+      "note": "Artillería ferroviaria disponible antes de la guerra."
+    },
+    {
+      "id": "24cm-theodor",
+      "cat": "artilleria-ferroviaria",
+      "name": "24 cm Theodor Kanone (E)",
+      "year": "1938",
+      "status": "service",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Bundesarchiv_Bild_101I-069-2515-33,_Frankreich,_Atlantikwall,_Eisenbahngesch%C3%BCtz.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_101I-069-2515-33,_Frankreich,_Atlantikwall,_Eisenbahngesch%C3%BCtz.jpg",
+      "note": "Imagen de archivo posterior usada como referencia visual del sistema."
+    },
+    {
+      "id": "24cm-theodor-bruno",
+      "cat": "artilleria-ferroviaria",
+      "name": "24 cm Theodor Bruno Kanone (E)",
+      "year": "1938",
+      "status": "service",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Frigj%C3%B8ringen_av_Finnmark_(17388886225).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Frigj%C3%B8ringen_av_Finnmark_(17388886225).jpg",
+      "note": "Referencia visual del sistema; comprobar cronología de la foto antes de uso diegético."
+    },
+    {
+      "id": "21cm-k12-e",
+      "cat": "artilleria-ferroviaria",
+      "name": "21 cm K 12 (E)",
+      "year": "1938",
+      "status": "prototype",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/210_mm_Railway_Gun.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:210_mm_Railway_Gun.jpg",
+      "note": "Programa experimental; primer ejemplar completado en 1938, entrega militar posterior."
+    },
+    {
+      "id": "28cm-bruno-n",
+      "cat": "artilleria-ferroviaria",
+      "name": "28 cm Bruno N Kanone (E)",
+      "year": "1938",
+      "status": "service",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Bilderatlas,_28_cm_Bruno_N_Kanone_(E).png",
+      "source": "https://commons.wikimedia.org/wiki/File:Bilderatlas,_28_cm_Bruno_N_Kanone_(E).png",
+      "note": "Documento técnico de referencia."
+    },
+    {
+      "id": "28cm-kurze-bruno",
+      "cat": "artilleria-ferroviaria",
+      "name": "28 cm kurze Bruno Kanone (E)",
+      "year": "1938",
+      "status": "service",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Bilderatlas,_28_cm_kurze_Bruno_Kanone_(E).png",
+      "source": "https://commons.wikimedia.org/wiki/File:Bilderatlas,_28_cm_kurze_Bruno_Kanone_(E).png",
+      "note": "Documento técnico de referencia."
+    },
+    {
+      "id": "28cm-schwere-bruno",
+      "cat": "artilleria-ferroviaria",
+      "name": "28 cm schwere Bruno Kanone (E)",
+      "year": "1938",
+      "status": "service",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Bilderatlas,_28_cm_schwerer_Bruno_Kanone_(E).png",
+      "source": "https://commons.wikimedia.org/wiki/File:Bilderatlas,_28_cm_schwerer_Bruno_Kanone_(E).png",
+      "note": "Documento técnico de referencia."
+    },
+    {
+      "id": "tellermine35",
+      "cat": "minas-lanzallamas",
+      "name": "Tellermine 35",
+      "year": "1938",
+      "status": "service",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/German_Tellermine_35_at_the_Imperial_War_Museum.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:German_Tellermine_35_at_the_Imperial_War_Museum.jpg",
+      "note": "Mina anticarro."
+    },
+    {
+      "id": "tellermine35-stahl",
+      "cat": "minas-lanzallamas",
+      "name": "Tellermine 35 Stahl",
+      "year": "1938",
+      "status": "service",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Landmine.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Landmine.jpg",
+      "note": "Variante de mina anticarro."
+    },
+    {
+      "id": "smine35",
+      "cat": "minas-lanzallamas",
+      "name": "S-Mine 35",
+      "year": "1938",
+      "status": "service-from-august",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/S-Mine_35.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:S-Mine_35.jpg",
+      "note": "Primeras entregas documentadas en agosto de 1938; bloquear antes de esa fecha."
+    },
+    {
+      "id": "flammenwerfer35",
+      "cat": "minas-lanzallamas",
+      "name": "Flammenwerfer 35",
+      "year": "1938",
+      "status": "service-reference",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/German_soldier_with_flamethrower_c1941.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:German_soldier_with_flamethrower_c1941.jpg",
+      "note": "Fotografía posterior usada solo como referencia visual del sistema."
+    },
+    {
+      "id": "792x57",
+      "cat": "municion-bombas",
+      "name": "7,92 × 57 mm",
+      "year": "1938",
+      "status": "service",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/German_7.92x57mm_Ammunition_from_WW2.JPG",
+      "source": "https://commons.wikimedia.org/wiki/File:German_7.92x57mm_Ammunition_from_WW2.JPG",
+      "note": "Familia de cartuchería para MG 13/MG 15/MG 17/MG 34, entre otras."
+    },
+    {
+      "id": "20x138b",
+      "cat": "municion-bombas",
+      "name": "20 × 138 mm B",
+      "year": "1938",
+      "status": "reference",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/20_x_138mm_cartridge.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:20_x_138mm_cartridge.jpg",
+      "note": "Referencia de munición de 2 cm; validar arma exacta antes de enlazar automáticamente."
+    },
+    {
+      "id": "37mm-pzgr-family",
+      "cat": "municion-bombas",
+      "name": "3,7 cm PzGr. family",
+      "year": "1938",
+      "status": "mixed-reference",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/37mm_ammunition_parola.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:37mm_ammunition_parola.jpg",
+      "note": "La imagen incluye PzGr.40, posterior a 1938. No desbloquear PzGr.40 en la campaña de 1938."
+    },
+    {
+      "id": "sc50",
+      "cat": "municion-bombas",
+      "name": "SC 50",
+      "year": "1938",
+      "status": "service",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Sc50bi.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Sc50bi.jpg",
+      "note": "Bomba explosiva de 50 kg."
+    },
+    {
+      "id": "sc250",
+      "cat": "municion-bombas",
+      "name": "SC 250",
+      "year": "1938",
+      "status": "service",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Sc250.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Sc250.jpg",
+      "note": "Bomba explosiva de 250 kg."
+    },
+    {
+      "id": "sc500",
+      "cat": "municion-bombas",
+      "name": "SC 500",
+      "year": "1938",
+      "status": "reference-needs-monthly-validation",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Sc500-1.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Sc500-1.jpg",
+      "note": "Imagen fechada en 1939; conservar como referencia, no como prueba autónoma de disponibilidad mensual en 1938."
+    },
+    {
+      "id": "sd50",
+      "cat": "municion-bombas",
+      "name": "SD 50",
+      "year": "1938",
+      "status": "service-reference",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/SD_50.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:SD_50.jpg",
+      "note": "Bomba de carcasa gruesa/fragmentación."
+    },
+    {
+      "id": "b1e",
+      "cat": "municion-bombas",
+      "name": "B 1 / B 1 E",
+      "year": "1938",
+      "status": "service",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/B1_bomb.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:B1_bomb.jpg",
+      "note": "Bomba incendiaria."
+    },
+    {
+      "id": "pc500",
+      "cat": "municion-bombas",
+      "name": "PC 500 / familia PC",
+      "year": "1938",
+      "status": "family-reference",
+      "image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Pc500.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Pc500.jpg",
+      "note": "Referencia visual de la familia perforante PC; validar el modelo exacto por fecha antes de hacerlo operativo."
+    }
+  ]
+}
