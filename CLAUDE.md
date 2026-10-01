@@ -642,6 +642,15 @@ No presentar una reconstrucción inventada como una cita o hecho real.
 
 Los personajes ficticios deben estar marcados como ficticios.
 
+### Compatibilidad con la inmersión (ver §32.6)
+
+Las tres capas son obligatorias **en los datos** y en el archivo documental, pero no tienen por qué etiquetarse en cada parte o telegrama que lee el jugador durante la partida:
+
+- todo contenido en `data.js` y futuros generadores debe indicar internamente su capa (hecho, reconstrucción, divergencia);
+- los bloques `historical` existentes, la enciclopedia, el archivo de fuentes y la crónica final sí muestran la distinción;
+- un parte en la escena puede llegar sin sello de "histórico" o "alternativo" cuando la inmersión lo pida;
+- nunca se atribuye una cita inventada a una persona real ni se presenta una divergencia como hecho documentado en el archivo, la enciclopedia o la crónica final.
+
 ---
 
 # 18. FUENTES
@@ -899,7 +908,7 @@ Cuando el multiplayer lo requiera, migrar los sistemas necesarios a backend sin 
 
 Antes de modificar código:
 
-1. leer este archivo;
+1. leer este archivo (y `claude2` si la tarea toca narrativa, persistencia o finales);
 2. inspeccionar el repositorio;
 3. entender la implementación existente;
 4. identificar qué archivos afecta la tarea;
@@ -1030,6 +1039,149 @@ A falta de una instrucción más reciente, Claude debe considerar como siguiente
 Trata de recibir un informe incompleto a las 05:20, mirar un mapa que quizá ya esté desactualizado, comprobar que una división está perdiendo combustible, escuchar a dos oficiales que recomiendan cosas opuestas y decidir si ordenar el avance antes de que la oportunidad desaparezca.
 
 Ese es el juego.
+
+---
+
+# 32. NARRATIVA PERSISTENTE, CRÓNICA E HISTORIA EMERGENTE
+
+> Resumen normativo de `claude2`. El archivo `claude2` sigue siendo el documento ampliado de diseño narrativo; leerlo antes de cambios estructurales en narrativa, persistencia o finales. Si ambos discrepan, prevalece este CLAUDE.md.
+
+## 32.1 Principio rector
+
+> **No juegas una historia. Generas una crónica militar única dentro de una Segunda Guerra Mundial que recuerda todo lo que haces.**
+
+El juego empieza casi documental (1938) y puede separarse de la historia real solo mediante cadenas de causalidad. Nunca mediante un botón de "cambiar la historia".
+
+## 32.2 Motor conceptual: CAUSE → CONSEQUENCE → MEMORY → STORY
+
+1. **CAUSE** — el jugador da una orden.
+2. **CONSEQUENCE** — la simulación calcula qué ocurre realmente.
+3. **MEMORY** — la crónica registra qué, cuándo, dónde, quién, por qué, qué sabe cada actor y qué queda abierto.
+4. **STORY** — el motor narrativo convierte eso en informes, problemas, oportunidades y personajes.
+
+Flujo obligatorio:
+
+ORDEN → SIMULACIÓN → WORLD STATE → WORLD CHRONICLE → FILTRO DE CONOCIMIENTO → INTERPRETACIÓN NARRATIVA → INFORME AL JUGADOR → CONSECUENCIAS FUTURAS
+
+**La narrativa nunca sobrescribe la simulación.** Ningún texto puede afirmar un resultado que contradiga el estado real del mundo.
+
+## 32.3 WORLD CHRONICLE y WORLD STATE
+
+- Debe existir un registro estructurado de acontecimientos (órdenes, pérdidas, unidades salvadas o destruidas, oficiales, ciudades, puentes, logística, inteligencia errónea, desobediencias, relaciones de mando).
+- Cada entrada debe ser un dato (fecha de juego, actores, lugar, causa, consecuencias abiertas, quién lo sabe), no solo una frase.
+- Cada campaña es una ventana sobre un estado del mundo persistente. Un puente destruido en 1939 no reaparece intacto en 1940 sin una causa (reparación, tiempo, ingenieros).
+- Implementación progresiva: empezar por lo que ya persiste en el estado de partida (recursos, flags, pérdidas) y extenderlo; no construir un sistema genérico vacío sin contenido que lo use.
+
+## 32.4 Decisiones orgánicas
+
+- Prohibidas las decisiones de destino ("¿Atacas Moscú? Sí / No").
+- Las grandes consecuencias nacen de decisiones militares concretas: reparto de combustible, prioridad de una carretera, momento de una pausa, a quién se escucha en el Estado Mayor.
+- El jugador decide sobre problemas reales; la historia emerge de las consecuencias.
+
+## 32.5 Divergencia histórica
+
+- Variable interna `HISTORICAL DIVERGENCE` (no tiene por qué mostrarse).
+- Con divergencia baja, la historia real es el marco: escenas históricas, órdenes de batalla y fechas reales.
+- Con divergencia alta, el motor deja de preguntar "¿qué ocurrió?" y pregunta "¿qué ocurriría lógicamente ahora?", usando lógica militar, logística, industrial, política y diplomática.
+- **Sin railroading invisible:** no forzar el regreso a la cronología real cuando la simulación ya se ha separado.
+- **Coherencia contrafactual:** lo generado debe ser plausible con los medios, la doctrina y la tecnología disponibles en esa fecha. La divergencia no autoriza anacronismos (§2.1).
+
+## 32.6 Inmersión
+
+Durante la partida, los acontecimientos no se etiquetan continuamente como "histórico" o "alternativo". El jugador debe sentir que vive dentro de la historia. La trazabilidad se conserva según §17 (datos, archivo, enciclopedia, crónica final).
+
+## 32.7 Personajes persistentes
+
+- Los oficiales son personas, no bonificaciones: historial, confianza, opinión del jugador, rivalidades, heridas, memoria de decisiones.
+- Un oficial que acompaña al jugador desde 1939 debe poder recordar desacuerdos, ser herido, ascender o desaparecer.
+- Personajes ficticios siempre marcados como tales en sus fichas (§17, §20). Personajes históricos: no inventar su destino real como hecho; su destino divergente solo existe dentro de la partida.
+
+## 32.8 Objetivo y carrera del jugador
+
+> **Sobrevivir a la historia y dejar una huella en ella.**
+
+El personaje puede ascender, ser relevado, herido, trasladado, capturado o morir. Una derrota no es automáticamente una mala partida. El éxito se mide también por conservación de fuerzas, reputación, cumplimiento de objetivos, supervivencia y legado.
+
+## 32.9 Finales y crónica de guerra
+
+- Los finales son **estados del mundo**, no escenas fijas (familias: victoria del Eje, victoria aliada aproximadamente histórica, colapso interno, armisticio, guerra prolongada, Europa fragmentada, etc.).
+- Ningún final debe glorificar la ideología ni los crímenes del régimen (§16). Representar consecuencias, no celebrar.
+- Al terminar, el juego debe poder generar una **CRÓNICA DE GUERRA**: cronología, decisiones decisivas, unidades, oficiales, bajas, divergencias respecto a la historia real y destino del personaje. Es el lugar donde se revela qué fue histórico y qué no.
+
+## 32.10 Tono
+
+Militar, documental, sobrio, tenso, burocrático cuando corresponda. Los grandes momentos llegan por telegramas, partes, mapas, memorandos, partes de bajas y cartas, no por escenas cinematográficas exageradas.
+
+## 32.11 Mundo fuera del jugador
+
+Otros actores (mandos vecinos, enemigo, Alto Mando) deben tomar decisiones aunque el jugador no mire. El jugador puede no conocer nunca la causa real de algunos acontecimientos.
+
+---
+
+# 33. CONVENCIONES TÉCNICAS DEL REPOSITORIO
+
+## 33.1 Mapa de archivos
+
+| Archivo | Función |
+|---|---|
+| `index.html` | estructura de pantallas y carga de scripts |
+| `styles.css`, `campaign-1938.css` | estilo general y del prólogo |
+| `data.js` | `FRONTLINE_DATA`: campañas, escenas, arsenal, órdenes de batalla |
+| `engine.js` | motor narrativo sin DOM |
+| `app.js` | interfaz, autenticación local, guardado, enciclopedia |
+| `encyclopedia.js` | fichas curadas |
+| `logo.js` | puede definir `window.FRONTLINE_OFFICIAL_LOGO`; si está vacío se usa `logo-official.svg` |
+| `assets/historical/manifest.json` | catálogo trazable de recursos históricos |
+| `docs/GDD.md`, `docs/CAMPAIGN_1938_ASSETS.md` | diseño resumido y mapa de recursos por escena |
+| `claude2` | diseño narrativo ampliado (§32) |
+| `render.yaml` | despliegue estático en Render |
+
+## 33.2 Reglas
+
+- **Sin paso de build.** Es una web estática: no introducir bundlers, frameworks ni `npm` obligatorio para jugar sin orden explícita.
+- **Orden de carga:** `logo.js` → `data.js` → `encyclopedia.js` → `engine.js` → `app.js`. No crear dependencias circulares ni hacer que `data.js` o `engine.js` dependan del DOM.
+- **Caché:** al cambiar CSS o JS, subir el parámetro `?v=` de todas las referencias en `index.html` de forma coherente.
+- **Guardados:** las claves de `localStorage` (`frontline_accounts_v1`, `frontline_session_v1`, `frontline_campaign_v05_<usuario>`) no se renombran a la ligera. Si cambia la forma del estado del motor, subir `ENGINE_STATE_VERSION` en `app.js` y mantener una ruta segura para partidas antiguas (reiniciar el capítulo afectado sin borrar cuentas ni descubrimientos de enciclopedia).
+- **Contenido como datos:** escenas, unidades, armamento y fichas nuevas van en `data.js` / `encyclopedia.js`; la lógica general va en `engine.js`; nada de escenas codificadas en `app.js`.
+- **Recursos históricos:** toda imagen nueva se registra en `assets/historical/manifest.json` con autor, institución, fecha, licencia y URL de origen. No enlazar imágenes sin procedencia.
+- **Idioma:** textos de juego y documentación en español; términos militares alemanes en su forma original (Heer, Panzer-Division, Armeekorps (mot.), Ic) cuando sean históricos.
+- **Secretos:** no subir claves, tokens ni credenciales; el despliegue en Render no los necesita.
+
+## 33.3 Verificación mínima antes de entregar
+
+1. `node --check` sobre cada `.js` modificado.
+2. Cargar `index.html` en navegador (Chromium headless disponible) y revisar la consola: cero errores.
+3. Probar login / registro locales, entrada al prólogo 1938 y a FALL WEISS.
+4. Probar el flujo modificado de principio a fin, incluido al menos un turno del mapa si se toca el motor.
+5. Revisar ancho móvil (~390 px) sin scroll horizontal.
+6. Comprobar que el logo se ve centrado y sin deformar.
+
+Si algo no pudo verificarse, decirlo explícitamente en el resumen de la tarea.
+
+## 33.4 Documentación sincronizada
+
+- Cambio estructural (nuevo sistema, formato de datos, campo nuevo de escena) → actualizar §26 o §33 de este archivo.
+- Cambio visible para el jugador → actualizar `README.md` (estado y versión).
+- Cambio de diseño → actualizar `docs/GDD.md` y, si afecta a la narrativa persistente, `claude2`.
+
+---
+
+# 34. PREGUNTAS DE CONTROL PARA CUALQUIER FUNCIÓN NUEVA
+
+Además de la regla de calidad (§28), antes de dar por buena una función:
+
+1. ¿Produce decisiones reales con intercambios (§23)?
+2. ¿Genera consecuencias, inmediatas o diferidas?
+3. ¿El mundo las recuerda y pueden reaparecer más adelante?
+4. ¿Respeta el estado real de la simulación?
+5. ¿Respeta solo la información que el personaje puede conocer?
+6. ¿Puede contribuir a una historia distinta en otra partida?
+7. ¿Mantiene el ultrarrealismo sin obligar al general a microgestionar?
+8. ¿Sigue funcionando si la cronología ya se ha separado de la historia real?
+9. ¿Mantiene trazable qué es hecho, reconstrucción y divergencia?
+10. ¿Hace que el mundo parezca existir cuando el jugador no mira?
+
+Si alguna respuesta es no, rediseñar o justificar la excepción.
 
 ---
 
