@@ -321,3 +321,15 @@ Este documento registra cómo se usan los recursos históricos del prólogo de 1
   - Pie: Crucero Lützow en archivo posterior.
   - Cronología: retrospective-archive
 
+
+
+## Armamento alemán de 1938 · catálogo técnico
+
+Se ha añadido un catálogo específico de tanques, cañones de carro, armamento aéreo, artillería ferroviaria, minas, lanzallamas y familias de munición del inventario alemán de 1938.
+
+- Catálogo visual: [ARMAMENT_1938.md](./ARMAMENT_1938.md)
+- Manifest estructurado para integración: [../data/1938/armament-catalog.json](../data/1938/armament-catalog.json)
+- Referencias visuales registradas: **32**
+- Pendiente de imagen reutilizable suficientemente clara: **17 cm Kanone (E)**
+- Regla cronológica: las imágenes posteriores empleadas como referencia no convierten el equipo en disponible antes de su fecha histórica.
+- Regla de juego: prototipos y sistemas experimentales deben permanecer separados del inventario estándar.
