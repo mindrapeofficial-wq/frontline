@@ -9,7 +9,7 @@ FRONTLINE 1944 es una estrategia narrativa histórica para un jugador. La campa�
 ## Estructura de capítulos
 
 ### Capítulo I · Polonia 1939
-Fall Weiss. Heeresgruppe Süd.
+Fall Weiss. XIX. Armeekorps (mot.), 4. Armee, Heeresgruppe Nord.
 
 ### Capítulos posteriores
 La campaña avanzará cronológicamente por las campañas terrestres relevantes, manteniendo el mismo sistema de documentación, mando, recursos, relaciones de Estado Mayor e información imperfecta.

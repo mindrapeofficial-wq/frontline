@@ -1,5 +1,5 @@
 const FRONTLINE_DATA = {
-  build: "0.3.0",
+  build: "0.3.1",
 
   assets: {
     heroPhoto: "https://upload.wikimedia.org/wikipedia/commons/d/df/Bundesarchiv_Bild_101I-012-0035-11A%2C_Polen%2C_Panzer_I_und_Infanterie.jpg",

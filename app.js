@@ -14,6 +14,7 @@ function normalizeUser(v){return String(v||"").trim().toLowerCase().replace(/[^a
 function stateKey(user){return "frontline_campaign_v03_"+normalizeUser(user);}
 
 async function hashPassword(value){
+  if(!(window.crypto&&crypto.subtle))throw new Error("crypto-unavailable");
   const data=new TextEncoder().encode(String(value));
   const digest=await crypto.subtle.digest("SHA-256",data);
   return [...new Uint8Array(digest)].map(b=>b.toString(16).padStart(2,"0")).join("");
@@ -82,6 +83,7 @@ async function handleAuth(event){
   if(user.length<3){setAuthNotice("El usuario debe tener al menos 3 caracteres.");return}
   if(pass.length<4){setAuthNotice("La contraseña debe tener al menos 4 caracteres.");return}
   const accounts=getAccounts();
+  try{await hashPassword("");}catch{setAuthNotice("Este navegador no permite cifrar contraseñas en una página no segura (usa HTTPS o localhost).");return}
 
   if(authMode==="register"){
     if(pass!==confirm){setAuthNotice("Las contraseñas no coinciden.");return}
@@ -109,7 +111,7 @@ function applyAssets(){
 
   const logo=window.FRONTLINE_OFFICIAL_LOGO;
   if(logo){
-    $("[data-official-logo]").forEach(img=>{img.src=logo;});
+    $$("[data-official-logo]").forEach(img=>{img.src=logo;});
     const favicon=$("#game-favicon");
     if(favicon)favicon.href=logo;
   }
@@ -233,7 +235,8 @@ function renderScene(){
   result.classList.add("hidden");
   result.innerHTML="";
   if(!scene.choices.length){
-    choices.innerHTML='<div class="decision-result"><strong>FIN DEL CAPÍTULO I · PROTOTIPO 0.3</strong><br>El siguiente tramo cubrirá los combates en los bosques de Tuchola y el cierre del Corredor Polaco.</div>';
+    choices.innerHTML='<div class="decision-result"><strong>FIN DEL CAPÍTULO I · PROTOTIPO 0.3</strong><br>El siguiente tramo cubrirá los combates en los bosques de Tuchola y el cierre del Corredor Polaco.<button id="restart-button" class="continue-button">REINICIAR CAPÍTULO</button></div>';
+    $("#restart-button")?.addEventListener("click",()=>{if(confirm("¿Reiniciar el capítulo? Se perderán tus decisiones y el estado actual.")){state=freshState();renderGame();window.scrollTo({top:0,behavior:"smooth"});}});
   }else{
     choices.innerHTML=scene.choices.map(c=>
       '<button class="choice" data-choice="'+c.id+'"><div><strong>'+c.title+'</strong><p>'+c.desc+'</p></div><em>'+c.tag+'</em></button>'
