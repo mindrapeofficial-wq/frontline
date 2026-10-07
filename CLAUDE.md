@@ -851,32 +851,27 @@ Estado actual:
 - CSS;
 - JavaScript;
 - datos de campaña separados en `data.js`;
-- motor narrativo en `engine.js` (condiciones, efectos, reloj, verdad oculta, fiabilidad de informes, fracasos y evaluación), sin acceso al DOM;
-- interfaz en `app.js`, que solo lee el estado y llama al motor;
+- capítulo I (FALL WEISS) jugado en **puesto de mando en tiempo pausable**:
+  - `scenario-fallweiss.js`: escenario (red de caminos, unidades, fuerzas polacas, verdad oculta, eventos, objetivos);
+  - `command.js`: simulación minuto a minuto, sin acceso al DOM;
+  - `command-ui.js`: interfaz del puesto de mando (tiempo, mapa, órdenes, partes, eventos, balance);
+- el prólogo de 1938 (`ch0`) mantiene el formato lineal de escenas con decisiones;
+- interfaz general en `app.js`;
 - aplicación web estática.
 
-Formato de escenas en `data.js` para campañas con `"engine": true` en `FRONTLINE_DATA.campaigns` (hoy, `ch1` · FALL WEISS); el prólogo `ch0` mantiene el formato lineal anterior:
+Puesto de mando en tiempo pausable (campañas con `"mode": "command"` y `"scenario"` en `FRONTLINE_DATA.campaigns`):
 
-- `at`: hora mínima de la escena en minutos desde las 00:00 del 1 SEP 1939;
-- `body`, `intel`, `historical`: listas de texto; cada elemento puede ser `{if:{...}, text:"..."}`;
-- `onEnter`: efectos que se aplican una sola vez al entrar;
-- `choices[]`: `effects`, `outcomes` (primer desenlace cuyas condiciones se cumplan), `requires` + `blockedText`, `visibleIf`, `next` (texto o lista `{if, to}`);
-- condiciones: `flag`, `noFlag`, `res`, `hidden`, `progress`, `clock`, `losses`, `accurate`/`inaccurate` (informe exacto según el reconocimiento), `all`, `any`, `not`;
-- `hidden` del capítulo: verdad del escenario sorteada al empezar cada partida;
-- `failures` del capítulo: condiciones que terminan la jornada antes de tiempo;
-- `evaluation` del capítulo: criterios puntuados, veredictos y comparación histórica.
-- `skipIf` de escena: si se cumple al llegar, la escena se salta y se sigue su `next` (p. ej. Chojnice ya tomada en un turno);
-- condición `unit`: posición de una división en su eje (`{unit:{"2mot":{gte:35}}}`).
-
-Mapa y turnos (campo `map` de la campaña):
-
-- croquis esquemático en SVG, no a escala; no presentarlo como cartografía exacta;
-- `units` y `routes`: cada división avanza por su eje en unidades de avance; la 3. Panzer-Division usa `progress` (el Brda está en 70);
-- `enemies`: fuerzas polacas ocultas en el eje (`route`, `u`) o fuera de él (`placeBy`); bloquean el avance hasta ser despejadas (`clearedBy`, `onClear`) o rodeadas (`bypassBy`); `scripted` bloquea y deja la resolución a una escena;
-- entre dos partes con 45 min o más de diferencia hay un turno: el jugador da a cada división AVANZAR, ATACAR, RECONOCER, MANTENER o REABASTECER;
-- una orden puede no llegar y una división puede no informar (comunicaciones y posición del puesto de mando); el mapa muestra la última posición comunicada;
-- los contactos se detectan según el reconocimiento: confirmados o estimados, y pueden estar mal identificados;
-- `turnsFrom`: no hay turnos antes de la hora del ataque.
+- el reloj corre minuto a minuto (pausa, ×1, ×5, ×15, ×60) y se detiene solo cuando llega un parte importante o un evento;
+- el jugador compone órdenes: división, tipo (MARCHAR, ATACAR, RECONOCER, DEFENDER, REABASTECER), objetivo marcado en el mapa, ruta, postura, hora de inicio y apoyo de la artillería del cuerpo;
+- una orden no es un resultado: tarda en llegar según la distancia al puesto de mando y si va por radio o por enlace, la división tarda en prepararla y después ejecuta lo que puede;
+- el puesto de mando puede trasladarse; cerca de una división las órdenes y los partes van más rápido;
+- el mapa muestra solo lo que el puesto de mando sabe: última posición comunicada de cada división, contactos confirmados o estimados (que pueden exagerar) y puentes de los que ha llegado parte;
+- cada división tiene sus propios efectivos, carros, combustible, munición, fatiga y preparación; el suministro llega solo detenida y depende de la distancia y de si Chojnice sigue cortando la carretera;
+- el combate depende de fuerza, terreno, posiciones preparadas, postura, artillería, munición, fatiga, sorpresa, noche y cruces de río; los ataques pueden detenerse;
+- verdad oculta sorteada por partida (Chojnice, puentes del Brda, caballería polaca);
+- los episodios narrativos e históricos (niebla, fuego propio, Chojnice, el Brda, Krojanty) son eventos que interrumpen la partida, con su registro documental;
+- balance al final de la jornada, comparado con la historia;
+- croquis esquemático, no a escala, y efectivos estimados: no presentarlos como cartografía ni cifras exactas.
 
 Principios técnicos:
 
@@ -1020,6 +1015,8 @@ A falta de una instrucción más reciente, Claude debe considerar como siguiente
 5. mejorar la interfaz para que parezca un puesto de mando;
 6. preparar los datos y componentes para que futuras campañas reutilicen el sistema;
 7. no intentar convertir todavía el prototipo en un RTS.
+
+**Decisión del propietario (octubre de 2026):** elegir entre opciones de texto no se siente como un juego. La dirección es el **mando en tiempo pausable** (referencia: *Command Ops*): el jugador compone órdenes sobre el mapa y el tiempo corre con retrasos, fricción e información imperfecta. Las escenas de decisión pasan a ser eventos que interrumpen la partida. FALL WEISS ya funciona así; las nuevas campañas deben construirse sobre este sistema, y el prólogo de 1938 debería migrar a él cuando se rediseñe.
 
 ---
 

@@ -2,7 +2,7 @@
 
 Juego de estrategia narrativa histórica para navegador centrado en la Segunda Guerra Mundial desde puestos de mando del Heer.
 
-## Estado actual · 0.6.0
+## Estado actual · 0.7.0
 
 El proyecto ya contiene dos campañas jugables de forma independiente:
 
@@ -47,15 +47,17 @@ Primer mando de campaña:
 
 Incluye 3. Panzer-Division, 2. Infanterie-Division (mot.) y 20. Infanterie-Division (mot.).
 
-El 1 de septiembre de 1939 es una jornada jugable con objetivo, consecuencias y posibilidad de fracaso (motor `engine.js`):
+El 1 de septiembre de 1939 se juega desde el **puesto de mando del cuerpo, en tiempo real con pausa** (`scenario-fallweiss.js`, `command.js`, `command-ui.js`):
 
-- objetivo medible: llevar el cuerpo hasta el río Brda antes del anochecer sin desarticularlo;
-- reloj de campaña: cada orden consume tiempo y la luz se acaba;
-- croquis operacional del Corredor Polaco con turnos: entre parte y parte das una orden a cada división (avanzar, atacar, reconocer, mantener o reabastecer);
-- las órdenes pueden no llegar y las divisiones pueden no informar: el mapa muestra lo que tu Estado Mayor sabe, no la verdad;
-- verdad oculta sorteada en cada partida (Chojnice, puentes del Brda, caballería polaca), contactos confirmados o estimados e informes del Ic que pueden ser falsos según tu reconocimiento;
-- escenas que reaccionan al mapa y a tus recursos, órdenes bloqueadas cuando falta combustible, munición, cohesión o mando;
-- fracasos posibles (cuerpo desarticulado, Panzer sin combustible) y balance final puntuado y comparado con la historia.
+- el reloj corre desde las 04:30 (pausa, ×1, ×5, ×15, ×60) y se detiene cuando llega un parte importante;
+- compones las órdenes tú: seleccionas una división, eliges qué debe hacer (marchar, atacar, reconocer, defender, reabastecer), marcas el objetivo en el mapa y decides ruta, postura, hora de inicio y apoyo de la artillería del cuerpo;
+- las órdenes tardan en llegar (radio o enlace motorizado, según la distancia a tu puesto de mando) y las divisiones tardan en prepararlas; puedes trasladar el puesto de mando;
+- el mapa solo muestra lo que te han contado: la última posición comunicada de cada división y los contactos detectados, que pueden estar mal identificados o exagerados; los partes llegan con retraso y a veces en desorden;
+- cada división gasta su propio combustible y munición, se fatiga y solo se reabastece detenida; mientras Chojnice resista, el suministro da rodeos;
+- fuerzas polacas ocultas, puentes del Brda que pueden volar, la caballería de Krojanty y la niebla de la mañana; cada partida sortea en secreto la situación;
+- los episodios históricos aparecen como eventos con su registro documental, y la jornada termina con un balance comparado con la historia.
+
+Al terminar el prólogo de 1938 se pasa directamente a FALL WEISS, y desde el dossier del prólogo se puede saltar a 1939.
 
 ## Enciclopedia de campaña
 
