@@ -56,6 +56,54 @@ const FRONTLINE_DATA = {
       "title": "FALL WEISS",
       "subtitle": "Polonia",
       "status": "available"
+    },
+    {
+      "id": "ch2",
+      "number": "II",
+      "year": "1940",
+      "title": "WESERÜBUNG",
+      "subtitle": "Dinamarca y Noruega",
+      "status": "locked"
+    },
+    {
+      "id": "ch3",
+      "number": "III",
+      "year": "1940",
+      "title": "FALL GELB",
+      "subtitle": "Francia y Países Bajos",
+      "status": "locked"
+    },
+    {
+      "id": "ch4",
+      "number": "IV",
+      "year": "1941",
+      "title": "BARBAROSSA",
+      "subtitle": "Unión Soviética",
+      "status": "locked"
+    },
+    {
+      "id": "ch5",
+      "number": "V",
+      "year": "1942",
+      "title": "EL ESTE",
+      "subtitle": "Profundidad y desgaste",
+      "status": "locked"
+    },
+    {
+      "id": "ch6",
+      "number": "VI",
+      "year": "1943",
+      "title": "PÉRDIDA DE INICIATIVA",
+      "subtitle": "Defensa y retirada",
+      "status": "locked"
+    },
+    {
+      "id": "ch7",
+      "number": "VII",
+      "year": "1944",
+      "title": "FRONTLINE 1944",
+      "subtitle": "Normandía y colapso del frente",
+      "status": "locked"
     }
   ],
   "campaigns": {
